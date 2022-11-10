@@ -1,0 +1,64 @@
+{
+  "name": "vue-office",
+  "version": "0.1.0",
+  "description": "通过Vue开发的办公文档预览组件，支持docx、pdf、ppt、excel的预览",
+  "main": "lib/vue-office.common.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lib:all":  "vue-cli-service build --target lib --name vue-office --dest lib packages/index.js",
+    "lib:docx":  "vue-cli-service build  --no-clean --target lib --name vue-office-docx --dest lib/docx packages/docx/index.js",
+    "lib:generateEntry": "node build/bin/generatePackageEntry.js",
+    "lib": "npm run lib:all && npm run lib:docx && npm run lib:generateEntry"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:501351981/vue-office.git"
+  },
+  "keywords": [
+    "vue",
+    "docx",
+    "pdf",
+    "ppt",
+    "excel"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "core-js": "^3.8.3",
+    "lodash": "^4.17.21",
+    "mammoth": "^1.5.1",
+    "path": "^0.12.7",
+    "stream-browserify": "^3.0.0",
+    "util": "^0.12.5",
+    "vue": "^2.6.14"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "less": "^4.1.3",
+    "less-loader": "^11.1.0",
+    "vue-template-compiler": "^2.6.14"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  }
+}
