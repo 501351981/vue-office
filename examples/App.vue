@@ -1,16 +1,19 @@
 <template>
   <div id="app">
-    <docx-demo />
+    <pdf-demo />
+<!--    <docx-demo />-->
   </div>
 </template>
 
 <script>
 /* eslint-disable */
 import DocxDemo from "./components/DocxDemo";
+import PdfDemo from "./components/PdfDemo";
 export default {
   name: 'App',
   components: {
-    DocxDemo
+    DocxDemo,
+    PdfDemo
   },
   data(){
     return {

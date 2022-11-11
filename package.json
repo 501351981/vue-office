@@ -6,15 +6,17 @@
   "author": "hit757",
   "files": [
     "lib/index.js",
-    "lib/docx/index.js"
+    "lib/docx/index.js",
+    "lib/pdf/index.js"
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lib:all": "vue-cli-service build --target lib --name vue-office --dest lib packages/index.js",
     "lib:docx": "vue-cli-service build  --no-clean --target lib --name vue-office-docx --dest lib/docx packages/docx/index.js",
+    "lib:pdf": "vue-cli-service build  --no-clean --target lib --name vue-office-pdf --dest lib/pdf packages/pdf/index.js",
     "lib:generateEntry": "node build/bin/generatePackageEntry.js",
-    "lib": "npm run lib:all && npm run lib:docx && npm run lib:generateEntry"
+    "lib": "npm run lib:all && npm run lib:docx && npm run lib:pdf && npm run lib:generateEntry"
   },
   "repository": {
     "type": "git",
@@ -34,6 +36,7 @@
     "lodash": "^4.17.21",
     "mammoth": "^1.5.1",
     "path": "^0.12.7",
+    "pdfjs-dist": "^3.0.279",
     "stream-browserify": "^3.0.0",
     "util": "^0.12.5",
     "vue": "^2.6.14"
