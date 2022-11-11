@@ -1,31 +1,32 @@
-const mammoth = require('./lib/mammoth.browser')
-
-function getHtmlFromDocx(src) {
-    // eslint-disable-next-line
-    return new Promise((async (resolve, reject) => {
-        try{
-            let arrayBuffer
-            if (typeof src === 'string') {
-                arrayBuffer = await fetchDocx(src)
-            }else if (src instanceof ArrayBuffer){
-                arrayBuffer = src
-            }
-            mammoth.convertToHtml({arrayBuffer})
-                .then(function (result) {
-                    resolve(result.value)
-                });
-        }catch(e){
-            reject(e)
-        }
-    }))
+const docxPreview = require('docx-preview')
+function getData(src, options={}) {
+    if (typeof src === 'string') {
+         return fetchDocx(src, options)
+    }
+    return Promise.resolve(src)
 }
 
-function fetchDocx(src) {
-    return fetch(src).then(res => {
-        return res.arrayBuffer()
-    })
+function fetchDocx(src, options) {
+    return fetch(src, options)
+}
+
+function render(data, container){
+    if(!data){
+        container.innerHtml = ''
+        return
+    }
+    let blob
+    if(data instanceof Blob){
+        blob = data
+    }else if(data instanceof Response) {
+        blob = data.blob()
+    } else if(data instanceof ArrayBuffer){
+        blob = new Blob([data])
+    }
+    return docxPreview.renderAsync(blob, container);
 }
 
 export default {
-    getHtmlFromDocx
+    getData,
+    render
 }

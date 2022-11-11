@@ -8,36 +8,33 @@ import docx from './docx'
 export default {
   name: "VueOfficeDocx",
   props: {
-    src: [String, ArrayBuffer]
-  },
-  data() {
-    return {
-      htmlData: ''
+    src: [String, ArrayBuffer, Blob],
+    requestOptions:{
+      type: Object,
+      default: ()=>({})
     }
   },
   watch: {
     src: {
       handler(val) {
-        if (!val) {
-          this.htmlData = ''
-          this.insertHtml()
-          return
+        if (val) {
+          this.init()
+        }else{
+          docx.render('', this.$refs["vue-office-docx"])
         }
-        docx.getHtmlFromDocx(val).then(html => {
-          this.htmlData = html
-          this.insertHtml()
-        }).catch(e => {
-          this.htmlData = ''
-          this.insertHtml()
-          throw new Error('vue-office-docx：\n' + JSON.stringify(e))
-        })
-      },
-      immediate: true
+      }
+    }
+  },
+  mounted() {
+    if(this.src){
+      this.init()
     }
   },
   methods: {
-    insertHtml() {
-      this.$refs["vue-office-docx"].innerHTML = this.htmlData
+    init(){
+      docx.getData(this.src, this.requestOptions).then(res =>{
+        docx.render(res, this.$refs["vue-office-docx"])
+      })
     }
   }
 }

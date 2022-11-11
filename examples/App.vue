@@ -1,13 +1,22 @@
 <template>
   <div id="app">
-    <vue-office-docx src="http://static.shanhuxueyuan.com/test6.docx"/>
+    <docx-demo />
   </div>
 </template>
 
 <script>
+/* eslint-disable */
+import DocxDemo from "./components/DocxDemo";
 export default {
   name: 'App',
   components: {
+    DocxDemo
+  },
+  data(){
+    return {
+    }
+  },
+  methods:{
 
   }
 }
@@ -20,6 +29,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0px;
 }
 </style>
