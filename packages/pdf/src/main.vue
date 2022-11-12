@@ -4,16 +4,18 @@
         v-if="numPages"
         class="vue-office-pdf-wrapper"
         style="background: gray; padding: 30px 0;position: relative;">
-      <canvas :ref="'canvas'+ page" v-for="page in numPages" :key="page" />
+      <canvas :ref="'canvas'+ page" v-for="page in numPages" :key="page"/>
     </div>
   </div>
 </template>
 
 <script>
 import {worker} from './worker'
-const pdfJsLib = require('pdfjs-dist');
-const PdfJsWorker = `data:text/javascript;base64,${worker}`;
-pdfJsLib.GlobalWorkerOptions.workerSrc = PdfJsWorker
+import {pdfjsLib} from './pdf'
+import loadScript from "./utils/loadScript";
+const pdfJsLibSrc = `data:text/javascript;base64,${pdfjsLib}`;
+const PdfJsWorkerSrc = `data:text/javascript;base64,${worker}`;
+
 export default {
   name: "VueOfficePdf",
   props: {
@@ -29,21 +31,32 @@ export default {
   },
   watch: {
     src() {
-      this.init()
+      this.checkPdfLib().then(this.init)
     }
   },
   mounted() {
     if (this.src) {
-      this.init()
+      this.checkPdfLib().then(this.init)
     }
   },
   methods: {
+    checkPdfLib() {
+      if (window.pdfjsLib) {
+        return Promise.resolve()
+      }
+      return this.installPdfScript()
+    },
+    installPdfScript() {
+      return loadScript(pdfJsLibSrc).then(() => {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PdfJsWorkerSrc
+      });
+    },
     init() {
-      if(!this.src){
+      if (!this.src) {
         this.numPages = 0
         return
       }
-      const loadingTask = pdfJsLib.getDocument(this.src);
+      const loadingTask = window.pdfjsLib.getDocument(this.src);
       loadingTask.promise
           .then((pdfDocument) => {
             this.document = pdfDocument;
@@ -66,10 +79,10 @@ export default {
           if (this.numPages > num) {
             this.renderPage(num + 1);
           }
-        }).catch(()=>{
+        }).catch(() => {
 
         });
-      }).catch(()=>{
+      }).catch(() => {
 
       });
 
