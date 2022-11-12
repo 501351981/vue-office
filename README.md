@@ -12,6 +12,7 @@
 npm install vue-office
 ```
 
+## 使用
 ### docx文档的预览
 ```vue
 <template>
