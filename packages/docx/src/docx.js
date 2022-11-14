@@ -13,7 +13,7 @@ function fetchDocx(src, options) {
 function render(data, container){
     if(!data){
         container.innerHtml = ''
-        return
+        return Promise.resolve()
     }
     let blob
     if(data instanceof Blob){

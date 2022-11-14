@@ -9,9 +9,9 @@ export default {
   name: "VueOfficeDocx",
   props: {
     src: [String, ArrayBuffer, Blob],
-    requestOptions:{
+    requestOptions: {
       type: Object,
-      default: ()=>({})
+      default: () => ({})
     }
   },
   watch: {
@@ -19,21 +19,27 @@ export default {
       handler(val) {
         if (val) {
           this.init()
-        }else{
-          docx.render('', this.$refs["vue-office-docx"])
+        } else {
+          docx.render('', this.$refs["vue-office-docx"]).then(() => {
+            this.$emit('rendered')
+          })
         }
       }
     }
   },
   mounted() {
-    if(this.src){
+    if (this.src) {
       this.init()
     }
   },
   methods: {
-    init(){
-      docx.getData(this.src, this.requestOptions).then(res =>{
-        docx.render(res, this.$refs["vue-office-docx"])
+    init() {
+      docx.getData(this.src, this.requestOptions).then(res => {
+        docx.render(res, this.$refs["vue-office-docx"]).then(() => {
+          this.$emit('rendered')
+        })
+      }).catch(e => {
+        this.$emit('error', e)
       })
     }
   }

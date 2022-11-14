@@ -16,7 +16,7 @@ npm install vue-office
 ### docx文档的预览
 ```vue
 <template>
-  <vue-office-docx :src="docx"/>
+  <vue-office-docx :src="docx" @rendered="rendered"/>
 </template>
 
 <script>
@@ -31,6 +31,11 @@ export default {
     return {
       docx: 'http://static.shanhuxueyuan.com/test6.docx' //设置文档地址
     }
+  },
+  methods:{
+    rendered(){
+      console.log("渲染完成")
+    }
   }
 }
 </script>
@@ -41,7 +46,7 @@ export default {
 ### pdf文档预览
 ```vue
 <template>
-  <vue-office-pdf :src="pdf"/>
+  <vue-office-pdf :src="pdf" @rendered="rendered"/>
 </template>
 
 <script>
@@ -55,6 +60,11 @@ export default {
   data(){
     return {
       pdf: 'http://static.shanhuxueyuan.com/test.pdf' //设置文档地址
+    }
+  },
+  methods:{
+    rendered(){
+      console.log("渲染完成")
     }
   }
 }

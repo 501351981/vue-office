@@ -13,6 +13,7 @@
 import {worker} from './worker'
 import {pdfjsLib} from './pdf'
 import loadScript from "./utils/loadScript";
+
 const pdfJsLibSrc = `data:text/javascript;base64,${pdfjsLib}`;
 const PdfJsWorkerSrc = `data:text/javascript;base64,${worker}`;
 
@@ -57,12 +58,13 @@ export default {
         return
       }
       const loadingTask = window.pdfjsLib.getDocument(this.src);
-      loadingTask.promise
-          .then((pdfDocument) => {
-            this.document = pdfDocument;
-            this.numPages = pdfDocument.numPages;
-            this.renderPage(1)
-          })
+      loadingTask.promise.then((pdfDocument) => {
+        this.document = pdfDocument;
+        this.numPages = pdfDocument.numPages;
+        this.renderPage(1)
+      }).catch((e) => {
+        this.$emit('error', e)
+      })
     },
     renderPage(num) {
       this.document.getPage(num).then((pdfPage) => {
@@ -78,12 +80,14 @@ export default {
         renderTask.promise.then(() => {
           if (this.numPages > num) {
             this.renderPage(num + 1);
+          } else {
+            this.$emit('rendered')
           }
-        }).catch(() => {
-
+        }).catch((e) => {
+          this.$emit('error', e)
         });
-      }).catch(() => {
-
+      }).catch((e) => {
+        this.$emit('error', e)
       });
 
     }

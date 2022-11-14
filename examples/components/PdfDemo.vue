@@ -1,6 +1,6 @@
 <template>
   <div class="pdf-demo">
-    <vue-office-pdf  :src="src"/>
+    <vue-office-pdf  :src="src" @rendered="rendered"/>
   </div>
 </template>
 
@@ -11,6 +11,11 @@ export default {
   data(){
     return {
       src:'http://static.shanhuxueyuan.com/test.pdf'
+    }
+  },
+  methods:{
+    rendered(){
+      console.log("加载完成")
     }
   }
 }
