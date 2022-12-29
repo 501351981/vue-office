@@ -65,7 +65,7 @@ export default {
         url: this.src,
         cMapUrl: `${this.staticFileUrl.endsWith('/') ? this.staticFileUrl : this.staticFileUrl + '/'}cmaps/`,
         cMapPacked: true,
-        // enableXfa: ENABLE_XFA,
+        enableXfa: true,
       });
       loadingTask.promise.then((pdfDocument) => {
         this.document = pdfDocument;
