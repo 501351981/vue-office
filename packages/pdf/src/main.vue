@@ -22,6 +22,10 @@ export default {
   props: {
     src: {
       type: [String]
+    },
+    staticFileUrl:{
+      type: String,
+      default: 'https://unpkg.com/pdfjs-dist@3.1.81/'
     }
   },
   data() {
@@ -57,7 +61,12 @@ export default {
         this.numPages = 0
         return
       }
-      const loadingTask = window.pdfjsLib.getDocument(this.src);
+      const loadingTask = window.pdfjsLib.getDocument({
+        url: this.src,
+        cMapUrl: `${this.staticFileUrl.endsWith('/') ? this.staticFileUrl : this.staticFileUrl + '/'}cmaps/`,
+        cMapPacked: true,
+        // enableXfa: ENABLE_XFA,
+      });
       loadingTask.promise.then((pdfDocument) => {
         this.document = pdfDocument;
         this.numPages = pdfDocument.numPages;

@@ -10,7 +10,8 @@ export default {
   name: "PdfDemo",
   data(){
     return {
-      src:'http://static.shanhuxueyuan.com/test.pdf'
+      // src:'http://static.shanhuxueyuan.com/test.pdf'
+      src:'http://static.shanhuxueyuan.com/test/fapiao.pdf'
     }
   },
   methods:{
