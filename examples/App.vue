@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <pdf-demo />
+    <excel-demo />
+<!--    <pdf-demo />-->
 <!--    <docx-demo />-->
   </div>
 </template>
@@ -9,11 +10,13 @@
 /* eslint-disable */
 import DocxDemo from "./components/DocxDemo";
 import PdfDemo from "./components/PdfDemo";
+import ExcelDemo from "./components/ExcelDemo";
 export default {
   name: 'App',
   components: {
     DocxDemo,
-    PdfDemo
+    PdfDemo,
+    ExcelDemo
   },
   data(){
     return {

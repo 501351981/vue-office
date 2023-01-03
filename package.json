@@ -1,6 +1,6 @@
 {
   "name": "vue-office",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "通过Vue开发的办公文档预览组件，支持docx、pdf、ppt、excel的预览",
   "main": "lib/index.js",
   "author": "hit757",
@@ -8,6 +8,8 @@
     "lib/index.js",
     "lib/docx/index.js",
     "lib/pdf/index.js",
+    "lib/excel/index.js",
+    "lib/excel/index.css",
     "lib/static/"
   ],
   "scripts": {
@@ -16,9 +18,10 @@
     "lib:all": "vue-cli-service build --target lib --name vue-office --dest lib packages/index.js",
     "lib:docx": "vue-cli-service build  --no-clean --target lib --name vue-office-docx --dest lib/docx packages/docx/index.js",
     "lib:pdf": "vue-cli-service build  --no-clean --target lib --name vue-office-pdf --dest lib/pdf packages/pdf/index.js",
+    "lib:excel": "vue-cli-service build  --no-clean --target lib --name vue-office-excel --dest lib/excel packages/excel/index.js",
     "lib:generateEntry": "node build/bin/generatePackageEntry.js",
     "copyStaticFiles": "cp -r public/static/ lib/static/",
-    "lib": "npm run lib:all && npm run lib:docx && npm run lib:pdf && npm run lib:generateEntry && npm run copyStaticFiles"
+    "lib": "npm run lib:all && npm run lib:docx && npm run lib:pdf && npm run lib:excel && npm run lib:generateEntry && npm run copyStaticFiles"
   },
   "repository": {
     "type": "git",
@@ -35,13 +38,16 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "docx-preview": "^0.1.14",
+    "exceljs": "^4.3.0",
     "lodash": "^4.17.21",
     "mammoth": "^1.5.1",
     "path": "^0.12.7",
     "pdfjs-dist": "^3.0.279",
     "stream-browserify": "^3.0.0",
+    "tinycolor2": "^1.5.2",
     "util": "^0.12.5",
-    "vue": "^2.6.14"
+    "vue": "^2.6.14",
+    "x-data-spreadsheet": "^1.1.9"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -51,6 +57,7 @@
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "lerna": "^6.3.0",
     "less": "^4.1.3",
     "less-loader": "^11.1.0",
     "vue-template-compiler": "^2.6.14"
@@ -68,5 +75,8 @@
       "parser": "@babel/eslint-parser"
     },
     "rules": {}
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

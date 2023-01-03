@@ -1,9 +1,11 @@
 import VueOfficeDocxCom from './docx'
 import VueOfficePdfCom from './pdf'
+import VueOfficeExcelDom from './excel'
 
 const components = [
     VueOfficeDocxCom,
-    VueOfficePdfCom
+    VueOfficePdfCom,
+    VueOfficeExcelDom
 ]
 
 const install = function (Vue) {
@@ -15,9 +17,11 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export const VueOfficeDocx = VueOfficeDocxCom;
-export const VueOfficePdf = VueOfficePdfCom
+export const VueOfficePdf = VueOfficePdfCom;
+export const VueOfficeExcel = VueOfficeExcelDom
 export default {
     install,
-    VueOfficeDocx: VueOfficeDocxCom,
-    VueOfficePdf: VueOfficePdfCom
+    VueOfficeDocx,
+    VueOfficePdf,
+    VueOfficeExcel
 }

@@ -1,0 +1,18 @@
+{
+  "name": "@vue-office/excel",
+  "version": "1.0.0",
+  "description": "通过Vue开发的办公文档预览组件，支持docx、pdf、ppt、excel的预览",
+  "main": "lib/excel.umd.min.js",
+  "author": "hit757",
+  "files": [
+   "lib"
+  ],
+  "scripts": {
+    "build": "vue-cli-service build --target lib  --dest lib index.js"
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:501351981/vue-office.git"
+  }
+}
