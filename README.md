@@ -2,6 +2,8 @@
 
 支持多种文件(docx、pdf、excel)预览的vue组件套装。
 
+[查看demo演示](https://501351981.github.io/vue-office/examples/dist/)
+
 ## 功能特色
 - 一站式：提供docx、pdf、excel多种文档的在线预览方案，有它就够了
 - 简单：只需提供文档的src(网络地址)即可完成文档预览

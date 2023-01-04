@@ -21,6 +21,7 @@ export default {
     src(newSrc){
       if(newSrc){
         getData(newSrc).then(this.renderExcel).catch(e =>{
+          this.xs.loadData({})
           this.$emit('error', e)
         })
       }else{
@@ -35,6 +36,7 @@ export default {
     }).loadData({});
     if(this.src){
       getData(this.src).then(this.renderExcel).catch(e =>{
+        this.xs.loadData({})
         this.$emit('error', e)
       })
     }
@@ -186,6 +188,7 @@ export default {
           this.$emit('rendered')
         })
       }catch (e){
+        this.xs.loadData({})
         this.$emit('error', e)
       }
     }

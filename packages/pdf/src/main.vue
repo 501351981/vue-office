@@ -13,6 +13,7 @@
 import {worker} from './worker'
 import {pdfjsLib} from './pdf'
 import loadScript from "./utils/loadScript";
+import {getUrl} from "../../../utils/url";
 
 const pdfJsLibSrc = `data:text/javascript;base64,${pdfjsLib}`;
 const PdfJsWorkerSrc = `data:text/javascript;base64,${worker}`;
@@ -21,7 +22,7 @@ export default {
   name: "VueOfficePdf",
   props: {
     src: {
-      type: [String]
+      type: [String, ArrayBuffer]
     },
     staticFileUrl:{
       type: String,
@@ -62,7 +63,7 @@ export default {
         return
       }
       const loadingTask = window.pdfjsLib.getDocument({
-        url: this.src,
+        url: getUrl(this.src),
         cMapUrl: `${this.staticFileUrl.endsWith('/') ? this.staticFileUrl : this.staticFileUrl + '/'}cmaps/`,
         cMapPacked: true,
         enableXfa: true,

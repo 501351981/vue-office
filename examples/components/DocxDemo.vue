@@ -29,8 +29,8 @@ export default {
   data(){
     return {
       type: 'url',
-      inputSrc: 'http://static.shanhuxueyuan.com/test6.docx',
-      src:'http://static.shanhuxueyuan.com/test6.docx',
+      inputSrc: 'https://501351981.github.io/vue-office/examples/dist/static/test-files/test.docx',
+      src:'https://501351981.github.io/vue-office/examples/dist/static/test-files/test.docx',
       fileList:[]
     }
   },
@@ -42,7 +42,6 @@ export default {
         let arrayBuffer = loadEvent.target.result;
         this.src = arrayBuffer
       };
-
       reader.readAsArrayBuffer(file);
       return false
     }
