@@ -1,8 +1,16 @@
 <template>
   <div id="app">
-<!--    <excel-demo />-->
-    <pdf-demo />
-    <docx-demo />
+    <el-tabs v-model="activeName" type="card">
+      <el-tab-pane label="docx文件预览" name="DOCX">
+        <docx-demo />
+      </el-tab-pane>
+      <el-tab-pane label="excel文件预览" name="EXCEL">
+        <excel-demo />
+      </el-tab-pane>
+      <el-tab-pane label="pdf文件预览" name="PDF">
+        <pdf-demo />
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
@@ -20,6 +28,7 @@ export default {
   },
   data(){
     return {
+      activeName: 'DOCX'
     }
   },
   methods:{

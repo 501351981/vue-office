@@ -1,13 +1,26 @@
 <template>
   <div id="docx-demo">
-    <input type="file"  @change="selectFile">
-    <vue-office-docx :src="src" :request-options="options"/>
+   <div class="operate-area">
+     <div  style="width: 300px;">
+       <el-radio-group v-model="type" size="small">
+         <el-radio-button label="url" >远程文件地址</el-radio-button>
+         <el-radio-button label="upload">上传本地文件</el-radio-button>
+       </el-radio-group>
+     </div>
+
+     <el-input v-if="type==='url'" placeholder="请输入doxc文件地址" v-model="inputSrc"/>
+     <el-button v-if="type==='url'" type="primary" style="margin-left: 10px" @click="src=inputSrc">预览</el-button>
+     <el-upload v-if="type!=='url'" :limit="1" :file-list="fileList" accept=".docx" :beforeUpload="beforeUpload" action="">
+       <el-button size="small" type="warning">点击上传</el-button>
+     </el-upload>
+   </div>
+    <vue-office-docx :src="src" />
   </div>
 </template>
 
 <script>
 /* eslint-disable */
-import VueOfficeDocx from '../../packages/docx'
+import VueOfficeDocx from '../../packages/docx/index'
 export default {
   name: 'DocxDemo',
   components: {
@@ -15,38 +28,32 @@ export default {
   },
   data(){
     return {
+      type: 'url',
+      inputSrc: 'http://static.shanhuxueyuan.com/test6.docx',
       src:'http://static.shanhuxueyuan.com/test6.docx',
-      options:{
-        headers:{
-          a:1
-        }
-      }
+      fileList:[]
     }
   },
   methods:{
-    selectFile(event){
-      let file = event.target.files[0];
 
-      console.log(typeof file, file instanceof Blob)
-      var reader = new FileReader();
+    beforeUpload(file){
+      let reader = new FileReader();
       reader.onload = (loadEvent) => {
-        var arrayBuffer = loadEvent.target.result;
+        let arrayBuffer = loadEvent.target.result;
         this.src = arrayBuffer
       };
 
       reader.readAsArrayBuffer(file);
+      return false
     }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="less" scoped>
+.operate-area{
+  display: flex;
+  margin: 10px;
+  align-items: center;
 }
 </style>

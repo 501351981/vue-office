@@ -2,7 +2,7 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
   outputDir:'examples/dist',
-  assetsDir:"vue-office/examples/dist",
+  publicPath:"/vue-office/examples/dist",
   pages: {
     index: {
       entry: 'examples/main.js',

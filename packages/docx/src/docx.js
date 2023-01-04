@@ -1,3 +1,4 @@
+/*eslint-disable*/
 const docxPreview = require('docx-preview')
 function getData(src, options={}) {
     if (typeof src === 'string') {
@@ -7,12 +8,17 @@ function getData(src, options={}) {
 }
 
 function fetchDocx(src, options) {
-    return fetch(src, options)
+    return fetch(src, options).then(res=>{
+        if(res.status !== 200){
+            return Promise.reject(res)
+        }
+        return res
+    })
 }
 
 function render(data, container){
     if(!data){
-        container.innerHtml = ''
+        container.innerHTML = ''
         return Promise.resolve()
     }
     let blob

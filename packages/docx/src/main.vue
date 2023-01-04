@@ -3,6 +3,7 @@
 </template>
 
 <script>
+/*eslint-disable*/
 import docx from './docx'
 
 export default {
@@ -37,8 +38,12 @@ export default {
       docx.getData(this.src, this.requestOptions).then(res => {
         docx.render(res, this.$refs["vue-office-docx"]).then(() => {
           this.$emit('rendered')
+        }).catch(e => {
+          docx.render('', this.$refs["vue-office-docx"])
+          this.$emit('error', e)
         })
       }).catch(e => {
+        docx.render('', this.$refs["vue-office-docx"])
         this.$emit('error', e)
       })
     }
