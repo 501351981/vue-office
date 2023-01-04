@@ -1,6 +1,6 @@
 {
   "name": "@vue-office/pdf",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "通过Vue开发的办公文档预览组件，支持docx、pdf、ppt、excel的预览",
   "main": "lib/index.js",
   "author": "hit757",
@@ -8,7 +8,7 @@
     "lib/index.js"
   ],
   "scripts": {
-    "copyFile": "cp lib/pdf.umd.min.js lib/index.js",
+    "copyFile": "cp lib/pdf.umd.min.js lib/index.js && cp ../../README.md README.md",
     "build": "vue-cli-service build --target lib  --dest lib index.js && npm run copyFile",
     "clean": "rimraf lib"
   },
@@ -17,7 +17,7 @@
     "type": "git",
     "url": "git@github.com:501351981/vue-office.git"
   },
-  "gitHead": "efe58d42d97dbec1cd33e1f0c3100428479a6f1d",
+  "gitHead": "dfe607e694b4156f3fdc889bd1d58373d71c0224",
   "dependencies": {
     "rimraf": "^3.0.2"
   }
