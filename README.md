@@ -1,18 +1,25 @@
 # vue-office
 
-支持多种文件(docx、pdf、ppt、excel)预览的vue组件套装。
+支持多种文件(docx、pdf、excel)预览的vue组件套装。
 
 ## 功能特色
-- 一站式：提供docx(已支持)、pdf(已支持)、ppt、excel多种文档的在线预览方案，有它就够了
+- 一站式：提供docx、pdf、excel多种文档的在线预览方案，有它就够了
 - 简单：只需提供文档的src(网络地址)即可完成文档预览
 - 体验好：选择每个文档的最佳预览方案，保证用户体验和性能都达到最佳状态
 
 ## 安装
 ```
-npm install vue-office
+//docx文档预览组件
+npm install @vue-office/docx
+
+//excel文档预览组件
+npm install @vue-office/excel
+
+//pdf文档预览组件
+npm install @vue-office/pdf
 ```
 
-## 使用
+## 使用示例
 ### docx文档的预览
 ```vue
 <template>
@@ -21,7 +28,7 @@ npm install vue-office
 
 <script>
 //引入VueOfficeDocx组件
-import VueOfficeDocx from 'vue-office/lib/docx'
+import VueOfficeDocx from '@vue-office/docx'
 
 export default {
   components:{
@@ -41,6 +48,35 @@ export default {
 </script>
 ```
 
+### excel文档预览
+```vue
+<template>
+  <vue-office-excel :src="excel" @rendered="rendered"/>
+</template>
+
+<script>
+//引入VueOfficeExcel组件
+import VueOfficeExcel from '@vue-office/excel'
+//引入相关样式
+import '@vue-office/excel/lib/index.css'
+
+export default {
+  components:{
+    VueOfficeExcel
+  },
+  data(){
+    return {
+      excel: 'http://static.shanhuxueyuan.com/demo/excel.xlsx'//设置文档地址
+    }
+  },
+  methods:{
+    rendered(){
+      console.log("渲染完成")
+    }
+  }
+}
+</script>
+```
 
 
 ### pdf文档预览
@@ -51,7 +87,7 @@ export default {
 
 <script>
 //引入VueOfficePdf组件
-import VueOfficePdf from 'vue-office/lib/pdf'
+import VueOfficePdf from '@vue-office/pdf'
 
 export default {
   components:{

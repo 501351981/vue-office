@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-office-pdf" ref="vue-office-pdf">
+  <div class="vue-office-pdf" ref="vue-office-pdf" style="text-align: center;">
     <div
         v-if="numPages"
         class="vue-office-pdf-wrapper"

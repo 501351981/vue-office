@@ -7,9 +7,11 @@
 
 <script>
 /* eslint-disable */
+import VueOfficeDocx from '../../packages/docx'
 export default {
   name: 'DocxDemo',
   components: {
+    VueOfficeDocx
   },
   data(){
     return {

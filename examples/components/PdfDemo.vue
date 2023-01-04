@@ -6,12 +6,14 @@
 
 <script>
 /* eslint-disable */
+import VueOfficePdf from '../../packages/pdf'
 export default {
   name: "PdfDemo",
+  components:{VueOfficePdf},
   data(){
     return {
       // src:'http://static.shanhuxueyuan.com/test.pdf'
-      src:'http://static.shanhuxueyuan.com/test/fapiao.pdf'
+      src:'http://static.shanhuxueyuan.com/demo/qiniu.pdf'
     }
   },
   methods:{

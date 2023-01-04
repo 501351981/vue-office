@@ -14,14 +14,7 @@
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lib:all": "vue-cli-service build --target lib --name vue-office --dest lib packages/index.js",
-    "lib:docx": "vue-cli-service build  --no-clean --target lib --name vue-office-docx --dest lib/docx packages/docx/index.js",
-    "lib:pdf": "vue-cli-service build  --no-clean --target lib --name vue-office-pdf --dest lib/pdf packages/pdf/index.js",
-    "lib:excel": "vue-cli-service build  --no-clean --target lib --name vue-office-excel --dest lib/excel packages/excel/index.js",
-    "lib:generateEntry": "node build/bin/generatePackageEntry.js",
-    "copyStaticFiles": "cp -r public/static/ lib/static/",
-    "lib": "npm run lib:all && npm run lib:docx && npm run lib:pdf && npm run lib:excel && npm run lib:generateEntry && npm run copyStaticFiles"
+    "build": "vue-cli-service build"
   },
   "repository": {
     "type": "git",

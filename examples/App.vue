@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <excel-demo />
-<!--    <pdf-demo />-->
-<!--    <docx-demo />-->
+<!--    <excel-demo />-->
+    <pdf-demo />
+    <docx-demo />
   </div>
 </template>
 
