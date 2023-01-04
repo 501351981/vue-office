@@ -1,6 +1,6 @@
 {
   "name": "@vue-office/docx",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "通过Vue开发的办公文档预览组件，支持docx、pdf、ppt、excel的预览",
   "main": "lib/index.js",
   "author": "hit757",
