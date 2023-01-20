@@ -22,7 +22,12 @@ npm install @vue-office/pdf
 ```
 
 ## 使用示例
+文档预览场景大致可以分为两种：
+- 有文档网络地址，比如 https://***.docx
+- 文件上传时预览，此时可以获取文件的ArrayBuffer或Blob
+
 ### docx文档的预览
+**使用网络地址预览**
 ```vue
 <template>
   <vue-office-docx :src="docx" @rendered="rendered"/>
@@ -38,7 +43,7 @@ export default {
   },
   data(){
     return {
-      docx: 'http://static.shanhuxueyuan.com/test6.docx' //设置文档地址
+      docx: 'http://static.shanhuxueyuan.com/test6.docx' //设置文档网络地址，可以是相对地址
     }
   },
   methods:{
@@ -49,6 +54,82 @@ export default {
 }
 </script>
 ```
+
+**上传文件预览**
+
+我们使用element的上传组件作为示例，当然也可以使用普通的input type="file"，只要能获取文件的arrayBuffer即可
+```vue
+<template>
+  <div id="docx-demo">
+    <el-upload :limit="1" :file-list="fileList" accept=".docx" :beforeUpload="beforeUpload" action="">
+      <el-button size="small" type="warning">点击上传</el-button>
+    </el-upload>
+    <vue-office-docx :src="src" />
+  </div>
+</template>
+
+<script>
+import VueOfficeDocx from '@vue-office/docx'
+export default {
+  components: {
+    VueOfficeDocx
+  },
+  data(){
+    return {
+      src:'',
+      fileList:[]
+    }
+  },
+  methods:{
+
+    beforeUpload(file){
+      let reader = new FileReader();
+      reader.readAsArrayBuffer(file);
+      reader.onload = (loadEvent) => {
+        let arrayBuffer = loadEvent.target.result;
+        this.src = arrayBuffer
+      };
+      return false
+    }
+  }
+}
+</script>
+```
+如果是原生的input type="file"，也是类似的
+```vue
+<template>
+  <div>
+    <input type="file" @change="changeHandle"/>
+    <vue-office-docx :src="src"/>
+  </div>
+</template>
+
+<script>
+import VueOfficeDocx from '@vue-office/docx'
+
+export default {
+  components: {
+    VueOfficeDocx
+  },
+  data(){
+    return {
+      src: ''
+    }
+  },
+  methods:{
+    changeHandle(event){
+      let file = event.target.files[0]
+      let fileReader = new FileReader()
+      fileReader.readAsArrayBuffer(file)
+      fileReader.onload =  () => {
+        this.src = fileReader.result
+      }
+    }
+  }
+}
+</script>
+```
+
 
 ### excel文档预览
 ```vue
@@ -107,4 +188,27 @@ export default {
   }
 }
 </script>
-```
+``` 
+
+excel和pdf，也同样支持通过文件上传进行预览，代码和docx的预览一样。
+
+## API
+
+为了使用简单，这几种组件的API尽量保持一致，如果是某个组件特有的，会单独注明
+
+### 属性
+
+| 属性              | 说明                                         | 类型                        | 可选值            | 默认值 |
+|-----------------|--------------------------------------------|---------------------------|----------------|-----|
+| src             | 文档地址                                       | String, ArrayBuffer, Blob | -              | -   |
+| request-options | 请求参数，对应window.fetch的请求参数，可以用来设置header等请求信息 | Object                    | 参考window.fetch | {}  |
+
+
+### 事件
+
+| 事件名      | 说明                          | 参数        |
+|----------|-----------------------------|-----------|
+| rendered | 首次渲染完成及每次src变化之后渲染完成都会触发该事件 |           |
+| error    | 各种失败，包括网络请求失败，渲染失败等         | errorInfo |
+
+

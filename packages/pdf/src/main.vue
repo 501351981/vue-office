@@ -22,7 +22,7 @@ export default {
   name: "VueOfficePdf",
   props: {
     src: {
-      type: [String, ArrayBuffer]
+      type: [String, ArrayBuffer, Blob]
     },
     staticFileUrl:{
       type: String,
