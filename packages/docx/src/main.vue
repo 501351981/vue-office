@@ -51,6 +51,17 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
+@media screen and (max-width: 800px){
+  .vue-office-docx {
+    .docx-wrapper {
+      padding: 10px;
+      > section.docx {
+        padding: 10px !important;
+        width: 100% !important;
+      }
+    }
+  }
+}
 
 </style>

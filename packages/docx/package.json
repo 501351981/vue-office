@@ -5,10 +5,11 @@
   "main": "lib/index.js",
   "author": "hit757",
   "files": [
-    "lib/index.js"
+    "lib/index.js",
+    "lib/index.css"
   ],
   "scripts": {
-    "copyFile": "cp lib/docx.umd.min.js lib/index.js && cp ../../README.md README.md",
+    "copyFile": "cp lib/docx.css lib/index.css && cp lib/docx.umd.min.js lib/index.js && cp ../../README.md README.md",
     "build": "vue-cli-service build --target lib  --dest lib index.js && npm run copyFile",
     "clean": "rimraf lib"
   },

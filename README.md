@@ -36,6 +36,8 @@ npm install @vue-office/pdf
 <script>
 //引入VueOfficeDocx组件
 import VueOfficeDocx from '@vue-office/docx'
+//引入相关样式
+import '@vue-office/docx/lib/index.css'
 
 export default {
   components:{
@@ -70,6 +72,7 @@ export default {
 
 <script>
 import VueOfficeDocx from '@vue-office/docx'
+import '@vue-office/docx/lib/index.css'
 export default {
   components: {
     VueOfficeDocx
@@ -106,6 +109,7 @@ export default {
 
 <script>
 import VueOfficeDocx from '@vue-office/docx'
+import '@vue-office/docx/lib/index.css'
 
 export default {
   components: {
