@@ -18,7 +18,7 @@
     "type": "git",
     "url": "git@github.com:501351981/vue-office.git"
   },
-  "gitHead": "dfe607e694b4156f3fdc889bd1d58373d71c0224",
+  "gitHead": "feb1efa92e6f1d23464a8114e971b68bf02dbd95",
   "dependencies": {
     "rimraf": "^3.0.2"
   }
