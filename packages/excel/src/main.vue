@@ -22,7 +22,6 @@ export default defineComponent({
     function renderExcel(buffer){
       try {
         const wb = new Excel.Workbook();
-        console.log(wb)
         // 微软的 Excel ColorIndex 一个索引数字对应一个颜色
         wb.xlsx.load(buffer).then(workbook => {
           let workbookData = []

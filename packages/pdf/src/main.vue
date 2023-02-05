@@ -61,7 +61,6 @@ export default defineComponent({
 
     function renderPage(num) {
       pdfDocument.getPage(num).then((pdfPage) => {
-        console.log('rootRef.value',num, rootRef[num-1])
         const viewport = pdfPage.getViewport({scale: window.devicePixelRatio});
         const canvas = rootRef.value[num-1];
         canvas.width = viewport.width;

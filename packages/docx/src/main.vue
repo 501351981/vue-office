@@ -12,13 +12,11 @@ export default defineComponent({
   },
   emits:['rendered', 'error'],
   setup(props, { emit }){
-    console.log('setup')
     const rootRef = ref(null)
 
     function init(){
       let container = rootRef.value
       docx.getData(props.src, props.requestOptions).then(res => {
-        console.log('container',res, container)
         docx.render(res, container).then(() => {
           emit('rendered')
         }).catch(e => {
