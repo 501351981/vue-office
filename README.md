@@ -12,13 +12,13 @@
 ## 安装
 ```
 //docx文档预览组件
-npm install @vue-office/docx
+npm install @vue-office/docx vue-demi
 
 //excel文档预览组件
-npm install @vue-office/excel
+npm install @vue-office/excel vue-demi
 
 //pdf文档预览组件
-npm install @vue-office/pdf
+npm install @vue-office/pdf vue-demi
 ```
 
 ## 使用示例
@@ -216,3 +216,21 @@ excel和pdf，也同样支持通过文件上传进行预览，代码和docx的�
 | error    | 各种失败，包括网络请求失败，渲染失败等         | errorInfo |
 
 
+## 交流反馈
+
+### 提Issue
+
+如果您遇到了问题，欢迎提Issue，同时请您尽可能详细的描述您遇到的问题，包括不限于
+- 您使用的是哪个库： @vue-office/docx、@vue-office/excel、@vue-office/pdf
+- 您使用的环境：APP or Web，PC or 移动端，如果是浏览器兼容问题，请提供您的浏览器版本
+- 如果有错误，请粘贴详细的报错信息
+
+详细的描述有助于我尽快定位问题，因为平时工作很忙，时间很有限，感谢理解
+
+### 赞助和微信交流
+
+**_如果该项目确实帮助到了您_**，欢迎赞助，以鼓励我将更多的休息时间，投入到该项目的优化中，也欢迎赞助后添加微信交流：\_hit757_
+
+![赞助二维码](./examples/public/static/wx.png)
+
+### 恳请各位大佬不吝点赞，开源不易，感谢过往各位大佬的支持~~
