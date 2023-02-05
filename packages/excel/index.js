@@ -1,4 +1,4 @@
-import VueOfficeExcel from './src/main'
+import VueOfficeExcel from './src/main.vue'
 
 VueOfficeExcel.install = function (Vue) {
     Vue.component(VueOfficeExcel.name, VueOfficeExcel)

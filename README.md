@@ -1,6 +1,6 @@
 # vue-office
 
-支持多种文件(docx、pdf、excel)预览的vue组件套装。
+支持多种文件(docx、pdf、excel)预览的vue组件套装，支持vue2/3。
 
 [查看demo演示](https://501351981.github.io/vue-office/examples/dist/)
 

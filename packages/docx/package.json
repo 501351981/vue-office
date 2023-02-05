@@ -1,25 +1,46 @@
 {
   "name": "@vue-office/docx",
   "version": "0.0.14",
-  "description": "通过Vue开发的办公文档预览组件，支持docx、pdf、ppt、excel的预览",
+  "description": "",
   "main": "lib/index.js",
-  "author": "hit757",
   "files": [
-    "lib/index.js",
-    "lib/index.css"
+    "lib/"
   ],
   "scripts": {
-    "copyFile": "cp lib/docx.css lib/index.css && cp lib/docx.umd.min.js lib/index.js && cp ../../README.md README.md",
-    "build": "vue-cli-service build --target lib  --dest lib index.js && npm run copyFile",
-    "clean": "rimraf lib"
+    "clean": "rimraf lib",
+    "copyFile2": "cp lib/v2/vue-office-docx.umd.js lib/v2/index.js && cp lib/v2/style.css lib/v2/index.css",
+    "copyFile3": "cp lib/v3/vue-office-docx.umd.js lib/v3/index.js && cp lib/v3/style.css lib/v3/index.css",
+    "copyReadme": "cp ../../README.md README.md",
+    "copyScripts": "mkdir lib/script/ && cp ../../script/postinstall.js lib/script/postinstall.js && cp ../../script/switch-cli.js lib/script/switch-cli.js  && cp ../../script/utils.js lib/script/utils.js",
+    "build:2": "npx vue-demi-switch 2 vue2 && vite build && npm run copyFile2",
+    "build:3": "npx vue-demi-switch 3 vue3 && vite build && npm run copyFile3",
+    "build": "npm run clean && npm run build:2 && npm run build:3 && npm run copyScripts && npm run copyReadme",
+    "postinstall": "node lib/script/postinstall.js"
   },
-  "license": "MIT",
+  "peerDependencies": {
+    "@vue/composition-api": "^1.7.1",
+    "vue": "^2.0.0 || >=3.0.0",
+    "vue-demi": "^0.13.11"
+  },
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:501351981/vue-office.git"
   },
-  "gitHead": "feb1efa92e6f1d23464a8114e971b68bf02dbd95",
-  "dependencies": {
-    "rimraf": "^3.0.2"
-  }
+  "keywords": [
+    "vue",
+    "docx",
+    "pdf",
+    "ppt",
+    "excel",
+    "docx-preview",
+    "excel-preview",
+    "pdf-preview"
+  ],
+  "license": "MIT",
+  "author": "微信: _hit757_"
 }

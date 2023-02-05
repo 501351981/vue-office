@@ -1,15 +1,13 @@
-<template>
-  <div class="vue-office-excel" ref="vue-office-excel"></div>
-</template>
-
 <script>
+import { defineComponent,ref, onMounted, watch } from 'vue-demi'
 import Spreadsheet from "x-data-spreadsheet";
 import _ from "lodash";
 import * as Excel from 'exceljs/dist/exceljs'
 import tinycolor from "tinycolor2";
 import {getData} from './excel'
-export default {
-  name: "VueOfficeExcel",
+
+export default defineComponent({
+  name: 'VueOfficeExcel',
   props: {
     src: [String, ArrayBuffer, Blob],
     requestOptions: {
@@ -17,34 +15,14 @@ export default {
       default: () => ({})
     }
   },
-  watch:{
-    src(newSrc){
-      if(newSrc){
-        getData(newSrc).then(this.renderExcel).catch(e =>{
-          this.xs.loadData({})
-          this.$emit('error', e)
-        })
-      }else{
-        this.xs.loadData({})
-      }
-    }
-  },
-  mounted() {
-    this.xs = new Spreadsheet(this.$refs["vue-office-excel"],{
-      mode: 'read',
-      showToolbar: false
-    }).loadData({});
-    if(this.src){
-      getData(this.src).then(this.renderExcel).catch(e =>{
-        this.xs.loadData({})
-        this.$emit('error', e)
-      })
-    }
-  },
-  methods:{
-    renderExcel(buffer) {
+  emits:['rendered', 'error'],
+  setup(props, { emit }){
+    const rootRef = ref(null)
+    let xs = null
+    function renderExcel(buffer){
       try {
         const wb = new Excel.Workbook();
+        console.log(wb)
         // 微软的 Excel ColorIndex 一个索引数字对应一个颜色
         wb.xlsx.load(buffer).then(workbook => {
           let workbookData = []
@@ -184,17 +162,47 @@ export default {
             })
             workbookData.push(sheetData)
           })
-          this.xs.loadData(workbookData);
-          this.$emit('rendered')
+          xs.loadData(workbookData);
+          emit('rendered')
         })
       }catch (e){
-        this.xs.loadData({})
-        this.$emit('error', e)
+        xs.loadData({})
+        emit('error', e)
       }
     }
+    onMounted(()=>{
+      xs = new Spreadsheet(rootRef.value,{
+        mode: 'read',
+        showToolbar: false
+      }).loadData({});
+      if(props.src){
+        getData(props.src, props.requestOptions).then(renderExcel).catch(e =>{
+          xs.loadData({})
+          emit('error', e)
+        })
+      }
+    })
+
+    watch(() => props.src, () =>{
+      if(props.src){
+        getData(props.src).then(renderExcel).catch(e =>{
+          xs.loadData({})
+          emit('error', e)
+        })
+      }else{
+        xs.loadData({})
+      }
+    })
+    return {
+      rootRef
+    }
   }
-};
+})
 </script>
 
-<style scoped lang="less">
+<template>
+  <div class="vue-office-excel" ref="rootRef"></div>
+</template>
+<style lang="less">
+
 </style>

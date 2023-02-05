@@ -2,11 +2,32 @@
   "name": "vue-office",
   "version": "0.0.14",
   "description": "通过Vue开发的办公文档预览组件，支持docx、pdf、ppt、excel(已实现)的预览",
-  "author": "hit757",
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+  "scripts": {},
+  "dependencies": {
+    "docx-preview": "^0.1.14",
+    "exceljs": "^4.3.0",
+    "lodash": "^4.17.21",
+    "rimraf": "^4.1.2",
+    "tinycolor2": "^1.6.0",
+    "vue-demi": "^0.13.11",
+    "x-data-spreadsheet": "^1.1.9"
   },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/composition-api": "^1.7.1",
+    "lerna": "^6.3.0",
+    "less": "^4.1.3",
+    "less-loader": "^11.1.0",
+    "vite": "^4.0.0",
+    "vite-plugin-require-transform": "^1.0.9",
+    "vite-plugin-vue2": "^2.0.3",
+    "vue-template-compiler": "2.6.14",
+    "vue2": "npm:vue@2.6.14",
+    "vue3": "npm:vue@3.2.45"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:501351981/vue-office.git"
@@ -16,52 +37,11 @@
     "docx",
     "pdf",
     "ppt",
-    "excel"
+    "excel",
+    "docx-preview",
+    "excel-preview",
+    "pdf-preview"
   ],
   "license": "MIT",
-  "dependencies": {
-    "core-js": "^3.8.3",
-    "docx-preview": "^0.1.14",
-    "exceljs": "^4.3.0",
-    "lodash": "^4.17.21",
-    "mammoth": "^1.5.1",
-    "path": "^0.12.7",
-    "pdfjs-dist": "^3.0.279",
-    "stream-browserify": "^3.0.0",
-    "tinycolor2": "^1.5.2",
-    "util": "^0.12.5",
-    "vue": "^2.6.14",
-    "x-data-spreadsheet": "^1.1.9"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
-    "element-ui": "^2.15.12",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3",
-    "lerna": "^6.3.0",
-    "less": "^4.1.3",
-    "less-loader": "^11.1.0",
-    "vue-template-compiler": "^2.6.14"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "@babel/eslint-parser"
-    },
-    "rules": {}
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+  "author": "微信: _hit757_"
 }

@@ -755,3 +755,7 @@ form fieldset select {
 .x-spreadsheet-toast-content {
   padding: 0.75em 1em;
 }
+
+.x-spreadsheet-menu li:first-child {
+  display: none;
+}

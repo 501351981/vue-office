@@ -1,13 +1,8 @@
-<template>
-  <div class="vue-office-docx" ref="vue-office-docx"></div>
-</template>
-
 <script>
-/*eslint-disable*/
+import {defineComponent, ref, onMounted, watch} from 'vue-demi';
 import docx from './docx'
-
-export default {
-  name: "VueOfficeDocx",
+export default defineComponent({
+  name: 'VueOfficeDocx',
   props: {
     src: [String, ArrayBuffer, Blob],
     requestOptions: {
@@ -15,41 +10,52 @@ export default {
       default: () => ({})
     }
   },
-  watch: {
-    src: {
-      handler(val) {
-        if (val) {
-          this.init()
-        } else {
-          docx.render('', this.$refs["vue-office-docx"]).then(() => {
-            this.$emit('rendered')
-          })
-        }
-      }
-    }
-  },
-  mounted() {
-    if (this.src) {
-      this.init()
-    }
-  },
-  methods: {
-    init() {
-      docx.getData(this.src, this.requestOptions).then(res => {
-        docx.render(res, this.$refs["vue-office-docx"]).then(() => {
-          this.$emit('rendered')
+  emits:['rendered', 'error'],
+  setup(props, { emit }){
+    console.log('setup')
+    const rootRef = ref(null)
+
+    function init(){
+      let container = rootRef.value
+      docx.getData(props.src, props.requestOptions).then(res => {
+        console.log('container',res, container)
+        docx.render(res, container).then(() => {
+          emit('rendered')
         }).catch(e => {
-          docx.render('', this.$refs["vue-office-docx"])
-          this.$emit('error', e)
+          docx.render('', container)
+          emit('error', e)
         })
       }).catch(e => {
-        docx.render('', this.$refs["vue-office-docx"])
-        this.$emit('error', e)
+        docx.render('', container)
+        emit('error', e)
       })
     }
+
+    onMounted(()=>{
+      if(props.src){
+        init()
+      }
+    })
+
+    watch(() => props.src, () =>{
+      if (props.src) {
+        init()
+      } else {
+        docx.render('', rootRef.value).then(() => {
+          emit('rendered')
+        })
+      }
+    })
+    return {
+      rootRef
+    }
   }
-}
+})
 </script>
+
+<template>
+  <div class="vue-office-docx" ref="rootRef"></div>
+</template>
 
 <style lang="less">
 @media screen and (max-width: 800px){

@@ -1,85 +1,69 @@
-<template>
-  <div class="vue-office-pdf" ref="vue-office-pdf" style="text-align: center;">
-    <div
-        v-if="numPages"
-        class="vue-office-pdf-wrapper"
-        style="background: gray; padding: 30px 0;position: relative;">
-      <canvas :ref="'canvas'+ page" v-for="page in numPages" :key="page"/>
-    </div>
-  </div>
-</template>
-
 <script>
+import { defineComponent,ref, onMounted, watch } from 'vue-demi'
 import {worker} from './worker'
 import {pdfjsLib} from './pdf'
-import loadScript from "./utils/loadScript";
-import {getUrl} from "../../../utils/url";
+import {getUrl, loadScript} from "../../../utils/url";
 
 const pdfJsLibSrc = `data:text/javascript;base64,${pdfjsLib}`;
 const PdfJsWorkerSrc = `data:text/javascript;base64,${worker}`;
 
-export default {
-  name: "VueOfficePdf",
+export default defineComponent({
+  name: 'VueOfficePdf',
   props: {
-    src: {
-      type: [String, ArrayBuffer, Blob]
+    src: [String, ArrayBuffer, Blob],
+    requestOptions: {
+      type: Object,
+      default: () => ({})
     },
     staticFileUrl:{
       type: String,
       default: 'https://unpkg.com/pdfjs-dist@3.1.81/'
     }
   },
-  data() {
-    return {
-      document: '',
-      numPages: 0
-    }
-  },
-  watch: {
-    src() {
-      this.checkPdfLib().then(this.init)
-    }
-  },
-  mounted() {
-    if (this.src) {
-      this.checkPdfLib().then(this.init)
-    }
-  },
-  methods: {
-    checkPdfLib() {
-      if (window.pdfjsLib) {
-        return Promise.resolve()
-      }
-      return this.installPdfScript()
-    },
-    installPdfScript() {
+  emits:['rendered', 'error'],
+  setup(props, { emit }){
+    let pdfDocument = null
+    const rootRef = ref([])
+    const numPages = ref(0)
+
+    function installPdfScript() {
       return loadScript(pdfJsLibSrc).then(() => {
         window.pdfjsLib.GlobalWorkerOptions.workerSrc = PdfJsWorkerSrc
       });
-    },
-    init() {
-      if (!this.src) {
-        this.numPages = 0
+    }
+
+    function checkPdfLib() {
+      if (window.pdfjsLib) {
+        return Promise.resolve()
+      }
+      return installPdfScript()
+    }
+
+    function init() {
+      if (!props.src) {
+        numPages.value = 0
         return
       }
       const loadingTask = window.pdfjsLib.getDocument({
-        url: getUrl(this.src),
-        cMapUrl: `${this.staticFileUrl.endsWith('/') ? this.staticFileUrl : this.staticFileUrl + '/'}cmaps/`,
+        url: getUrl(props.src),
+        cMapUrl: `${props.staticFileUrl.endsWith('/') ? props.staticFileUrl : props.staticFileUrl + '/'}cmaps/`,
         cMapPacked: true,
         enableXfa: true,
       });
-      loadingTask.promise.then((pdfDocument) => {
-        this.document = pdfDocument;
-        this.numPages = pdfDocument.numPages;
-        this.renderPage(1)
+      loadingTask.promise.then((pdf) => {
+        pdfDocument = pdf;
+        numPages.value = pdfDocument.numPages;
+        renderPage(1)
       }).catch((e) => {
-        this.$emit('error', e)
+        emit('error', e)
       })
-    },
-    renderPage(num) {
-      this.document.getPage(num).then((pdfPage) => {
+    }
+
+    function renderPage(num) {
+      pdfDocument.getPage(num).then((pdfPage) => {
+        console.log('rootRef.value',num, rootRef[num-1])
         const viewport = pdfPage.getViewport({scale: window.devicePixelRatio});
-        const canvas = this.$refs['canvas' + num][0];
+        const canvas = rootRef.value[num-1];
         canvas.width = viewport.width;
         canvas.height = viewport.height;
         const ctx = canvas.getContext("2d");
@@ -88,23 +72,47 @@ export default {
           viewport,
         });
         renderTask.promise.then(() => {
-          if (this.numPages > num) {
-            this.renderPage(num + 1);
+          if (numPages.value > num) {
+            renderPage(num + 1);
           } else {
-            this.$emit('rendered')
+            emit('rendered')
           }
         }).catch((e) => {
-          this.$emit('error', e)
+          emit('error', e)
         });
       }).catch((e) => {
-        this.$emit('error', e)
+        emit('error', e)
       });
 
     }
+
+    onMounted(()=>{
+      if (props.src) {
+        checkPdfLib().then(init)
+      }
+    })
+
+    watch(() => props.src, ()=>{
+      checkPdfLib().then(init)
+    })
+    return {
+      rootRef,
+      numPages
+    }
   }
-}
+})
 </script>
 
-<style scoped>
+<template>
+  <div class="vue-office-pdf" ref="vue-office-pdf" style="text-align: center;">
+    <div
+        v-if="numPages"
+        class="vue-office-pdf-wrapper"
+        style="background: gray; padding: 30px 0;position: relative;">
+      <canvas v-for="page in numPages" ref="rootRef" :key="page"/>
+    </div>
+  </div>
+</template>
+<style lang="less">
 
 </style>

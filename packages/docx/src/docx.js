@@ -1,5 +1,5 @@
 /*eslint-disable*/
-const docxPreview = require('docx-preview')
+import {renderAsync} from 'docx-preview'
 function getData(src, options={}) {
     if (typeof src === 'string') {
          return fetchDocx(src, options)
@@ -29,7 +29,7 @@ function render(data, container){
     } else if(data instanceof ArrayBuffer){
         blob = new Blob([data])
     }
-    return docxPreview.renderAsync(blob, container);
+    return renderAsync(blob, container);
 }
 
 export default {
