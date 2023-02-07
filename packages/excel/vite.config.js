@@ -14,6 +14,7 @@ export default defineConfig({
         }),
   ],
   build: {
+    target: 'es2015',
     outDir: 'lib/v' + (isVue2 ? '2' : '3'),
     lib: {
       entry: resolve(__dirname, 'index.js'), //指定组件编译入口文件
