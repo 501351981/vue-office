@@ -61,10 +61,16 @@ export default defineComponent({
 
     function renderPage(num) {
       pdfDocument.getPage(num).then((pdfPage) => {
-        const viewport = pdfPage.getViewport({scale: window.devicePixelRatio});
+        const viewport = pdfPage.getViewport({scale:  window.devicePixelRatio});
+
         const canvas = rootRef.value[num-1];
         canvas.width = viewport.width;
         canvas.height = viewport.height;
+        if(viewport.width > document.documentElement.clientWidth){
+          canvas.style.width = '100%'
+        }else{
+          canvas.style.width = Math.floor(viewport.width) + 'px';
+        }
         const ctx = canvas.getContext("2d");
         const renderTask = pdfPage.render({
           canvasContext: ctx,
@@ -108,7 +114,12 @@ export default defineComponent({
         v-if="numPages"
         class="vue-office-pdf-wrapper"
         style="background: gray; padding: 30px 0;position: relative;">
-      <canvas v-for="page in numPages" ref="rootRef" :key="page"/>
+      <canvas
+          v-for="page in numPages"
+          ref="rootRef"
+          :key="page"
+          style="width:100%"
+      />
     </div>
   </div>
 </template>
