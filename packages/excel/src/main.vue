@@ -44,7 +44,7 @@ export default defineComponent({
               mergeAddressData.push(mergeAddress)
             }
             sheetData.cols = {}
-            for(let i = 0;i < sheet.columns.length; i++)
+            for(let i = 0;i < (sheet.columns || []).length; i++)
             {
               sheetData.cols[i.toString()] = {}
               if(sheet.columns[i].width) {
