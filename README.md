@@ -30,7 +30,11 @@ npm install @vue-office/pdf vue-demi
 **使用网络地址预览**
 ```vue
 <template>
-  <vue-office-docx :src="docx" @rendered="rendered"/>
+  <vue-office-docx 
+      :src="docx"
+      style="height: 100vh;"
+      @rendered="rendered"
+  />
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 {
   "name": "vue-office",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "通过Vue开发的办公文档预览组件，支持docx、pdf、ppt、excel(已实现)的预览",
   "scripts": {},
   "dependencies": {

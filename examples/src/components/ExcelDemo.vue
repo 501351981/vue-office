@@ -12,7 +12,7 @@ import PreviewWrapper from '../common/PreviewWrapper.vue'
       default-src="https://501351981.github.io/vue-office/examples/dist/static/test-files/test.xlsx"
   >
     <template  v-slot="slotProps">
-      <VueOfficeExcel :src="slotProps.src"/>
+      <VueOfficeExcel :src="slotProps.src" style="flex: 1;height: 0"/>
     </template>
 
   </PreviewWrapper>

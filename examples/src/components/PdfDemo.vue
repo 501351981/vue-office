@@ -10,7 +10,7 @@ import PreviewWrapper from '../common/PreviewWrapper.vue'
       default-src="https://501351981.github.io/vue-office/examples/dist/static/test-files/test.pdf"
   >
     <template  v-slot="slotProps">
-      <VueOfficePdf :src="slotProps.src"/>
+      <VueOfficePdf :src="slotProps.src" style="flex: 1;height: 0"/>
     </template>
   </PreviewWrapper>
 </template>

@@ -12,7 +12,7 @@ const {type, inputSrc, src, fileList, beforeUpload} = usePreview(props.defaultSr
 </script>
 
 <template>
-  <div>
+  <div class="preview-wrapper">
     <div class="operate-area">
       <a-radio-group v-model:value="type" button-style="solid">
         <a-radio-button value="url">远程文件地址</a-radio-button>
@@ -46,16 +46,23 @@ const {type, inputSrc, src, fileList, beforeUpload} = usePreview(props.defaultSr
       </a-upload>
 
     </div>
-
     <slot :src="src"></slot>
+    <div class="preview-wrapper-main">
+
+    </div>
   </div>
 </template>
 
 <style scoped>
+.preview-wrapper{
+  height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+}
 .operate-area {
   display: flex;
   margin: 10px;
   align-items: center;
+  flex-wrap: wrap;
 }
-
 </style>

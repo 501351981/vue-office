@@ -759,3 +759,7 @@ form fieldset select {
 .x-spreadsheet-menu li:first-child {
   display: none;
 }
+
+.vue-office-excel {
+  height: 100%;
+}

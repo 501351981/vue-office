@@ -26,5 +26,8 @@ onMounted(()=>{
 </template>
 
 <style scoped>
+/deep/ .ant-tabs-nav-wrap{
+  padding-left: 20px !important;
+}
 
 </style>

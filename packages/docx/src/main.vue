@@ -52,10 +52,16 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="vue-office-docx" ref="rootRef"></div>
+  <div class="vue-office-docx">
+    <div class="vue-office-docx-main" ref="rootRef"></div>
+  </div>
 </template>
 
 <style lang="less">
+.vue-office-docx {
+  height: 100%;
+  overflow-y: auto;
+}
 @media screen and (max-width: 800px){
   .vue-office-docx {
     .docx-wrapper {

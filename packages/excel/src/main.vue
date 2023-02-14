@@ -17,6 +17,7 @@ export default defineComponent({
   },
   emits:['rendered', 'error'],
   setup(props, { emit }){
+    const wrapperRef = ref(null)
     const rootRef = ref(null)
     let xs = null
     function renderExcel(buffer){
@@ -170,9 +171,14 @@ export default defineComponent({
       }
     }
     onMounted(()=>{
+      let height =  wrapperRef.value.clientHeight || 300
       xs = new Spreadsheet(rootRef.value,{
         mode: 'read',
-        showToolbar: false
+        showToolbar: false,
+        view: {
+          height: () => height,
+          width: () => document.documentElement.clientWidth,
+        },
       }).loadData({});
       if(props.src){
         getData(props.src, props.requestOptions).then(renderExcel).catch(e =>{
@@ -193,6 +199,7 @@ export default defineComponent({
       }
     })
     return {
+      wrapperRef,
       rootRef
     }
   }
@@ -200,7 +207,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="vue-office-excel" ref="rootRef"></div>
+  <div class="vue-office-excel" ref="wrapperRef">
+    <div class="vue-office-excel-main" ref="rootRef"></div>
+  </div>
 </template>
 <style lang="less">
 

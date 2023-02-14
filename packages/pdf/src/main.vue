@@ -109,7 +109,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="vue-office-pdf" ref="vue-office-pdf" style="text-align: center;">
+  <div class="vue-office-pdf" ref="vue-office-pdf" style="text-align: center;overflow-y: auto;">
     <div
         v-if="numPages"
         class="vue-office-pdf-wrapper"
