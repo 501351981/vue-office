@@ -10,15 +10,19 @@
 - 体验好：选择每个文档的最佳预览方案，保证用户体验和性能都达到最佳状态
 
 ## 安装
-```
-//docx文档预览组件
+```shell
+#docx文档预览组件
 npm install @vue-office/docx vue-demi
 
-//excel文档预览组件
+#excel文档预览组件
 npm install @vue-office/excel vue-demi
 
-//pdf文档预览组件
+#pdf文档预览组件
 npm install @vue-office/pdf vue-demi
+```
+如果是vue2.6版本或以下还需要额外安装 @vue/composition-api
+```shell
+npm install @vue/composition-api/
 ```
 
 ## 使用示例

@@ -10,7 +10,14 @@
   },
   "dependencies": {
     "ant-design-vue": "^3.2.15",
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "docx-preview": "^0.1.14",
+    "exceljs": "^4.3.0",
+    "lodash": "^4.17.21",
+    "rimraf": "^4.1.2",
+    "tinycolor2": "^1.6.0",
+    "vue-demi": "^0.13.11",
+    "x-data-spreadsheet": "^1.1.9"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
