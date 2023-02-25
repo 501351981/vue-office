@@ -28,6 +28,7 @@ export default defineComponent({
         xs.loadData(transferExcelToSpreadSheet(workbook, props.options));
         emit('rendered')
       }).catch(e=>{
+        console.warn(e)
         xs.loadData({})
         emit('error', e)
       })

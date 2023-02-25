@@ -27,11 +27,116 @@ export function readExcelData(buffer){
     }
 }
 
+function transferColumns(excelSheet, spreadSheet, options){
+    for(let i = 0;i < (excelSheet.columns || []).length; i++){
+        spreadSheet.cols[i.toString()] = {}
+        if(excelSheet.columns[i].width) {
+            spreadSheet.cols[i.toString()].width = excelSheet.columns[i].width * 9
+        } else {
+            spreadSheet.cols[i.toString()].width = 100
+        }
+    }
+
+    spreadSheet.cols.len = Math.max(Object.keys(spreadSheet.cols).length, options.minColLength || 0)
+}
+
+function getCellText(cell){
+    let cellText = ''
+    if(cell.value && cell.value.result) {
+        // Excel 单元格有公式
+        cellText = cell.value.result
+    } else if(cell.value && cell.value.richText) {
+        // Excel 单元格是多行文本
+        for(let text in cell.value.richText) {
+            // 多行文本做累加
+            cellText += cell.value.richText[text].text
+        }
+    }
+    else {
+        // Excel 单元格无公式
+        cellText = cell.value
+    }
+    return cellText
+}
+function transferArgbColor(originColor){
+    if(typeof originColor === 'object'){
+        debugger
+        return '#000000';
+    }
+    originColor = originColor.trim().toLowerCase();  //去掉前后空格
+    let color = {};
+    try {
+        let argb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(originColor);
+        color.r = parseInt(argb[2], 16);
+        color.g = parseInt(argb[3], 16);
+        color.b = parseInt(argb[4], 16);
+        color.a = parseInt(argb[1], 16) / 255;
+        return tinycolor(`rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`).toHexString()
+    } catch (e) {
+        debugger
+    }
+}
+function getStyle(cell){
+    let backGroundColor = null
+    if(cell.style.fill && cell.style.fill.fgColor) {
+        // 8位字符颜色先转rgb再转16进制颜色
+        if(cell.style.fill.fgColor.argb){
+            backGroundColor = transferArgbColor(cell.style.fill.fgColor.argb)
+        }else{
+            backGroundColor = '#C7C9CC'
+        }
+
+    }
+
+    if(backGroundColor) {
+        cell.style.bgcolor = backGroundColor
+    }
+    //*************************************************************************** */
+
+    //*********************字体存在背景色******************************
+    // 字体颜色
+    let fontColor = null
+    if(cell.style.font && cell.style.font.color ) {
+        if(cell.style.font.color.argb){
+            fontColor = transferArgbColor(cell.style.font.color.argb)
+        }else{
+            fontColor = '#000000'
+        }
+
+    }
+    if(fontColor) {
+        cell.style.color = fontColor
+    }
+
+    // exceljs 对齐的格式转成 x-date-spreedsheet 能识别的对齐格式
+    if(cell.style.alignment ) {
+        if(cell.style.alignment.horizontal){
+            cell.style.align = cell.style.alignment.horizontal
+        }
+       if(cell.style.alignment.vertical){
+           cell.style.valign = cell.style.alignment.vertical
+       }
+    }
+    if(cell.style.alignment && cell.style.alignment.wrapText) {
+        cell.style.textwrap = true
+    }
+
+    if(cell.style.border){
+        Object.keys(cell.style.border).forEach(position =>{
+            let originBorder = cell.style.border[position]
+            cell.style.border[position] = [originBorder.style || 'thick', originBorder.color && originBorder.color.argb && transferArgbColor(originBorder.color.argb) || '#000000']
+        })
+    }
+
+    return cell.style
+}
+
 export function transferExcelToSpreadSheet(workbook, options){
     let workbookData = []
     workbook.eachSheet((sheet) => {
+        // console.log(sheet,'sheet')
         // 构造x-data-spreadsheet 的 sheet 数据源结构
-        let sheetData = { name: sheet.name,styles : [], rows: {}, merges:[] }
+        let sheetData = { name: sheet.name,styles : [], rows: {},cols:{}, merges:[] }
         // 收集合并单元格信息
         let mergeAddressData = []
         for(let mergeRange in sheet._merges) {
@@ -47,125 +152,33 @@ export function transferExcelToSpreadSheet(workbook, options){
             mergeAddress.XRange = sheet._merges[mergeRange].model.right - sheet._merges[mergeRange].model.left
             mergeAddressData.push(mergeAddress)
         }
-        sheetData.cols = {}
-        for(let i = 0;i < (sheet.columns || []).length; i++)
-        {
-            sheetData.cols[i.toString()] = {}
-            if(sheet.columns[i].width) {
-                // 不知道为什么从 exceljs 读取的宽度显示到 x-data-spreadsheet 特别小, 这里乘以8
-                sheetData.cols[i.toString()].width = sheet.columns[i].width * 8
-            } else {
-                // 默认列宽
-                sheetData.cols[i.toString()].width = 100
-            }
-        }
 
-        sheetData.cols.len = Math.max(Object.keys(sheetData.cols).length, options.minColLength || 0)
-
+        transferColumns(sheet,sheetData, options);
         // 遍历行
-        sheet.eachRow((row, rowIndex) => {
-            sheetData.rows[(rowIndex - 1).toString()] = { cells: {} }
+        (sheet._rows || []).forEach((row,spreadSheetRowIndex) =>{
+            sheetData.rows[spreadSheetRowIndex] = { cells: {} }
+
+            if(row.height){
+                sheetData.rows[spreadSheetRowIndex].height = row.height;
+            }
             //includeEmpty = false 不包含空白单元格
-            row.eachCell({ includeEmpty: true }, function(cell, colNumber) {
-                let cellText = ''
-                if(cell.value && cell.value.result) {
-                    // Excel 单元格有公式
-                    cellText = cell.value.result
-                } else if(cell.value && cell.value.richText) {
-                    // Excel 单元格是多行文本
-                    for(let text in cell.value.richText) {
-                        // 多行文本做累加
-                        cellText += cell.value.richText[text].text
-                    }
-                }
-                else {
-                    // Excel 单元格无公式
-                    cellText = cell.value
-                }
+            (row._cells || []).forEach((cell, spreadSheetColIndex) =>{
+                sheetData.rows[spreadSheetRowIndex].cells[spreadSheetColIndex] = {}
 
-                //解析单元格,包含样式
-                //*********************单元格存在背景色******************************
-                // 单元格存在背景色
-                let backGroundColor = null
-                if(cell.style.fill && cell.style.fill.fgColor && cell.style.fill.fgColor.argb) {
-                    // 8位字符颜色先转rgb再转16进制颜色
-                    backGroundColor = ((val) => {
-                        val = val.trim().toLowerCase();  //去掉前后空格
-                        let color = {};
-                        try {
-                            let argb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(val);
-                            color.r = parseInt(argb[2], 16);
-                            color.g = parseInt(argb[3], 16);
-                            color.b = parseInt(argb[4], 16);
-                            color.a = parseInt(argb[1], 16) / 255;
-                            return tinycolor(`rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`).toHexString()
-                        } catch (e) {
-                            //
-                        }
-                    })(cell.style.fill.fgColor.argb)
-                }
-
-                if(backGroundColor) {
-                    cell.style.bgcolor = backGroundColor
-                }
-                //*************************************************************************** */
-
-                //*********************字体存在背景色******************************
-                // 字体颜色
-                let fontColor = null
-                if(cell.style.font && cell.style.font.color && cell.style.font.color.argb) {
-                    // 8位字符颜色先转rgb再转16进制颜色
-                    fontColor = ((val) => {
-                        val = val.trim().toLowerCase();  //去掉前后空格
-                        let color = {};
-                        try {
-                            let argb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(val)
-                            color.r = parseInt(argb[2], 16);
-                            color.g = parseInt(argb[3], 16);
-                            color.b = parseInt(argb[4], 16);
-                            color.a = parseInt(argb[1], 16) / 255;
-                            return tinycolor(`rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`).toHexString()
-                        } catch (e) {
-                            //
-                        }
-                    })(cell.style.font.color.argb)
-                }
-                if(fontColor) {
-                    cell.style.color = fontColor
-                }
-
-                // exceljs 对齐的格式转成 x-date-spreedsheet 能识别的对齐格式
-                if(cell.style.alignment && cell.style.alignment.horizontal) {
-                    cell.style.align = cell.style.alignment.horizontal
-                    cell.style.valign = cell.style.alignment.vertical
-                }
-
-                //处理合并单元格
                 let mergeAddress = _.find(mergeAddressData, function(o) { return o.startAddress == cell._address })
-                if(mergeAddress)
-                {
-                    // 遍历的单元格属于合并单元格
-                    if(cell.master.address != mergeAddress.startAddress){
-                        // 不是合并单元格中的第一个单元格不需要计入数据源
-                        return
-                    }
-                    // 说明是合并单元格区域的起始单元格
-                    sheetData.rows[(rowIndex - 1).toString()].cells[(colNumber - 1).toString()] = { text: cellText, style: 0, merge: [mergeAddress.YRange, mergeAddress.XRange] }
-                    sheetData.styles.push(cell.style)
-                    //对应的style存放序号
-                    sheetData.rows[(rowIndex - 1).toString()].cells[(colNumber - 1).toString()].style = sheetData.styles.length - 1
+                if(mergeAddress && cell.master.address != mergeAddress.startAddress) {
+                    return
                 }
-                else {
-                    // 非合并单元格
-                    sheetData.rows[(rowIndex - 1).toString()].cells[(colNumber - 1).toString()] = { text: cellText, style: 0 }
-                    //解析单元格,包含样式
-                    sheetData.styles.push(cell.style)
-                    //对应的style存放序号
-                    sheetData.rows[(rowIndex - 1).toString()].cells[(colNumber - 1).toString()].style = sheetData.styles.length - 1
+                if(mergeAddress){
+                    sheetData.rows[spreadSheetRowIndex].cells[spreadSheetColIndex].merge = [mergeAddress.YRange, mergeAddress.XRange]
                 }
-            });
+                sheetData.rows[spreadSheetRowIndex].cells[spreadSheetColIndex].text = getCellText(cell)
+                sheetData.styles.push(getStyle(cell))
+                sheetData.rows[spreadSheetRowIndex].cells[spreadSheetColIndex].style = sheetData.styles.length - 1
+            })
         })
         workbookData.push(sheetData)
     })
+    // console.log(workbookData, 'workbookData')
     return workbookData
 }
