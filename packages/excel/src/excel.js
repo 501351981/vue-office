@@ -1,7 +1,21 @@
 import * as Excel from 'exceljs/dist/exceljs'
 import {getUrl} from "../../../utils/url";
 import tinycolor from "tinycolor2";
-import _ from "lodash";
+import _, {cloneDeep} from "lodash";
+import {getDarkColor, getLightColor} from "./color";
+
+const themeColor = [
+    '#FFFFFF',
+    '#000000',
+    '#BFBFBF',
+    '#323232',
+    '#4472C4',
+    '#ED7D31',
+    '#A5A5A5',
+    '#FFC000',
+    '#5B9BD5',
+    '#71AD47'
+]
 
 export function getData(src, options={}) {
     return fetchExcel(getUrl(src), options)
@@ -60,7 +74,6 @@ function getCellText(cell){
 }
 function transferArgbColor(originColor){
     if(typeof originColor === 'object'){
-        debugger
         return '#000000';
     }
     originColor = originColor.trim().toLowerCase();  //去掉前后空格
@@ -73,15 +86,31 @@ function transferArgbColor(originColor){
         color.a = parseInt(argb[1], 16) / 255;
         return tinycolor(`rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`).toHexString()
     } catch (e) {
-        debugger
+        console.warn(e)
+    }
+}
+function transferThemeColor(themeIndex, tint){
+
+    if(themeIndex > 9){
+        return '#C7C9CC'
+    }
+    if(typeof tint === 'undefined'){
+        return themeColor[themeIndex]
+    }else if(tint > 0){
+        return getLightColor(themeColor[themeIndex], tint)
+    }else{
+        return getDarkColor(themeColor[themeIndex],Math.abs(tint))
     }
 }
 function getStyle(cell){
+    cell.style = cloneDeep(cell.style)
     let backGroundColor = null
     if(cell.style.fill && cell.style.fill.fgColor) {
         // 8位字符颜色先转rgb再转16进制颜色
         if(cell.style.fill.fgColor.argb){
             backGroundColor = transferArgbColor(cell.style.fill.fgColor.argb)
+        }else if(cell.style.fill.fgColor.hasOwnProperty('theme')){
+            backGroundColor = transferThemeColor(cell.style.fill.fgColor.theme, cell.style.fill.fgColor.tint)
         }else{
             backGroundColor = '#C7C9CC'
         }
@@ -99,6 +128,8 @@ function getStyle(cell){
     if(cell.style.font && cell.style.font.color ) {
         if(cell.style.font.color.argb){
             fontColor = transferArgbColor(cell.style.font.color.argb)
+        }else if(cell.style.font.color.hasOwnProperty('theme')){
+            fontColor = transferThemeColor(cell.style.font.color.theme, cell.style.font.color.tint)
         }else{
             fontColor = '#000000'
         }
@@ -122,10 +153,24 @@ function getStyle(cell){
     }
 
     if(cell.style.border){
+        let styleBorder = {}
         Object.keys(cell.style.border).forEach(position =>{
             let originBorder = cell.style.border[position]
-            cell.style.border[position] = [originBorder.style || 'thick', originBorder.color && originBorder.color.argb && transferArgbColor(originBorder.color.argb) || '#000000']
+            let bordColor = '#000000'
+
+            if(typeof originBorder.color === 'string'){
+                bordColor = originBorder.color
+            }else if(originBorder.color){
+                if(originBorder.color.argb){
+                    bordColor = transferArgbColor(originBorder.color.argb)
+                }else if(originBorder.color.hasOwnProperty('theme')){
+                    bordColor = transferThemeColor(originBorder.color.theme, originBorder.color.tint)
+                }
+            }
+            styleBorder[position] = [originBorder.style || 'thin', bordColor]
         })
+        cell.style.border2 = {...cell.style.border}
+        cell.style.border =  styleBorder
     }
 
     return cell.style
@@ -133,10 +178,11 @@ function getStyle(cell){
 
 export function transferExcelToSpreadSheet(workbook, options){
     let workbookData = []
+    //console.log(workbook, 'workbook')
     workbook.eachSheet((sheet) => {
-        // console.log(sheet,'sheet')
+        //console.log(sheet,'sheet')
         // 构造x-data-spreadsheet 的 sheet 数据源结构
-        let sheetData = { name: sheet.name,styles : [], rows: {},cols:{}, merges:[] }
+        let sheetData = { name: sheet.name,styles : [], rows: {},cols:{}, merges:[],media:[] }
         // 收集合并单元格信息
         let mergeAddressData = []
         for(let mergeRange in sheet._merges) {
@@ -177,8 +223,14 @@ export function transferExcelToSpreadSheet(workbook, options){
                 sheetData.rows[spreadSheetRowIndex].cells[spreadSheetColIndex].style = sheetData.styles.length - 1
             })
         })
+        if(sheetData._media){
+            sheetData.media = sheetData._media
+        }
         workbookData.push(sheetData)
     })
-    // console.log(workbookData, 'workbookData')
-    return workbookData
+    //console.log(workbookData, 'workbookData')
+    return {
+        workbookData,
+        medias: workbook.media || []
+    }
 }

@@ -25,7 +25,8 @@ export default defineComponent({
     let xs = null
     function renderExcel(buffer){
       readExcelData(buffer).then(workbook =>{
-        xs.loadData(transferExcelToSpreadSheet(workbook, props.options));
+        const {workbookData, medias} = transferExcelToSpreadSheet(workbook, props.options)
+        xs.loadData(workbookData);
         emit('rendered')
       }).catch(e=>{
         console.warn(e)
