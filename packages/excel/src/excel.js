@@ -76,6 +76,9 @@ function transferArgbColor(originColor){
     if(typeof originColor === 'object'){
         return '#000000';
     }
+    if(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.test(originColor)){
+        return originColor.startsWith('#') ? originColor : '#' + originColor;
+    }
     originColor = originColor.trim().toLowerCase();  //去掉前后空格
     let color = {};
     try {
