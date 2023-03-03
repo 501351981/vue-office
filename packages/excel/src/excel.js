@@ -37,6 +37,7 @@ export function readExcelData(buffer){
         return wb.xlsx.load(buffer)
 
     }catch (e){
+        console.warn(e)
         return Promise.reject(e)
     }
 }
@@ -181,9 +182,9 @@ function getStyle(cell){
 
 export function transferExcelToSpreadSheet(workbook, options){
     let workbookData = []
-    //console.log(workbook, 'workbook')
+    console.log(workbook, 'workbook')
     workbook.eachSheet((sheet) => {
-        //console.log(sheet,'sheet')
+        console.log(sheet,'sheet')
         // 构造x-data-spreadsheet 的 sheet 数据源结构
         let sheetData = { name: sheet.name,styles : [], rows: {},cols:{}, merges:[],media:[] }
         // 收集合并单元格信息

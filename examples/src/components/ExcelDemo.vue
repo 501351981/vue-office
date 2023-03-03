@@ -2,7 +2,9 @@
 import VueOfficeExcel from '../../../packages/excel/index'
 import '../../../packages/excel/src/index.css'
 import PreviewWrapper from '../common/PreviewWrapper.vue'
-
+function onError(e){
+  console.log('出差',e)
+}
 </script>
 
 <template>
@@ -12,11 +14,12 @@ import PreviewWrapper from '../common/PreviewWrapper.vue'
       default-src="https://501351981.github.io/vue-office/examples/dist/static/test-files/test.xlsx"
   >
     <template  v-slot="slotProps">
-      <VueOfficeExcel :src="slotProps.src" style="flex: 1;height: 0"/>
+      <VueOfficeExcel :src="slotProps.src" style="flex: 1;height: 0" @error="onError"/>
     </template>
 
   </PreviewWrapper>
 </template>
+
 
 <style scoped>
 

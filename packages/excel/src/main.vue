@@ -25,6 +25,9 @@ export default defineComponent({
     let xs = null
     function renderExcel(buffer){
       readExcelData(buffer).then(workbook =>{
+        if(!workbook._worksheets || workbook._worksheets.length === 0){
+          throw new Error('未获取到数据，可能文件格式不正确或文件已损坏')
+        }
         const {workbookData, medias} = transferExcelToSpreadSheet(workbook, props.options)
         xs.loadData(workbookData);
         emit('rendered')
@@ -40,7 +43,7 @@ export default defineComponent({
         showToolbar: false,
         view: {
           height: () => wrapperRef.value.clientHeight || 300,
-          width: () => document.documentElement.clientWidth,
+          width: () => wrapperRef.value.clientWidth || 300,
         },
       }).loadData({});
       if(props.src){
