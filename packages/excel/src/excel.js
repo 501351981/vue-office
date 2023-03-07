@@ -56,6 +56,9 @@ function transferColumns(excelSheet, spreadSheet, options){
 }
 
 function getCellText(cell){
+    if(typeof cell.value === 'number'){
+        return cell.value + ''
+    }
     let cellText = ''
     if(cell.value && cell.value.result) {
         // Excel 单元格有公式
@@ -66,8 +69,7 @@ function getCellText(cell){
             // 多行文本做累加
             cellText += cell.value.richText[text].text
         }
-    }
-    else {
+    } else {
         // Excel 单元格无公式
         cellText = cell.value
     }
@@ -182,9 +184,9 @@ function getStyle(cell){
 
 export function transferExcelToSpreadSheet(workbook, options){
     let workbookData = []
-    console.log(workbook, 'workbook')
+    //console.log(workbook, 'workbook')
     workbook.eachSheet((sheet) => {
-        console.log(sheet,'sheet')
+        //console.log(sheet,'sheet')
         // 构造x-data-spreadsheet 的 sheet 数据源结构
         let sheetData = { name: sheet.name,styles : [], rows: {},cols:{}, merges:[],media:[] }
         // 收集合并单元格信息
