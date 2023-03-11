@@ -17,6 +17,8 @@ const themeColor = [
     '#71AD47'
 ]
 
+let defaultColWidth = 80
+
 export function getData(src, options={}) {
     return fetchExcel(getUrl(src), options)
 }
@@ -46,9 +48,9 @@ function transferColumns(excelSheet, spreadSheet, options){
     for(let i = 0;i < (excelSheet.columns || []).length; i++){
         spreadSheet.cols[i.toString()] = {}
         if(excelSheet.columns[i].width) {
-            spreadSheet.cols[i.toString()].width = excelSheet.columns[i].width * 9
+            spreadSheet.cols[i.toString()].width = excelSheet.columns[i].width * 6
         } else {
-            spreadSheet.cols[i.toString()].width = 100
+            spreadSheet.cols[i.toString()].width = defaultColWidth
         }
     }
 
@@ -237,6 +239,7 @@ export function transferExcelToSpreadSheet(workbook, options){
     //console.log(workbookData, 'workbookData')
     return {
         workbookData,
+        workbookSource: workbook,
         medias: workbook.media || []
     }
 }
