@@ -2,7 +2,7 @@
 import {renderAsync} from 'docx-preview'
 function getData(src, options={}) {
     if (typeof src === 'string') {
-         return fetchDocx(src, options)
+        return fetchDocx(src, options)
     }
     return Promise.resolve(src)
 }

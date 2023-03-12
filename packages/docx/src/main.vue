@@ -1,54 +1,54 @@
 <script>
 import {defineComponent, ref, onMounted, watch} from 'vue-demi';
-import docx from './docx'
+import docx from './docx';
 export default defineComponent({
   name: 'VueOfficeDocx',
   props: {
-    src: [String, ArrayBuffer, Blob],
-    requestOptions: {
+    src: [String, ArrayBuffer, Blob], 
+      requestOptions: {
       type: Object,
       default: () => ({})
     }
   },
   emits:['rendered', 'error'],
   setup(props, { emit }){
-    const rootRef = ref(null)
+    const rootRef = ref(null);
 
     function init(){
-      let container = rootRef.value
+      let container = rootRef.value;
       docx.getData(props.src, props.requestOptions).then(res => {
         docx.render(res, container).then(() => {
-          emit('rendered')
+          emit('rendered');
         }).catch(e => {
-          docx.render('', container)
-          emit('error', e)
-        })
+          docx.render('', container);
+          emit('error', e);
+        });
       }).catch(e => {
-        docx.render('', container)
-        emit('error', e)
-      })
+        docx.render('', container);
+        emit('error', e);
+      });
     }
 
     onMounted(()=>{
       if(props.src){
-        init()
+        init();
       }
-    })
+    });
 
     watch(() => props.src, () =>{
       if (props.src) {
-        init()
+        init();
       } else {
         docx.render('', rootRef.value).then(() => {
-          emit('rendered')
-        })
+          emit('rendered');
+        });
       }
-    })
+    });
     return {
       rootRef
-    }
+    };
   }
-})
+});
 </script>
 
 <template>

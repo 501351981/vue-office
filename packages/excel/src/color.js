@@ -1,5 +1,5 @@
 function HexToRgb (str) {
-    str = str.replace("#", "");
+    str = str.replace('#', '');
     var hxs = str.match(/../g);
     for (var i = 0; i < 3; i++) hxs[i] = parseInt(hxs[i], 16);
     return hxs;
@@ -7,8 +7,8 @@ function HexToRgb (str) {
 
 function RgbToHex (a, b, c) {
     var hexs = [a.toString(16), b.toString(16), c.toString(16)];
-    for (var i = 0; i < 3; i++) if (hexs[i].length == 1) hexs[i] = "0" + hexs[i];
-    return "#" + hexs.join("");
+    for (var i = 0; i < 3; i++) if (hexs[i].length == 1) hexs[i] = '0' + hexs[i];
+    return '#' + hexs.join('');
 }
 
 

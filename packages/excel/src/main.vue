@@ -1,8 +1,8 @@
 <script>
 import {defineComponent, ref, onMounted, watch} from 'vue-demi';
-import Spreadsheet from "x-data-spreadsheet";
+import Spreadsheet from 'x-data-spreadsheet';
 import {getData, readExcelData, transferExcelToSpreadSheet} from './excel';
-import {renderImage, clearCache} from "./media";
+import {renderImage, clearCache} from './media';
 
 export default defineComponent({
     name: 'VueOfficeExcel',
@@ -30,7 +30,7 @@ export default defineComponent({
         let sheetIndex = 1;
         let ctx = null;
         let xs = null;
-        let offset = null
+        let offset = null;
 
         function renderExcel(buffer) {
             readExcelData(buffer).then(workbook => {
@@ -40,9 +40,9 @@ export default defineComponent({
                 const {workbookData, medias, workbookSource} = transferExcelToSpreadSheet(workbook, props.options);
                 mediasSource = medias;
                 workbookDataSource = workbookSource;
-                offset = null
-                sheetIndex = 1
-                clearCache()
+                offset = null;
+                sheetIndex = 1;
+                clearCache();
                 xs.loadData(workbookData);
                 renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
                 emit('rendered');
@@ -50,11 +50,11 @@ export default defineComponent({
 
             }).catch(e => {
                 console.warn(e);
-                mediasSource = []
+                mediasSource = [];
                 workbookDataSource = {
                     _worksheets:[]
-                }
-                clearCache()
+                };
+                clearCache();
                 xs.loadData({});
                 emit('error', e);
             });
@@ -80,29 +80,29 @@ export default defineComponent({
                 }
             }).loadData({});
 
-            let swapFunc = xs.bottombar.swapFunc
+            let swapFunc = xs.bottombar.swapFunc;
             xs.bottombar.swapFunc = function (index) {
-                swapFunc.call(xs.bottombar, index)
-                sheetIndex = index + 1
+                swapFunc.call(xs.bottombar, index);
+                sheetIndex = index + 1;
                 setTimeout(()=>{
-                    xs.reRender()
+                    xs.reRender();
                     renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
-                })
+                });
 
             };
-            let clear = xs.sheet.editor.clear
+            let clear = xs.sheet.editor.clear;
             xs.sheet.editor.clear = function (...args){
-                clear.apply(xs.sheet.editor, args)
+                clear.apply(xs.sheet.editor, args);
                 setTimeout(()=>{
                     renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
-                })
-            }
-            let setOffset = xs.sheet.editor.setOffset
+                });
+            };
+            let setOffset = xs.sheet.editor.setOffset;
             xs.sheet.editor.setOffset = function (...args){
-                setOffset.apply(xs.sheet.editor, args)
-                offset = args[0]
+                setOffset.apply(xs.sheet.editor, args);
+                offset = args[0];
                 renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
-            }
+            };
             const canvas = rootRef.value.querySelector('canvas');
             ctx = canvas.getContext('2d');
             if (props.src) {

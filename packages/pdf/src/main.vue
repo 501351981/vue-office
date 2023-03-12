@@ -1,8 +1,8 @@
 <script>
-import { defineComponent,ref, onMounted, watch } from 'vue-demi'
-import {worker} from './worker'
-import {pdfjsLib} from './pdf'
-import {getUrl, loadScript} from "../../../utils/url";
+import { defineComponent,ref, onMounted, watch } from 'vue-demi';
+import {worker} from './worker';
+import {pdfjsLib} from './pdf';
+import {getUrl, loadScript} from '../../../utils/url';
 
 const pdfJsLibSrc = `data:text/javascript;base64,${pdfjsLib}`;
 const PdfJsWorkerSrc = `data:text/javascript;base64,${worker}`;
@@ -22,27 +22,27 @@ export default defineComponent({
   },
   emits:['rendered', 'error'],
   setup(props, { emit }){
-    let pdfDocument = null
-    const rootRef = ref([])
-    const numPages = ref(0)
+    let pdfDocument = null;
+    const rootRef = ref([]);
+    const numPages = ref(0);
 
     function installPdfScript() {
       return loadScript(pdfJsLibSrc).then(() => {
-        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PdfJsWorkerSrc
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PdfJsWorkerSrc;
       });
     }
 
     function checkPdfLib() {
       if (window.pdfjsLib) {
-        return Promise.resolve()
+        return Promise.resolve();
       }
-      return installPdfScript()
+      return installPdfScript();
     }
 
     function init() {
       if (!props.src) {
-        numPages.value = 0
-        return
+        numPages.value = 0;
+        return;
       }
       const loadingTask = window.pdfjsLib.getDocument({
         url: getUrl(props.src),
@@ -53,10 +53,10 @@ export default defineComponent({
       loadingTask.promise.then((pdf) => {
         pdfDocument = pdf;
         numPages.value = pdfDocument.numPages;
-        renderPage(1)
+        renderPage(1);
       }).catch((e) => {
-        emit('error', e)
-      })
+        emit('error', e);
+      });
     }
 
     function renderPage(num) {
@@ -67,11 +67,11 @@ export default defineComponent({
         canvas.width = viewport.width;
         canvas.height = viewport.height;
         if(viewport.width > document.documentElement.clientWidth){
-          canvas.style.width = '100%'
+          canvas.style.width = '100%';
         }else{
           canvas.style.width = Math.floor(viewport.width) + 'px';
         }
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext('2d');
         const renderTask = pdfPage.render({
           canvasContext: ctx,
           viewport,
@@ -80,32 +80,32 @@ export default defineComponent({
           if (numPages.value > num) {
             renderPage(num + 1);
           } else {
-            emit('rendered')
+            emit('rendered');
           }
         }).catch((e) => {
-          emit('error', e)
+          emit('error', e);
         });
       }).catch((e) => {
-        emit('error', e)
+        emit('error', e);
       });
 
     }
 
     onMounted(()=>{
       if (props.src) {
-        checkPdfLib().then(init)
+        checkPdfLib().then(init);
       }
-    })
+    });
 
     watch(() => props.src, ()=>{
-      checkPdfLib().then(init)
-    })
+      checkPdfLib().then(init);
+    });
     return {
       rootRef,
       numPages
-    }
+    };
   }
-})
+});
 </script>
 
 <template>

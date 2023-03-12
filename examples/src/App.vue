@@ -1,13 +1,13 @@
 <script setup>
-import {ref, onMounted} from 'vue'
-import DocxDemo from './components/DocxDemo.vue'
-import ExcelDemo from './components/ExcelDemo.vue'
-import PdfDemo from './components/PdfDemo.vue'
+import {ref, onMounted} from 'vue';
+import DocxDemo from './components/DocxDemo.vue';
+import ExcelDemo from './components/ExcelDemo.vue';
+import PdfDemo from './components/PdfDemo.vue';
 
-const activeKey = ref('DOCX')
+const activeKey = ref('DOCX');
 onMounted(()=>{
 
-})
+});
 </script>
 
 <template>

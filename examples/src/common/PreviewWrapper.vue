@@ -1,13 +1,19 @@
 <script setup>
-import {defineProps} from 'vue'
-import usePreview from '../hooks/usePreview.js'
+import {defineProps, watch} from 'vue';
+import usePreview from '../hooks/usePreview.js';
+import useLoading from '../hooks/useLoading.js';
 const props = defineProps({
   accept: String,
   placeholder: String,
   defaultSrc: String
-})
+});
 
-const {type, inputSrc, src, fileList, beforeUpload} = usePreview(props.defaultSrc)
+const {type, inputSrc, src, fileList, beforeUpload} = usePreview(props.defaultSrc);
+watch(src,()=>{
+    useLoading.showLoading();
+},{
+    immediate: true
+});
 
 </script>
 
