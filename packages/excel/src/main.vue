@@ -88,7 +88,10 @@ export default defineComponent({
                 setTimeout(()=>{
                     xs.reRender();
                     renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
-                    rootRef.value.blur();
+                    setTimeout(()=>{
+                        rootRef.value.blur();
+                        alert('test');
+                    });
                 });
 
             };
