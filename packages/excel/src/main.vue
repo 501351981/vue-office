@@ -90,8 +90,8 @@ export default defineComponent({
                     renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
                     setTimeout(()=>{
                         rootRef.value.blur();
-                        alert('test');
-                    });
+                        alert('临时测试下切换，明天去除');
+                    },100);
                 });
 
             };
