@@ -2,6 +2,7 @@
 import {defineProps, watch} from 'vue';
 import usePreview from '../hooks/usePreview.js';
 import useLoading from '../hooks/useLoading.js';
+import {isTest} from '../../../utils/test.js';
 const props = defineProps({
   accept: String,
   placeholder: String,
@@ -19,7 +20,7 @@ watch(src,()=>{
 
 <template>
   <div class="preview-wrapper">
-    <div class="operate-area">
+    <div class="operate-area" v-if="!isTest">
       <a-radio-group v-model:value="type" button-style="solid">
         <a-radio-button value="url">远程文件地址</a-radio-button>
         <a-radio-button value="upload">上传本地文件</a-radio-button>
