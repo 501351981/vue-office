@@ -1,8 +1,9 @@
 <script>
-import {defineComponent, ref, onMounted, watch} from 'vue-demi';
+import {defineComponent, ref, onMounted, onBeforeUnmount, watch} from 'vue-demi';
 import Spreadsheet from 'x-data-spreadsheet';
 import {getData, readExcelData, transferExcelToSpreadSheet} from './excel';
 import {renderImage, clearCache} from './media';
+import {readOnlyInput} from './hack';
 
 export default defineComponent({
     name: 'VueOfficeExcel',
@@ -59,8 +60,10 @@ export default defineComponent({
                 emit('error', e);
             });
         }
-
+        const observer = new MutationObserver(readOnlyInput);
+        const observerConfig = { attributes: true, childList: true, subtree: true };
         onMounted(() => {
+            observer.observe(rootRef.value, observerConfig);
             window.xs = xs = new Spreadsheet(rootRef.value, {
                 mode: 'read',
                 showToolbar: false,
@@ -88,10 +91,6 @@ export default defineComponent({
                 setTimeout(()=>{
                     xs.reRender();
                     renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
-                    setTimeout(()=>{
-                        rootRef.value.blur();
-                        alert('临时测试下切换，明天去除');
-                    },100);
                 });
 
             };
@@ -118,6 +117,10 @@ export default defineComponent({
             }
         });
 
+        onBeforeUnmount(()=>{
+            observer.disconnect();
+            xs = null;
+        });
         watch(() => props.src, () => {
             if (props.src) {
                 getData(props.src).then(renderExcel).catch(e => {
