@@ -4,6 +4,7 @@ import Spreadsheet from 'x-data-spreadsheet';
 import {getData, readExcelData, transferExcelToSpreadSheet} from './excel';
 import {renderImage, clearCache} from './media';
 import {readOnlyInput} from './hack';
+import {debounce} from 'lodash';
 
 export default defineComponent({
     name: 'VueOfficeExcel',
@@ -60,10 +61,12 @@ export default defineComponent({
                 emit('error', e);
             });
         }
-        const observer = new MutationObserver(readOnlyInput);
+        const observerCallback = debounce(readOnlyInput, 20).bind(this,rootRef);
+        const observer = new MutationObserver(observerCallback);
         const observerConfig = { attributes: true, childList: true, subtree: true };
         onMounted(() => {
             observer.observe(rootRef.value, observerConfig);
+            observerCallback(rootRef);
             window.xs = xs = new Spreadsheet(rootRef.value, {
                 mode: 'read',
                 showToolbar: false,

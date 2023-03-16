@@ -1,11 +1,12 @@
-export function readOnlyInput(mutationsList, observer){
-    console.log(mutationsList, observer);
-    for(let mutation of mutationsList) {
-        if(mutation.target.className === 'hide-input'){
-            let input = mutation.target.childNodes[0];
-            if(input){
-                input.readOnly = true;
-            }
+export function readOnlyInput(ref){
+    let root = ref.value;
+    if(root){
+
+        let nodes = root.querySelectorAll('.hide-input');
+        console.log(nodes);
+        for(let node of nodes){
+            let input = node.childNodes[0];
+            input && (input.readOnly = true);
         }
     }
 }
