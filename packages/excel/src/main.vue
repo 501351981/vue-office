@@ -77,7 +77,8 @@ export default defineComponent({
                     width: 80,
                     indexWidth: 60,
                     minWidth: 60,
-                }
+                },
+                autoFocus: false
             }).loadData({});
 
             let swapFunc = xs.bottombar.swapFunc;
