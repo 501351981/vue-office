@@ -61,12 +61,16 @@ export default defineComponent({
                 emit('error', e);
             });
         }
-        const observerCallback = debounce(readOnlyInput, 20).bind(this,rootRef);
+        const observerCallback = debounce(readOnlyInput, 200).bind(this,rootRef);
         const observer = new MutationObserver(observerCallback);
         const observerConfig = { attributes: true, childList: true, subtree: true };
         onMounted(() => {
             observer.observe(rootRef.value, observerConfig);
             observerCallback(rootRef);
+            rootRef.value.addEventListener('focus', ()=>{
+                debugger
+            })
+
             window.xs = xs = new Spreadsheet(rootRef.value, {
                 mode: 'read',
                 showToolbar: false,
