@@ -67,9 +67,6 @@ export default defineComponent({
         onMounted(() => {
             observer.observe(rootRef.value, observerConfig);
             observerCallback(rootRef);
-            rootRef.value.addEventListener('focus', ()=>{
-                debugger
-            })
 
             window.xs = xs = new Spreadsheet(rootRef.value, {
                 mode: 'read',
