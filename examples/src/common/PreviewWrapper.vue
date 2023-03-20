@@ -20,7 +20,7 @@ watch(src,()=>{
 
 <template>
   <div class="preview-wrapper">
-    <div class="operate-area" v-if="!isTest">
+    <div class="operate-area" v-if="!isTest()">
       <a-radio-group v-model:value="type" button-style="solid">
         <a-radio-button value="url">远程文件地址</a-radio-button>
         <a-radio-button value="upload">上传本地文件</a-radio-button>
