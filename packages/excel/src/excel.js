@@ -3,6 +3,7 @@ import {getUrl} from '../../../utils/url';
 import tinycolor from 'tinycolor2';
 import _, {cloneDeep} from 'lodash';
 import {getDarkColor, getLightColor} from './color';
+import dayjs from 'dayjs';
 
 const themeColor = [
     '#FFFFFF',
@@ -18,7 +19,7 @@ const themeColor = [
 ];
 
 let defaultColWidth = 80;
-
+const weekday = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 export function getData(src, options={}) {
     return fetchExcel(getUrl(src), options);
 }
@@ -58,24 +59,37 @@ function transferColumns(excelSheet, spreadSheet, options){
 }
 
 function getCellText(cell){
-    if(typeof cell.value === 'number'){
-        return cell.value + '';
+    //console.log(cell);
+    const {numFmt, value, type} = cell;
+    switch (type){
+        case 2: //数字
+            return value + '';
+        case 3: //字符串
+            return value;
+        case 4: //日期
+            switch (numFmt){
+                case 'yyyy-mm-dd;@':
+                    return dayjs(value).format('YYYY-MM-DD');
+                case 'mm-dd-yy':
+                    return dayjs(value).format('YYYY/MM/DD');
+                case '[$-F800]dddd, mmmm dd, yyyy':
+                    return dayjs(value).format('YYYY年M月D日 ddd');
+                case 'm"月"d"日";@':
+                    return dayjs(value).format('M月D日');
+                case 'yyyy/m/d h:mm;@':
+                case 'm/d/yy "h":mm':
+                    return dayjs(value).subtract(8, 'hour').format('YYYY/M/DD HH:mm');
+                case 'h:mm;@':
+                    return dayjs(value).format('HH:mm');
+                default:
+                    return dayjs(value).format('YYYY-MM-DD');
+            }
+
+        case 6: //公式
+            return cell.result;
+        default:
+            return value;
     }
-    let cellText = '';
-    if(cell.value && cell.value.result) {
-        // Excel 单元格有公式
-        cellText = cell.value.result;
-    } else if(cell.value && cell.value.richText) {
-        // Excel 单元格是多行文本
-        for(let text in cell.value.richText) {
-            // 多行文本做累加
-            cellText += cell.value.richText[text].text;
-        }
-    } else {
-        // Excel 单元格无公式
-        cellText = cell.value;
-    }
-    return cellText;
 }
 function transferArgbColor(originColor){
     if(typeof originColor === 'object'){
@@ -188,7 +202,7 @@ export function transferExcelToSpreadSheet(workbook, options){
     let workbookData = [];
     //console.log(workbook, 'workbook')
     workbook.eachSheet((sheet) => {
-        //console.log(sheet,'sheet')
+        // console.log(sheet,'sheet');
         // 构造x-data-spreadsheet 的 sheet 数据源结构
         let sheetData = { name: sheet.name,styles : [], rows: {},cols:{}, merges:[],media:[] };
         // 收集合并单元格信息

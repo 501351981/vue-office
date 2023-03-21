@@ -4,6 +4,7 @@
   "description": "通过Vue开发的办公文档预览组件，支持docx、pdf、ppt、excel(已实现)的预览",
   "scripts": {},
   "dependencies": {
+    "dayjs": "^1.11.7",
     "docx-preview": "^0.1.14",
     "exceljs": "^4.3.0",
     "lodash": "^4.17.21",

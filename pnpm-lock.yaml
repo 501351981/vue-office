@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@vitejs/plugin-vue': ^4.0.0
   '@vue/composition-api': ^1.7.1
+  dayjs: ^1.11.7
   docx-preview: ^0.1.14
   eslint: ^8.36.0
   eslint-plugin-vue: ^9.9.0
@@ -23,6 +24,7 @@ specifiers:
   x-data-spreadsheet: ^1.1.9
 
 dependencies:
+  dayjs: 1.11.7
   docx-preview: 0.1.15
   exceljs: 4.3.0
   lodash: 4.17.21
