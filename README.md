@@ -30,7 +30,7 @@ npm install @vue/composition-api/
 - 有文档网络地址，比如 https://***.docx
 - 文件上传时预览，此时可以获取文件的ArrayBuffer或Blob
 
-### 已docx文档的预览为例
+### 以docx文档的预览为例
 **使用网络地址预览**
 ```vue
 <template>
