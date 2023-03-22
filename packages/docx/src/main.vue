@@ -4,7 +4,7 @@ import docx from './docx';
 export default defineComponent({
   name: 'VueOfficeDocx',
   props: {
-    src: [String, ArrayBuffer, Blob], 
+      src: [String, ArrayBuffer, Blob],
       requestOptions: {
       type: Object,
       default: () => ({})

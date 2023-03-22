@@ -2,7 +2,9 @@
   "name": "vue-office",
   "version": "0.1.4",
   "description": "通过Vue开发的办公文档预览组件，支持docx、pdf、ppt、excel(已实现)的预览",
-  "scripts": {},
+  "scripts": {
+    "docs:build": "vuepress build docs"
+  },
   "dependencies": {
     "dayjs": "^1.11.7",
     "docx-preview": "^0.1.14",
@@ -24,6 +26,7 @@
     "vite": "^4.0.0",
     "vite-plugin-require-transform": "^1.0.9",
     "vite-plugin-vue2": "^2.0.3",
+    "vitepress": "^1.0.0-alpha.61",
     "vue-template-compiler": "2.6.14",
     "vue2": "npm:vue@2.6.14",
     "vue3": "npm:vue@3.2.45"
