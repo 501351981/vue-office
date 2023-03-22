@@ -87,6 +87,8 @@ function getCellText(cell){
 
         case 6: //公式
             return cell.result;
+        case 8: //富文本
+            return cell.text;
         default:
             return value;
     }
