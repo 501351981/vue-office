@@ -9,7 +9,8 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '指南', link: '/guide/' },
-      { text: '配置参考', link: '/config/' }
+      { text: '配置参考', link: '/config/' },
+      { text: '演示预览效果', link: 'https://501351981.github.io/vue-office/examples/dist/' }
     ],
     outlineTitle:'跳转到',
     docFooter: {
