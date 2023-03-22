@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 const path = require('path')
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/vue-office/examples/docs/',
   title: "vue-office",
   description: "更简单的office文件预览",
   themeConfig: {
@@ -43,10 +44,5 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/501351981/vue-office' }
     ]
-  },
-  configureWebpack: (config, isServer) => {
-    console.log(config.output.path)
-    config.output.path = path.resolve(__dirname, '../../examples/docs')
-    // return config
   }
 })
