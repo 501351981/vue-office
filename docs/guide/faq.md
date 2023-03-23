@@ -7,6 +7,57 @@
 
 跨域设置是否成功，可以看返回的响应头里面，是否有access-control-allow-origin字段
 
+解决跨域有以下几种方式：
+
+- 修改nginx或者apache配置
+
+只需要在server或者静态文件对应的location中添加 add_header Access-Control-Allow-Origin *;
+
+```shell
+ server {
+    add_header Access-Control-Allow-Origin *;
+ }
+```
+这种方式最简单，但是接口也跟着允许跨域了，如果你的文件只是在某个目录下，可以只针对具体配置设置允许跨域。
+
+```shell
+ server {
+    location /upload/ {
+        add_header Access-Control-Allow-Origin *;
+        root /opt/homebrew/etc/nginx;
+    }
+ }
+```
+这样配置只针对 /upload开头的请求生效。
+
+- 在后端静态服务中设置允许跨域
+
+在php加载的文件头部加入以下代码
+```php
+ header('Access-Control-Allow-Origin:*'); // *代表允许任何网址请求
+```
+
+node服务，以koa为例，可以使用koa-cors中间件
+```javascript
+const serve = require('koa-static');
+const Koa = require('koa');
+const app = new Koa();
+
+var cors = require('koa-cors');
+app.use(cors({
+    origin: '*'
+}));
+
+app.use(serve('.', {
+}));
+
+
+app.listen(3000);
+```
+
+各种语言都类似，可以自行百度查询
+
+
 ![描述][cros]
 
 ## 文件预览不出来
