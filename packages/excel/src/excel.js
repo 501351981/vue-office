@@ -204,7 +204,7 @@ export function transferExcelToSpreadSheet(workbook, options){
     let workbookData = [];
     //console.log(workbook, 'workbook')
     workbook.eachSheet((sheet) => {
-        // console.log(sheet,'sheet');
+        //console.log(sheet,'sheet');
         // 构造x-data-spreadsheet 的 sheet 数据源结构
         let sheetData = { name: sheet.name,styles : [], rows: {},cols:{}, merges:[],media:[] };
         // 收集合并单元格信息
@@ -250,6 +250,7 @@ export function transferExcelToSpreadSheet(workbook, options){
         if(sheetData._media){
             sheetData.media = sheetData._media;
         }
+        sheetData.rows.len = Math.max(Object.keys(sheetData.rows).length, 100);
         workbookData.push(sheetData);
     });
     //console.log(workbookData, 'workbookData')

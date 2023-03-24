@@ -22,3 +22,4 @@ pnpm-debug.log*
 *.sw?
 packages/**/lib
 packages/**/README.md
+pnpm-lock.yaml

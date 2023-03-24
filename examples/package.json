@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "ant-design-vue": "^3.2.15",
-    "vue": "^3.2.45",
+    "vue": "3.2.45",
     "docx-preview": "^0.1.14",
     "exceljs": "^4.3.0",
     "lodash": "^4.17.21",

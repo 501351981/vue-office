@@ -5,6 +5,6 @@
     "preview": "vitepress preview"
   },
   "dependencies": {
-    "vue": "^3.2.47"
+    "vue": "3.2.45"
   }
 }
