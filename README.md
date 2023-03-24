@@ -30,7 +30,7 @@ npm install @vue/composition-api/
 - 有文档网络地址，比如 https://***.docx
 - 文件上传时预览，此时可以获取文件的ArrayBuffer或Blob
 
-### 以docx文档的预览为例
+### .docx文件预览
 **使用网络地址预览**
 ```vue
 <template>
@@ -102,14 +102,88 @@ export default {
 }
 </script>
 ```
+### excel文件预览
 
-excel和pdf的预览和docx预览基本一致，详见
-[《使用指南》](https://501351981.github.io/vue-office/examples/docs/guide/)
+```vue
+<template>
+    <vue-office-excel
+        :src="excel"
+        style="height: 100vh;"
+        @rendered="renderedHandler"
+        @error="errorHandler"
+    />
+</template>
 
-### 赞助和微信交流
+<script>
+//引入VueOfficeExcel组件
+import VueOfficeExcel from '@vue-office/excel'
+//引入相关样式
+import '@vue-office/excel/lib/index.css'
+
+export default {
+    components: {
+        VueOfficeExcel
+    },
+    data() {
+        return {
+            excel: 'http://static.shanhuxueyuan.com/demo/excel.xlsx'//设置文档地址
+        }
+    },
+    methods: {
+        renderedHandler() {
+            console.log("渲染完成")
+        },
+        errorHandler() {
+            console.log("渲染失败")
+        }
+    }
+}
+</script>
+```
+
+### pdf文件预览
+
+```vue
+<template>
+    <vue-office-pdf 
+        :src="pdf"
+        @rendered="renderedHandler"
+        @error="errorHandler"
+    />
+</template>
+
+<script>
+//引入VueOfficePdf组件
+import VueOfficePdf from '@vue-office/pdf'
+
+export default {
+    components: {
+        VueOfficePdf
+    },
+    data() {
+        return {
+            pdf: 'http://static.shanhuxueyuan.com/test.pdf' //设置文档地址
+        }
+    },
+    methods: {
+        renderedHandler() {
+            console.log("渲染完成")
+        },
+        errorHandler() {
+            console.log("渲染失败")
+        }
+    }
+}
+</script>
+```
+
+
+## 赞助和微信交流
 
 **_如果该项目确实帮助到了您_**，欢迎赞助，以鼓励我将更多的休息时间，投入到该项目的优化中，也欢迎赞助后添加微信交流：\_hit757_
 
 <img src="https://501351981.github.io/vue-office/examples/public/static/wx.png" alt="赞助二维码" width="260"/>
 
-**恳请各位大佬不吝点赞，开源不易，感谢支持~~**
+### 恳请各位大佬不吝点赞，开源不易，感谢支持~~
+
+[《使用指南》](https://501351981.github.io/vue-office/examples/docs/guide/)
