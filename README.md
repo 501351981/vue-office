@@ -104,6 +104,7 @@ export default {
 ```
 ### excel文件预览
 
+通过网络地址预览示例如下，通过文件ArrayBuffer预览和上面docx的使用方式一致。
 ```vue
 <template>
     <vue-office-excel
@@ -142,7 +143,7 @@ export default {
 ```
 
 ### pdf文件预览
-
+通过网络地址预览示例如下，通过文件ArrayBuffer预览和上面docx的使用方式一致。
 ```vue
 <template>
     <vue-office-pdf 
@@ -185,5 +186,3 @@ export default {
 <img src="https://501351981.github.io/vue-office/examples/public/static/wx.png" alt="赞助二维码" width="260"/>
 
 ### 恳请各位大佬不吝点赞，开源不易，感谢支持~~
-
-[《使用指南》](https://501351981.github.io/vue-office/examples/docs/guide/)
