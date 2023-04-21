@@ -1,1 +1,0 @@
-import{_ as s,c as n,o as a,Q as l}from"./chunks/framework.1612f957.js";const A=JSON.parse('{"title":"docx文件预览","description":"","frontmatter":{},"headers":[],"relativePath":"guide/preview-docx.md"}'),p={name:"guide/preview-docx.md"},o=l("",15),e=[o];function t(c,r,F,D,y,i){return a(),n("div",null,e)}const d=s(p,[["render",t]]);export{A as __pageData,d as default};

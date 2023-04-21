@@ -1,0 +1,58 @@
+{
+  "name": "vue-office",
+  "version": "0.1.4",
+  "description": "通过Vue开发的办公文档预览组件，支持docx、pdf、ppt、excel(已实现)的预览",
+  "scripts": {
+    "dev": "node script/bak-vue.js && vite",
+    "build": "node script/bak-vue.js && vite build",
+    "lib": "node script/bak-vue.js bak && lerna run build",
+    "docs:build": "vuepress build docs"
+  },
+  "dependencies": {
+    "@vue/compiler-sfc": "3.2.45",
+    "ant-design-vue": "^3.2.17",
+    "dayjs": "^1.11.7",
+    "docx-preview": "^0.1.14",
+    "exceljs": "^4.3.0",
+    "lodash": "^4.17.21",
+    "rimraf": "^4.1.2",
+    "tinycolor2": "^1.6.0",
+    "vue-demi": "^0.13.11",
+    "x-data-spreadsheet": "^1.1.9"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/composition-api": "^1.7.1",
+    "eslint": "^8.36.0",
+    "eslint-plugin-vue": "^9.9.0",
+    "lerna": "^6.4.1",
+    "less": "^4.1.3",
+    "less-loader": "^11.1.0",
+    "vite": "^4.0.0",
+    "vite-plugin-require-transform": "^1.0.9",
+    "vite-plugin-vue2": "^2.0.3",
+    "vue-template-compiler": "2.6.14",
+    "vue": "3.2.45",
+    "vue2": "npm:vue@2.6.14",
+    "vue3": "npm:vue@3.2.45"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:501351981/vue-office.git"
+  },
+  "keywords": [
+    "vue",
+    "docx",
+    "pdf",
+    "ppt",
+    "excel",
+    "docx-preview",
+    "excel-preview",
+    "pdf-preview"
+  ],
+  "license": "MIT",
+  "author": "微信: _hit757_"
+}

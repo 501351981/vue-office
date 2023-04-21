@@ -5,6 +5,7 @@
     "preview": "vitepress preview"
   },
   "dependencies": {
+    "vitepress": "1.0.0-alpha.73",
     "vue": "3.2.45"
   }
 }
