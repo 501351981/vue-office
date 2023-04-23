@@ -12,7 +12,7 @@
 
 **_如果该项目确实帮助到了您_**，欢迎赞助，以鼓励我将更多的休息时间，投入到该项目的优化中，也欢迎赞助后添加微信交流：\_hit757_
 
-<img src="https://501351981.github.io/vue-office/examples/public/static/wx.png" alt="赞助二维码" width="260"/>
+<img src="https://501351981.github.io/vue-office/examples/dist/static/wx.png" alt="赞助二维码" width="260"/>
 
 ::: tip 跪求一赞
 如果您觉得该项目帮助了您，还请伸出贵手帮忙点赞支持，万分感谢~~
