@@ -1,1 +1,0 @@
-import{_ as s,c as n,o as a,O as l}from"./chunks/framework.bb0ce79f.js";const A=JSON.parse('{"title":"vue-office简介","description":"","frontmatter":{},"headers":[],"relativePath":"guide/index.md"}'),p={name:"guide/index.md"},o=l("",24),e=[o];function t(c,r,F,D,y,i){return a(),n("div",null,e)}const f=s(p,[["render",t]]);export{A as __pageData,f as default};

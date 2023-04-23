@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 const path = require('path')
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  // base: '/vue-office/examples/docs/',
+  base: '/vue-office/examples/docs/',
   outDir: path.resolve(__dirname, '../../examples/docs'),
   title: "vue-office",
   description: "更简单的office文件预览",
