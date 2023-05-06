@@ -21,6 +21,7 @@ function onError(e){
       <VueOfficePdf
           :src="slotProps.src"
           style="flex: 1;height: 0"
+          :options="{}"
           @rendered="onRendered"
           @error="onError"
       />

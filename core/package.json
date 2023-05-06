@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "node script/bak-vue.js && vite",
     "build": "node script/bak-vue.js && vite build",
-    "lib": "node script/bak-vue.js bak && lerna run build",
-    "docs:build": "vuepress build docs"
+    "lib": "node script/bak-vue.js bak && lerna run build"
   },
   "dependencies": {
     "@vue/compiler-sfc": "3.2.45",
