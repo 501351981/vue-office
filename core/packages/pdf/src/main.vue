@@ -3,7 +3,7 @@ import {defineComponent, ref, onMounted, watch} from 'vue-demi';
 import {worker} from './worker';
 import {pdfjsLib} from './pdf';
 import {getUrl, loadScript} from '../../../utils/url';
-import {omit} from "lodash";
+import omit from 'lodash/omit';
 
 const pdfJsLibSrc = `data:text/javascript;base64,${pdfjsLib}`;
 const PdfJsWorkerSrc = `data:text/javascript;base64,${worker}`;

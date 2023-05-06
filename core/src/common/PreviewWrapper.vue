@@ -62,7 +62,7 @@ watch(src,()=>{
 
 <style scoped>
 .preview-wrapper{
-  height: calc(100vh - 60px);
+  height: calc(100vh - 46px);
   display: flex;
   flex-direction: column;
 }

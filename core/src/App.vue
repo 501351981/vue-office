@@ -1,27 +1,45 @@
 <script setup>
 import {ref, onMounted} from 'vue';
-import DocxDemo from './components/DocxDemo.vue';
-import ExcelDemo from './components/ExcelDemo.vue';
-import PdfDemo from './components/PdfDemo.vue';
+import {useRouter, useRoute} from 'vue-router';
+const router = useRouter();
+const route = useRoute();
+const current = ref([]);
 
-const activeKey = ref('DOCX');
 onMounted(()=>{
-
+    console.log(route.path);
+    let hash = location.hash;
+    let currentRoute = 'docx';
+    if(hash.includes('excel')){
+        currentRoute = 'excel';
+    }else if(hash.includes('pdf')){
+        currentRoute = 'pdf';
+    }
+    current.value = [currentRoute];
 });
+
+function go({key}){
+     router.push({
+         path: key,
+         query: {...route.query}
+     });
+}
 </script>
 
 <template>
-  <a-tabs v-model:activeKey="activeKey">
-    <a-tab-pane key="DOCX" tab="docx文件预览">
-      <DocxDemo />
-    </a-tab-pane>
-    <a-tab-pane key="EXCEL" tab="excel文件预览">
-      <ExcelDemo />
-    </a-tab-pane>
-    <a-tab-pane key="PDF" tab="pdf文件预览">
-      <PdfDemo />
-    </a-tab-pane>
-  </a-tabs>
+  <div>
+      <a-menu v-model:selectedKeys="current" mode="horizontal" @click="go">
+          <a-menu-item key="docx">
+             docx文件预览
+          </a-menu-item>
+          <a-menu-item key="excel">
+              excel文件预览
+          </a-menu-item>
+          <a-menu-item key="pdf">
+              pdf文件预览
+          </a-menu-item>
+      </a-menu>
+      <router-view/>
+  </div>
 
 </template>
 
