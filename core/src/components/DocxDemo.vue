@@ -9,13 +9,17 @@ function onError(e){
     console.log('出差',e);
     useLoading.hideLoading();
 }
+
+const defaultSrc = location.origin +
+    (location.pathname + '/').replace('//', '/')
+    + 'static/test-files/test.docx';
 </script>
 
 <template>
   <PreviewWrapper
       accept=".docx"
       placeholder="请输入docx文件地址"
-      default-src="https://501351981.github.io/vue-office/examples/dist/static/test-files/test.docx"
+      :default-src="defaultSrc"
   >
     <template  v-slot="slotProps">
       <VueOfficeDocx

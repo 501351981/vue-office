@@ -11,13 +11,16 @@ function onError(e){
     useLoading.hideLoading();
 }
 
+const defaultSrc = location.origin +
+    (location.pathname + '/').replace('//', '/')
+    + 'static/test-files/test.xlsx';
 </script>
 
 <template>
   <PreviewWrapper
       accept=".xlsx"
       placeholder="请输入xlsx文件地址"
-      default-src="https://501351981.github.io/vue-office/examples/dist/static/test-files/test.xlsx"
+      :default-src="defaultSrc"
   >
     <template  v-slot="slotProps">
       <VueOfficeExcel

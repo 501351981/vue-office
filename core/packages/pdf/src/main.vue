@@ -80,8 +80,13 @@ export default defineComponent({
                 let domHeight = Math.floor(viewport.height);
                 if (props.options.width) {
                     let scale = props.options.width / domWidth;
-                    domWidth = props.options.width;
-                    domHeight = domHeight * scale;
+                    domWidth = Math.floor(props.options.width);
+                    domHeight = Math.floor(domHeight * scale);
+                }
+                if(domWidth > document.documentElement.clientWidth){
+                    let scale = document.documentElement.clientWidth / domWidth;
+                    domWidth = Math.floor(document.documentElement.clientWidth);
+                    domHeight = Math.floor(domHeight * scale);
                 }
 
                 canvas.style.width = domWidth + 'px';

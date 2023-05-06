@@ -9,13 +9,16 @@ function onError(e){
     console.log('出差',e);
     useLoading.hideLoading();
 }
+const defaultSrc = location.origin + 
+    (location.pathname + '/').replace('//', '/') 
+    + 'static/test-files/test.pdf';
 </script>
 
 <template>
   <PreviewWrapper
       accept=".pdf"
       placeholder="请输入pdf文件地址"
-      default-src="https://501351981.github.io/vue-office/examples/dist/static/test-files/test.pdf"
+      :default-src="defaultSrc"
   >
     <template  v-slot="slotProps">
       <VueOfficePdf
