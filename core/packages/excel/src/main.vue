@@ -1,5 +1,5 @@
 <script>
-import {defineComponent, ref, onMounted, onBeforeUnmount, watch} from 'vue-demi';
+import {defineComponent, ref, onMounted, onBeforeUnmount, watch, nextTick} from 'vue-demi';
 import Spreadsheet from 'x-data-spreadsheet';
 import {getData, readExcelData, transferExcelToSpreadSheet} from './excel';
 import {renderImage, clearCache} from './media';
@@ -64,61 +64,64 @@ export default defineComponent({
         const observerCallback = debounce(readOnlyInput, 200).bind(this,rootRef);
         const observer = new MutationObserver(observerCallback);
         const observerConfig = { attributes: true, childList: true, subtree: true };
+        
         onMounted(() => {
-            observer.observe(rootRef.value, observerConfig);
-            observerCallback(rootRef);
+            nextTick(()=>{
+                observer.observe(rootRef.value, observerConfig);
+                observerCallback(rootRef);
 
-            window.xs = xs = new Spreadsheet(rootRef.value, {
-                mode: 'read',
-                showToolbar: false,
-                view: {
-                    height: () => wrapperRef.value.clientHeight || 300,
-                    width: () => wrapperRef.value.clientWidth || 300,
-                },
-                row: {
-                    height: 24,
-                    len: 100
-                },
-                col: {
-                    len: 26,
-                    width: 80,
-                    indexWidth: 60,
-                    minWidth: 60,
-                },
-                autoFocus: false
-            }).loadData({});
+                window.xs = xs = new Spreadsheet(rootRef.value, {
+                    mode: 'read',
+                    showToolbar: false,
+                    view: {
+                        height: () => wrapperRef.value && wrapperRef.value.clientHeight || 300,
+                        width: () => wrapperRef.value && wrapperRef.value.clientWidth || 300,
+                    },
+                    row: {
+                        height: 24,
+                        len: 100
+                    },
+                    col: {
+                        len: 26,
+                        width: 80,
+                        indexWidth: 60,
+                        minWidth: 60,
+                    },
+                    autoFocus: false
+                }).loadData({});
 
-            let swapFunc = xs.bottombar.swapFunc;
-            xs.bottombar.swapFunc = function (index) {
-                swapFunc.call(xs.bottombar, index);
-                sheetIndex = index + 1;
-                setTimeout(()=>{
-                    xs.reRender();
+                let swapFunc = xs.bottombar.swapFunc;
+                xs.bottombar.swapFunc = function (index) {
+                    swapFunc.call(xs.bottombar, index);
+                    sheetIndex = index + 1;
+                    setTimeout(()=>{
+                        xs.reRender();
+                        renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
+                    });
+
+                };
+                let clear = xs.sheet.editor.clear;
+                xs.sheet.editor.clear = function (...args){
+                    clear.apply(xs.sheet.editor, args);
+                    setTimeout(()=>{
+                        renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
+                    });
+                };
+                let setOffset = xs.sheet.editor.setOffset;
+                xs.sheet.editor.setOffset = function (...args){
+                    setOffset.apply(xs.sheet.editor, args);
+                    offset = args[0];
                     renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
-                });
-
-            };
-            let clear = xs.sheet.editor.clear;
-            xs.sheet.editor.clear = function (...args){
-                clear.apply(xs.sheet.editor, args);
-                setTimeout(()=>{
-                    renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
-                });
-            };
-            let setOffset = xs.sheet.editor.setOffset;
-            xs.sheet.editor.setOffset = function (...args){
-                setOffset.apply(xs.sheet.editor, args);
-                offset = args[0];
-                renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
-            };
-            const canvas = rootRef.value.querySelector('canvas');
-            ctx = canvas.getContext('2d');
-            if (props.src) {
-                getData(props.src, props.requestOptions).then(renderExcel).catch(e => {
-                    xs.loadData({});
-                    emit('error', e);
-                });
-            }
+                };
+                const canvas = rootRef.value.querySelector('canvas');
+                ctx = canvas.getContext('2d');
+                if (props.src) {
+                    getData(props.src, props.requestOptions).then(renderExcel).catch(e => {
+                        xs.loadData({});
+                        emit('error', e);
+                    });
+                }
+            });
         });
 
         onBeforeUnmount(()=>{
