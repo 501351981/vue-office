@@ -73,6 +73,7 @@ export default defineComponent({
                 window.xs = xs = new Spreadsheet(rootRef.value, {
                     mode: 'read',
                     showToolbar: false,
+                    showContextmenu: props.options.showContextmenu || false,
                     view: {
                         height: () => wrapperRef.value && wrapperRef.value.clientHeight || 300,
                         width: () => wrapperRef.value && wrapperRef.value.clientWidth || 300,
