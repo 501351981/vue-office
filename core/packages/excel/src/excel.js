@@ -24,7 +24,7 @@ export function getData(src, options={}) {
     return requestExcel(getUrl(src), options);
 }
 
-function request(src, options) {
+function requestExcel(src, options) {
     return new Promise(function(resolve, reject) {
         const xhr = new XMLHttpRequest();
         xhr.open(options.method || 'GET', src, true);
@@ -40,11 +40,7 @@ function request(src, options) {
           reject(xhr.status);
         };
         xhr.send(options.body);
-      });
-}
-
-function requestExcel(src, options) {
-    return request(src, options);
+    });
 }
 
 
