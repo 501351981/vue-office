@@ -21,15 +21,25 @@ const themeColor = [
 let defaultColWidth = 80;
 const weekday = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 export function getData(src, options={}) {
-    return fetchExcel(getUrl(src), options);
+    return requestExcel(getUrl(src), options);
 }
 
-function fetchExcel(src, options) {
-    return fetch(src, options).then(res=>{
-        if(res.status !== 200){
-            return Promise.reject(res);
-        }
-        return res.arrayBuffer();
+function requestExcel(src, options) {
+    return new Promise(function(resolve, reject) {
+        const xhr = new XMLHttpRequest();
+        xhr.open(options.method || 'GET', src, true);
+        xhr.responseType = options.responseType || 'arraybuffer';
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            resolve(xhr.response);
+          } else {
+            reject(xhr.status);
+          }
+        };
+        xhr.onerror = function() {
+          reject(xhr.status);
+        };
+        xhr.send(options.body);
     });
 }
 
