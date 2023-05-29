@@ -19,7 +19,6 @@ const themeColor = [
 ];
 
 let defaultColWidth = 80;
-const weekday = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 export function getData(src, options={}) {
     return requestExcel(getUrl(src), options);
 }
@@ -39,10 +38,16 @@ function requestExcel(src, options) {
         xhr.onerror = function() {
           reject(xhr.status);
         };
+        xhr.withCredentials = options.withCredentials || false;
+        if(options.headers) {
+            Object.keys(options.headers).forEach(function(key) {
+                xhr.setRequestHeader(key, options.headers[key]);
+            });
+        }
+
         xhr.send(options.body);
     });
 }
-
 
 export function readExcelData(buffer){
     try {
