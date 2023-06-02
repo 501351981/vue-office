@@ -131,7 +131,7 @@ export default defineComponent({
         });
         watch(() => props.src, () => {
             if (props.src) {
-                getData(props.src).then(renderExcel).catch(e => {
+                getData(props.src, props.requestOptions).then(renderExcel).catch(e => {
                     xs.loadData({});
                     emit('error', e);
                 });
