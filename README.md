@@ -186,3 +186,7 @@ export default {
 <img src="https://501351981.github.io/vue-office/examples/dist/static/wx.png" alt="赞助二维码" width="260"/>
 
 ### 恳请各位大佬不吝点赞，开源不易，感谢支持~~
+
+
+打个广告，欢迎使用我最近开发的v-focus-next指令，表单中回车之后自动聚焦下一个表单元素，大大提升表单填写的流畅性。
+[《v-focus-next》](https://github.com/501351981/v-focus-next)
