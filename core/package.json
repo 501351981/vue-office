@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "node script/bak-vue.js && vite",
     "build": "node script/bak-vue.js && vite build",
-    "lib": "node script/bak-vue.js bak && lerna run build"
+    "lib": "node script/bak-vue.js bak && lerna run build "
   },
   "dependencies": {
+    "@babel/preset-env": "^7.22.5",
+    "@rollup/plugin-babel": "^6.0.3",
     "@vue/compiler-sfc": "3.2.45",
     "ant-design-vue": "^3.2.17",
     "dayjs": "^1.11.7",
@@ -15,6 +17,7 @@
     "exceljs": "^4.3.0",
     "lodash": "^4.17.21",
     "rimraf": "^4.1.2",
+    "rollup": "^3.26.0",
     "tinycolor2": "^1.6.0",
     "vue-demi": "^0.13.11",
     "x-data-spreadsheet": "^1.1.9"

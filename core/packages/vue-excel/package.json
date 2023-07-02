@@ -1,0 +1,48 @@
+{
+  "name": "@vue-office/excel",
+  "version": "1.1.7",
+  "description": "",
+  "main": "lib/index.js",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "clean": "rimraf lib",
+    "copyFile2": "cp lib/v2/vue-office-excel.umd.js lib/v2/index.js && cp src/index.css lib/v2/index.css",
+    "copyFile3": "cp lib/v3/vue-office-excel.umd.js lib/v3/index.js && cp src/index.css lib/v3/index.css",
+    "copyReadme": "cp ../../../README.md README.md",
+    "copyType": "cp index.d.ts lib/index.d.ts",
+    "copyScripts": "mkdir lib/script/ && cp ../../script/postinstall.js lib/script/postinstall.js && cp ../../script/switch-cli.js lib/script/switch-cli.js  && cp ../../script/utils.js lib/script/utils.js",
+    "build:2": "npx vue-demi-switch 2 vue2 && vite build && npm run copyFile2",
+    "build:3": "npx vue-demi-switch 3 vue3 && vite build && npm run copyFile3",
+    "build": "npm run clean && npm run build:2 && npm run build:3 && npm run copyScripts && npm run copyReadme && npm run copyType",
+    "postinstall": "node lib/script/postinstall.js"
+  },
+  "peerDependencies": {
+    "@vue/composition-api": "^1.7.1",
+    "vue": "^2.0.0 || >=3.0.0",
+    "vue-demi": "^0.13.11"
+  },
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:501351981/vue-office.git"
+  },
+  "keywords": [
+    "vue",
+    "docx",
+    "pdf",
+    "ppt",
+    "excel",
+    "docx-preview",
+    "excel-preview",
+    "pdf-preview"
+  ],
+  "license": "MIT",
+  "author": "微信: _hit757_",
+  "gitHead": "d20568113bec480f6ca72924f6d0c1e3b0f1fe15"
+}

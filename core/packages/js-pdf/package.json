@@ -1,0 +1,41 @@
+{
+  "name": "@js-preview/pdf",
+  "type" :"module",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "clean": "rimraf lib",
+    "copyReadme": "cp ../../../README.md README.md",
+    "copyType": "cp index.d.ts lib/index.d.ts",
+    "copy": "npm run copyType && npm run copyReadme",
+    "build": "npm run clean && rollup --config rollup.config.js && npm run copy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:501351981/vue-office.git"
+  },
+  "keywords": [
+    "vue",
+    "docx",
+    "pdf",
+    "ppt",
+    "excel",
+    "docx-preview",
+    "excel-preview",
+    "pdf-preview"
+  ],
+  "license": "MIT",
+  "author": "微信: _hit757_",
+  "gitHead": "d20568113bec480f6ca72924f6d0c1e3b0f1fe15",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}

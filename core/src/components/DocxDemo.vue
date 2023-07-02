@@ -1,5 +1,5 @@
 <script setup>
-import VueOfficeDocx from '../../packages/docx/index';
+import VueOfficeDocx from '../../packages/vue-docx/index';
 import PreviewWrapper from '../common/PreviewWrapper.vue';
 import useLoading from '../hooks/useLoading.js';
 function onRendered(){

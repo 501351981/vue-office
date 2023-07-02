@@ -1,5 +1,5 @@
 <script setup>
-import VueOfficePdf from '../../packages/pdf/index';
+import VueOfficePdf from '../../packages/vue-pdf/index';
 import PreviewWrapper from '../common/PreviewWrapper.vue';
 import useLoading from '../hooks/useLoading.js';
 function onRendered(){

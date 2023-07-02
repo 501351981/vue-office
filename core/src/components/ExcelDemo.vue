@@ -1,6 +1,6 @@
 <script setup>
-import VueOfficeExcel from '../../packages/excel/index';
-import '../../packages/excel/src/index.css';
+import VueOfficeExcel from '../../packages/vue-excel/index';
+import '../../packages/vue-excel/src/index.css';
 import PreviewWrapper from '../common/PreviewWrapper.vue';
 import useLoading from '../hooks/useLoading.js';
 function onRendered(){
