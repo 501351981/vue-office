@@ -1,9 +1,10 @@
 # vue-office
 
-支持多种文件(**docx、excel、pdf**)预览的vue组件库，支持vue2/3。
+支持多种文件(**docx、excel、pdf**)预览的vue组件库，支持vue2/3。也支持非Vue框架的预览。
 
 [《演示效果》](https://501351981.github.io/vue-office/examples/dist/)
 
+[《非Vue框架预览看这里》](https://501351981.github.io/vue-office/examples/docs/guide/js-preview.html)
 ## 功能特色
 - 一站式：提供docx、pdf、excel多种文档的在线预览方案，有它就够了
 - 简单：只需提供文档的src(网络地址)即可完成文档预览
@@ -181,12 +182,16 @@ export default {
 
 ## 赞助和微信交流
 
-**_如果该项目确实帮助到了您_**，欢迎赞助，以鼓励我将更多的休息时间，投入到该项目的优化中，也欢迎赞助后添加微信交流：\_hit757_
+**_如果该项目确实帮助到了您_**，请您不吝赞助，请我喝杯蜜雪冰城交个朋友，微信：\_hit757_
 
 <img src="https://501351981.github.io/vue-office/examples/dist/static/wx.png" alt="赞助二维码" width="260"/>
 
 ### 恳请各位大佬不吝点赞，开源不易，感谢支持~~
 
 
-打个广告，欢迎使用我最近开发的v-focus-next指令，表单中回车之后自动聚焦下一个表单元素，大大提升表单填写的流畅性。
+## 我的其他库
+- v-focus-next：一个Vue指令，使用该指令后，在表单中回车之后可以自动聚焦下一个表单元素，大大提升表单填写的流畅性。
 [《v-focus-next》](https://github.com/501351981/v-focus-next)
+
+  
+- HowToCode：前端编程之道，探讨如何写出高质量的前端代码，总结前端编程的各种方法论、原则、思维模型等。[《前端编程之道》](https://github.com/501351981/HowToCode)

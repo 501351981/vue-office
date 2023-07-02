@@ -4,7 +4,7 @@ export interface Options {
 }
 
 export interface JsExcelPreview {
-    preview: (src: string) => Promise<any>,
+    preview: (src: string | ArrayBuffer | Blob) => Promise<any>,
     setOptions: (options: Options) => void,
     setRequestOptions: (requestOptions?: any) => void,
     destroy: ()=> void,

@@ -76,7 +76,7 @@ export default defineComponent({
                     showContextmenu: props.options.showContextmenu || false,
                     view: {
                         height: () => wrapperRef.value && wrapperRef.value.clientHeight || 300,
-                        width: () => wrapperRef.value && wrapperRef.value.clientWidth || 300,
+                        width: () => wrapperRef.value && wrapperRef.value.clientWidth || 1200,
                     },
                     row: {
                         height: 24,

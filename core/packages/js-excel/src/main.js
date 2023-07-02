@@ -42,7 +42,7 @@ class JsExcelPreview {
             showContextmenu: this.options.showContextmenu || false,
             view: {
                 height: () => this.wrapper && this.wrapper.clientHeight || 300,
-                width: () => this.wrapper && this.wrapper.clientWidth || 300,
+                width: () => this.wrapper && this.wrapper.clientWidth || 1200,
             },
             row: {
                 height: 24,

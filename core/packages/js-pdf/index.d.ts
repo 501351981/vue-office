@@ -14,7 +14,7 @@ export interface Options {
 }
 
 export interface JsPdfPreview {
-    preview: (src: string) => Promise<any>,
+    preview: (src: string | ArrayBuffer | Blob) => Promise<any>,
     setOptions: (options: Options) => void,
     setRequestOptions: (requestOptions?: any) => void,
     destroy: ()=> void,
