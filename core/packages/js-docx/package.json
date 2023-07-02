@@ -1,7 +1,7 @@
 {
   "name": "@js-preview/docx",
   "type" :"module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "lib/index.js",
   "files": [
@@ -37,6 +37,5 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "docx-preview": "^0.1.14"
   }
 }

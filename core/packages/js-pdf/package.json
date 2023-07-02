@@ -1,7 +1,7 @@
 {
   "name": "@js-preview/pdf",
   "type" :"module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "lib/index.js",
   "files": [
@@ -36,6 +36,5 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
   }
 }

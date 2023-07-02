@@ -1,7 +1,7 @@
 {
   "name": "@js-preview/excel",
   "type" :"module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "lib/index.js",
   "files": [
@@ -37,10 +37,5 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "x-data-spreadsheet": "^1.1.9",
-    "lodash": "^4.17.21",
-    "exceljs": "^4.3.0",
-    "tinycolor2": "^1.6.0",
-    "dayjs": "^1.11.7"
   }
 }
