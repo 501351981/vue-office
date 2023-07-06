@@ -1,4 +1,4 @@
-import { babel } from '@rollup/plugin-babel';
+import { getBabelOutputPlugin } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import postcss from 'rollup-plugin-postcss';
@@ -10,7 +10,8 @@ export default {
         {
             file: 'lib/index.js',
             name: 'jsPreviewExcel',
-            format: 'es'
+            format: 'es',
+            plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] })]
         },
         {
             file: 'lib/index.umd.js',
@@ -19,7 +20,6 @@ export default {
         }
     ],
     plugins: [
-        babel({ babelHelpers: 'bundled' }),
         nodeResolve(),
         commonjs(),
         postcss(),
