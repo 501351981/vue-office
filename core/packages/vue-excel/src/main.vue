@@ -5,6 +5,7 @@ import {getData, readExcelData, transferExcelToSpreadSheet} from './excel';
 import {renderImage, clearCache} from './media';
 import {readOnlyInput} from './hack';
 import {debounce} from 'lodash';
+import {download as downloadFile} from '../../../utils/url';
 
 export default defineComponent({
     name: 'VueOfficeExcel',
@@ -33,8 +34,10 @@ export default defineComponent({
         let ctx = null;
         let xs = null;
         let offset = null;
+        let fileData = null;
 
         function renderExcel(buffer) {
+            fileData = buffer;
             readExcelData(buffer).then(workbook => {
                 if (!workbook._worksheets || workbook._worksheets.length === 0) {
                     throw new Error('未获取到数据，可能文件格式不正确或文件已损坏');
@@ -139,9 +142,13 @@ export default defineComponent({
                 xs.loadData({});
             }
         });
+        function download(fileName){
+            downloadFile(fileName || `vue-office-excel-${new Date().getTime()}.xlsx`,fileData);
+        }
         return {
             wrapperRef,
-            rootRef
+            rootRef,
+            download
         };
     }
 });

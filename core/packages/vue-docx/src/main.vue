@@ -1,6 +1,7 @@
 <script>
 import {defineComponent, ref, onMounted, watch} from 'vue-demi';
 import docx from './docx';
+import {download as downloadFile} from "../../../utils/url";
 
 export default defineComponent({
     name: 'VueOfficeDocx',
@@ -18,11 +19,12 @@ export default defineComponent({
     emits: ['rendered', 'error'],
     setup(props, {emit}) {
         const rootRef = ref(null);
-
+        let fileData = null;
         function init() {
             let container = rootRef.value;
-            docx.getData(props.src, props.requestOptions).then(res => {
-                docx.render(res, container, props.options).then(() => {
+            docx.getData(props.src, props.requestOptions).then(async res => {
+                fileData = await docx.getBlob(res);
+                docx.render(fileData, container, props.options).then(() => {
                     emit('rendered');
                 }).catch(e => {
                     docx.render('', container, props.options);
@@ -49,8 +51,12 @@ export default defineComponent({
                 });
             }
         });
+        function download(fileName){
+            downloadFile(fileName || `vue-office-docx-${new Date().getTime()}.docx`,fileData);
+        }
         return {
-            rootRef
+            rootRef,
+            download
         };
     }
 });

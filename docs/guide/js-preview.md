@@ -156,6 +156,14 @@ preview: (src: string | ArrayBuffer | Blob) => Promise<any>
 
 url格式适合有文件静态地址的情况，ArrayBuffer格式适合文件上传前的预览。
 
+### download方法
+
+调用download进行文件下载，参数名为下载的文件名称，可不传。
+
+```ts
+ download: (fileName?: string) => void;
+```
+
 ### destroy方法
 
 卸载方法，可以在组件销毁前调用预览对象的卸载方法，避免长期使用造成内存泄露。

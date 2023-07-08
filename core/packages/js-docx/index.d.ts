@@ -19,10 +19,11 @@ export interface Options {
 }
 
 export interface JsDocxPreview {
-    preview: (src: string | ArrayBuffer | Blob) => Promise<any>,
-    setOptions: (options: Options) => void,
-    setRequestOptions: (requestOptions?: any) => void,
-    destroy: ()=> void,
+    preview: (src: string | ArrayBuffer | Blob) => Promise<any>;
+    download: (fileName?: string) => void;
+    setOptions: (options: Options) => void;
+    setRequestOptions: (requestOptions?: any) => void;
+    destroy: ()=> void;
 }
 declare const jsPreviewDocx: {
     init: (container: HTMLElement, options?: Options, requestOptions?: any) => JsDocxPreview;

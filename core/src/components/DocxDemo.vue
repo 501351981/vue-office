@@ -1,4 +1,5 @@
 <script setup>
+import {ref} from 'vue';
 import VueOfficeDocx from '../../packages/vue-docx/index';
 import PreviewWrapper from '../common/PreviewWrapper.vue';
 import useLoading from '../hooks/useLoading.js';
@@ -13,6 +14,12 @@ function onError(e){
 const defaultSrc = location.origin +
     (location.pathname + '/').replace('//', '/')
     + 'static/test-files/test.docx';
+
+const docxRef = ref();
+
+// setTimeout(()=>{
+//    console.log( docxRef.value.download());
+// }, 2000);
 </script>
 
 <template>
@@ -23,6 +30,7 @@ const defaultSrc = location.origin +
   >
     <template  v-slot="slotProps">
       <VueOfficeDocx
+          ref="docxRef"
           :src="slotProps.src"
           style="flex: 1;height: 0"
           @rendered="onRendered"

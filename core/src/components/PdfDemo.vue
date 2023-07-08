@@ -2,6 +2,7 @@
 import VueOfficePdf from '../../packages/vue-pdf/index';
 import PreviewWrapper from '../common/PreviewWrapper.vue';
 import useLoading from '../hooks/useLoading.js';
+import {ref} from "vue";
 function onRendered(){
     useLoading.hideLoading();
 }
@@ -12,6 +13,11 @@ function onError(e){
 const defaultSrc = location.origin + 
     (location.pathname + '/').replace('//', '/') 
     + 'static/test-files/test.pdf';
+const docxRef = ref();
+
+// setTimeout(()=>{
+//     console.log( docxRef.value.download());
+// }, 2000);
 </script>
 
 <template>
@@ -22,6 +28,7 @@ const defaultSrc = location.origin +
   >
     <template  v-slot="slotProps">
       <VueOfficePdf
+          ref="docxRef"
           :src="slotProps.src"
           style="flex: 1;height: 0"
           :options="{}"

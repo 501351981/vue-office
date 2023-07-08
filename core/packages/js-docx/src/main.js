@@ -1,10 +1,12 @@
 import docx from '../../vue-docx/src/docx';
+import {download as downloadFile} from '../../../utils/url.js';
 class JsDocxPreview {
     container = null;
     wrapper = null;
     wrapperMain = null;
     options = {};
     requestOptions = {};
+    fileData = null;
     
     constructor(container, options={}, requestOptions={}) {
         this.container = container;
@@ -29,8 +31,9 @@ class JsDocxPreview {
     }
     preview(src){
         return new Promise((resolve, reject) => {
-            docx.getData(src, this.requestOptions).then(res =>{
-                docx.render(res, this.wrapperMain, this.options).then(() => {
+            docx.getData(src, this.requestOptions).then(async res =>{
+                this.fileData = await docx.getBlob(res);
+                docx.render(this.fileData, this.wrapperMain, this.options).then(() => {
                     resolve();
                 }).catch(e => {
                     docx.render('', this.wrapperMain, this.options);
@@ -41,6 +44,9 @@ class JsDocxPreview {
                 reject(err);
             });
         });
+    }
+    download(fileName){
+        downloadFile(fileName || `js-preview-docx-${new Date().getTime()}.docx`,this.fileData);
     }
     destroy(){
         this.container.removeChild(this.wrapper);

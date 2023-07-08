@@ -4,10 +4,11 @@ export interface Options {
 }
 
 export interface JsExcelPreview {
-    preview: (src: string | ArrayBuffer | Blob) => Promise<any>,
-    setOptions: (options: Options) => void,
-    setRequestOptions: (requestOptions?: any) => void,
-    destroy: ()=> void,
+    preview: (src: string | ArrayBuffer | Blob) => Promise<any>;
+    download: (fileName?: string) => void;
+    setOptions: (options: Options) => void;
+    setRequestOptions: (requestOptions?: any) => void;
+    destroy: ()=> void;
 }
 declare const jsPreviewExcel: {
     init: (container: HTMLElement, options?: Options, requestOptions?: any) => JsExcelPreview;

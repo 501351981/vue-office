@@ -21,6 +21,18 @@ function fetchDocx(src, options) {
     });
 }
 
+async function getBlob(data){
+    let blob;
+    if (data instanceof Blob) {
+        blob = data;
+    } else if (data instanceof Response) {
+        blob = await data.blob();
+    } else if (data instanceof ArrayBuffer) {
+        blob = new Blob([data]);
+    }
+    return blob
+}
+
 function render(data, container, options = {}) {
     if (!data) {
         container.innerHTML = '';
@@ -39,5 +51,6 @@ function render(data, container, options = {}) {
 
 export default {
     getData,
-    render
+    render,
+    getBlob
 };

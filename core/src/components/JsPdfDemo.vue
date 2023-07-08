@@ -12,6 +12,7 @@ const dom = ref(null);
 onMounted(() => {
     window.myPdfPreview = jsPdf.init(dom.value);
     window.myPdfPreview.preview('/vue-office/examples/dist/static/test-files/test.pdf').then(_=>{
+        // window.myPdfPreview.download();
         console.log('excel preview done', window.myPdfPreview);
     }).catch(err=>{
         console.log('err',err);

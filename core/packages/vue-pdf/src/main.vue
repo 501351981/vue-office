@@ -2,7 +2,7 @@
 import {defineComponent, ref, onMounted, watch} from 'vue-demi';
 import {worker} from './worker';
 import {pdfjsLib} from './pdf';
-import {getUrl, loadScript} from '../../../utils/url';
+import {download as downloadFile, getUrl, loadScript} from '../../../utils/url';
 import omit from 'lodash/omit';
 
 const pdfJsLibSrc = `data:text/javascript;base64,${pdfjsLib}`;
@@ -28,6 +28,7 @@ export default defineComponent({
     emits: ['rendered', 'error'],
     setup(props, {emit}) {
         let pdfDocument = null;
+        let loadingTask = null;
         const rootRef = ref([]);
         const numPages = ref(0);
 
@@ -49,7 +50,7 @@ export default defineComponent({
                 numPages.value = 0;
                 return;
             }
-            const loadingTask = window.pdfjsLib.getDocument({
+            loadingTask = window.pdfjsLib.getDocument({
                 url: getUrl(props.src),
                 cMapUrl: `${props.staticFileUrl.endsWith('/') ? props.staticFileUrl : props.staticFileUrl + '/'}cmaps/`,
                 cMapPacked: true,
@@ -125,9 +126,15 @@ export default defineComponent({
         watch(() => props.src, () => {
             checkPdfLib().then(init);
         });
+        function download(fileName){
+            pdfDocument && pdfDocument._transport && pdfDocument._transport.getData().then(fileData=>{
+                downloadFile(fileName || `vue-office-pdf-${new Date().getTime()}.pdf`,fileData.buffer);
+            });
+        }
         return {
             rootRef,
-            numPages
+            numPages,
+            download
         };
     }
 });

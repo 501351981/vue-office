@@ -14,6 +14,7 @@ onMounted(() => {
     myDocxPreview.preview('/vue-office/examples/dist/static/test-files/test.docx').then(_=>{
         console.log('docx preview done');
         setTimeout(()=>{
+            // myDocxPreview.download();
             myDocxPreview.preview('/vue-office/examples/dist/static/test-files/test2.docx');
         }, 3000);
     }).catch(err=>{

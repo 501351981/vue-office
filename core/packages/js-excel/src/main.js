@@ -3,6 +3,7 @@ import {getData, readExcelData, transferExcelToSpreadSheet} from '../../vue-exce
 import {renderImage, clearCache} from '../../vue-excel/src/media';
 import {readOnlyInput} from '../../vue-excel/src/hack';
 import {debounce} from 'lodash';
+import {download as downloadFile} from "../../../utils/url.js";
 class JsExcelPreview {
     container = null;
     wrapper = null;
@@ -18,6 +19,7 @@ class JsExcelPreview {
     xs = null;
     offset = null;
     observer = null;
+    fileData = null;
 
     constructor(container, options={}, requestOptions={}) {
         this.container = container;
@@ -86,6 +88,7 @@ class JsExcelPreview {
         this.ctx = canvas.getContext('2d');
     }
     renderExcel(buffer){
+        this.fileData = buffer;
         return readExcelData(buffer).then(workbook => {
             if (!workbook._worksheets || workbook._worksheets.length === 0) {
                 throw new Error('未获取到数据，可能文件格式不正确或文件已损坏');
@@ -132,6 +135,9 @@ class JsExcelPreview {
                 reject(e);
             });
         }));
+    }
+    download(fileName){
+        downloadFile(fileName || `js-preview-excel-${new Date().getTime()}.xlsx`,this.fileData);
     }
     destroy(){
         this.observer.disconnect();
