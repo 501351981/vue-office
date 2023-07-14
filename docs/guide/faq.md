@@ -64,3 +64,34 @@ app.listen(3000);
 - 检查文件是否返回成功，是否存在跨域
 - 目前不支持doc、xls格式文件的预览
 - 可以看看@error事件，抛出了什么错误信息
+
+
+## ue.defineComponent is not a function
+
+出现这个问题一般是通过CDN的方式加载了vue.js文件，且CDN中的vue版本和开发环境安装的vue版本不一致。
+- 问题确认
+
+检查CDN中vue.js的版本 和 node_modules下的vue版本是否一致，**注意**：是node_modules下的真实安装的vue版本，而不是package.json中的vue版本。
+
+- 出现原因
+
+package.json中vue版本不是指定的固定版本，而是在版本前面带"^"或"~"符号，这里的含义是使用符合条件的新版本，而不是看到的这个版本。
+```json
+{
+  "vue": "^2.6.10"
+}
+```
+
+- 解决方法
+
+修改package.json中 vue 和 vue-template-compiler的版本，将前的"^"或"~"符号去掉，具体版本号和CDN中的vue版本保持一致。
+```json
+{
+  "vue": "2.6.10",
+  "vue-template-compiler": "2.6.10"
+}
+```
+
+删除 package-lock.json 文件 和 node_modules中的全部包。
+
+重新安装所有依赖，然后运行查看效果。
