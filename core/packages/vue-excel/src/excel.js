@@ -76,7 +76,6 @@ function transferColumns(excelSheet, spreadSheet, options){
 function getCellText(cell){
     //console.log(cell);
     const {numFmt, value, type} = cell;
-    debugger;
     switch (type){
         case 2: //数字
             return value + '';
