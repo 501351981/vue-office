@@ -1,7 +1,7 @@
 import * as Excel from 'exceljs/dist/exceljs';
 import {getUrl} from '../../../utils/url';
 import tinycolor from 'tinycolor2';
-import _, {cloneDeep} from 'lodash';
+import {cloneDeep, get, find} from 'lodash';
 import {getDarkColor, getLightColor} from './color';
 import dayjs from 'dayjs';
 
@@ -76,6 +76,7 @@ function transferColumns(excelSheet, spreadSheet, options){
 function getCellText(cell){
     //console.log(cell);
     const {numFmt, value, type} = cell;
+    debugger;
     switch (type){
         case 2: //数字
             return value + '';
@@ -100,8 +101,10 @@ function getCellText(cell){
                     return dayjs(value).format('YYYY-MM-DD');
             }
 
+        case 5: //超链接
+            return value.text;
         case 6: //公式
-            return cell.result;
+            return get(value, 'result.error') || value.result;
         case 8: //富文本
             return cell.text;
         default:
@@ -217,7 +220,7 @@ function getStyle(cell){
 
 export function transferExcelToSpreadSheet(workbook, options){
     let workbookData = [];
-    //console.log(workbook, 'workbook')
+    // console.log(workbook, 'workbook')
     workbook.eachSheet((sheet) => {
         //console.log(sheet,'sheet');
         // 构造x-data-spreadsheet 的 sheet 数据源结构
@@ -250,7 +253,7 @@ export function transferExcelToSpreadSheet(workbook, options){
             (row._cells || []).forEach((cell, spreadSheetColIndex) =>{
                 sheetData.rows[spreadSheetRowIndex].cells[spreadSheetColIndex] = {};
 
-                let mergeAddress = _.find(mergeAddressData, function(o) { return o.startAddress == cell._address; });
+                let mergeAddress = find(mergeAddressData, function(o) { return o.startAddress == cell._address; });
                 if(mergeAddress && cell.master.address != mergeAddress.startAddress) {
                     return;
                 }
@@ -268,7 +271,7 @@ export function transferExcelToSpreadSheet(workbook, options){
         sheetData.rows.len = Math.max(Object.keys(sheetData.rows).length, 100);
         workbookData.push(sheetData);
     });
-    //console.log(workbookData, 'workbookData')
+    // console.log(workbookData, 'workbookData')
     return {
         workbookData,
         workbookSource: workbook,
