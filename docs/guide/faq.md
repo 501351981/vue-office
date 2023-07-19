@@ -71,7 +71,13 @@ app.listen(3000);
 出现这个问题一般是通过CDN的方式加载了vue.js文件，且CDN中的vue版本和开发环境安装的vue版本不一致。
 - 问题确认
 
-检查CDN中vue.js的版本 和 node_modules下的vue版本是否一致，**注意**：是node_modules下的真实安装的vue版本，而不是package.json中的vue版本。
+检查CDN中vue.js的版本 和 node_modules下的vue版本是否一致。
+
+首先在项目的html中查看引入的vue.js文件路径，然后根据路径找的这个vue.js文件，查看其版本；
+
+然后查看node_modules中安装的vue版本，**注意**：是在node_modules目录下找到vue安装文件，然后查看其版本，而不是package.json中的vue版本。
+
+看看两个地方的vue版本是不是不一致，不一致往下看。
 
 - 出现原因
 
