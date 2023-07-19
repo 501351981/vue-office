@@ -19,6 +19,7 @@ const themeColor = [
 ];
 
 let defaultColWidth = 80;
+let defaultRowHeight = 24;
 export function getData(src, options={}) {
     return requestExcel(getUrl(src), options);
 }
@@ -248,6 +249,8 @@ export function transferExcelToSpreadSheet(workbook, options){
 
             if(row.height){
                 sheetData.rows[spreadSheetRowIndex].height = row.height + (options.heightOffset || 0);
+            }else{
+                sheetData.rows[spreadSheetRowIndex].height = defaultRowHeight + (options.heightOffset || 0);
             }
             //includeEmpty = false 不包含空白单元格
             (row._cells || []).forEach((cell, spreadSheetColIndex) =>{
