@@ -26,7 +26,7 @@ minColLength: excel最少渲染多少列，如果想实现xlsx文件内容有几
 
 widthOffset：在默认渲染的列表宽度上再加10px宽
 
-heightOffset：//在默认渲染的列表高度上再加10px高
+heightOffset：在默认渲染的列表高度上再加10px高
 
 ```javascript
 {

@@ -66,7 +66,7 @@ app.listen(3000);
 - 可以看看@error事件，抛出了什么错误信息
 
 
-## ue.defineComponent is not a function
+## **.defineComponent is not a function
 
 出现这个问题一般是通过CDN的方式加载了vue.js文件，且CDN中的vue版本和开发环境安装的vue版本不一致。
 - 问题确认
@@ -84,7 +84,7 @@ package.json中vue版本不是指定的固定版本，而是在版本前面带"^
 
 - 解决方法
 
-修改package.json中 vue 和 vue-template-compiler的版本，将前的"^"或"~"符号去掉，具体版本号和CDN中的vue版本保持一致。
+修改package.json中 vue 和 vue-template-compiler的版本，将版本前面的"^"或"~"符号去掉，具体版本号和CDN中的vue版本保持一致。
 ```json
 {
   "vue": "2.6.10",
