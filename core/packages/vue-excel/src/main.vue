@@ -7,6 +7,9 @@ import {readOnlyInput} from './hack';
 import {debounce} from 'lodash';
 import {download as downloadFile} from '../../../utils/url';
 
+const defaultOptions = {
+    minColLength: 20
+};
 export default defineComponent({
     name: 'VueOfficeExcel',
     props: {
@@ -18,7 +21,7 @@ export default defineComponent({
         options: {
             type: Object,
             default: () => ({
-                minColLength: 20
+               ...defaultOptions
             })
         }
     },
@@ -42,7 +45,7 @@ export default defineComponent({
                 if (!workbook._worksheets || workbook._worksheets.length === 0) {
                     throw new Error('未获取到数据，可能文件格式不正确或文件已损坏');
                 }
-                const {workbookData, medias, workbookSource} = transferExcelToSpreadSheet(workbook, props.options);
+                const {workbookData, medias, workbookSource} = transferExcelToSpreadSheet(workbook, {...defaultOptions, ...props.options});
                 mediasSource = medias;
                 workbookDataSource = workbookSource;
                 offset = null;

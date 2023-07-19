@@ -60,13 +60,14 @@ export function readExcelData(buffer){
     }
 }
 
+
 function transferColumns(excelSheet, spreadSheet, options){
     for(let i = 0;i < (excelSheet.columns || []).length; i++){
         spreadSheet.cols[i.toString()] = {};
         if(excelSheet.columns[i].width) {
-            spreadSheet.cols[i.toString()].width = excelSheet.columns[i].width * 6;
+            spreadSheet.cols[i.toString()].width = excelSheet.columns[i].width * 6 + (options.widthOffset || 0);
         } else {
-            spreadSheet.cols[i.toString()].width = defaultColWidth;
+            spreadSheet.cols[i.toString()].width = defaultColWidth + (options.widthOffset || 0);
         }
     }
 
@@ -246,7 +247,7 @@ export function transferExcelToSpreadSheet(workbook, options){
             sheetData.rows[spreadSheetRowIndex] = { cells: {} };
 
             if(row.height){
-                sheetData.rows[spreadSheetRowIndex].height = row.height;
+                sheetData.rows[spreadSheetRowIndex].height = row.height + (options.heightOffset || 0);
             }
             //includeEmpty = false 不包含空白单元格
             (row._cells || []).forEach((cell, spreadSheetColIndex) =>{

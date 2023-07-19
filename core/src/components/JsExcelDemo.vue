@@ -10,7 +10,9 @@ import jsExcel from '../../packages/js-excel/index';
 import '../../packages/js-excel/index.css';
 const dom = ref(null);
 onMounted(() => {
-    window.myExcelPreview = jsExcel.init(dom.value);
+    window.myExcelPreview = jsExcel.init(dom.value, {
+
+    });
     window.myExcelPreview.preview('/vue-office/examples/dist/static/test-files/test.xlsx').then(_=>{
         // window.myExcelPreview.download();
         console.log('excel preview done', window.myExcelPreview);

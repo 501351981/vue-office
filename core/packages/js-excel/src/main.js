@@ -3,7 +3,10 @@ import {getData, readExcelData, transferExcelToSpreadSheet} from '../../vue-exce
 import {renderImage, clearCache} from '../../vue-excel/src/media';
 import {readOnlyInput} from '../../vue-excel/src/hack';
 import {debounce} from 'lodash';
-import {download as downloadFile} from "../../../utils/url.js";
+import {download as downloadFile} from '../../../utils/url.js';
+const defaultOptions = {
+    minColLength: 20
+};
 class JsExcelPreview {
     container = null;
     wrapper = null;
@@ -23,7 +26,7 @@ class JsExcelPreview {
 
     constructor(container, options={}, requestOptions={}) {
         this.container = container;
-        this.options = {minColLength: 20, ...options};
+        this.options = {...defaultOptions, ...options};
         this.requestOptions = requestOptions;
         this.createWrapper();
         this.initSpreadsheet();

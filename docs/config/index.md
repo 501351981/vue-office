@@ -24,9 +24,15 @@ excel相关的配置，目前支持配置项很少。
 
 minColLength: excel最少渲染多少列，如果想实现xlsx文件内容有几列，就渲染几列，可以将此值设置为0.
 
-```json
+widthOffset：在默认渲染的列表宽度上再加10px宽
+
+heightOffset：//在默认渲染的列表高度上再加10px高
+
+```javascript
 {
-  "minColLength": 20 
+  "minColLength": 20,
+  "widthOffset": 0, //在默认渲染的列表宽度上再加10px宽
+  "heightOffset": 0, //在默认渲染的列表高度上再加10px高
 }
 ```
 
