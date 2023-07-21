@@ -18,6 +18,74 @@ const themeColor = [
     '#71AD47'
 ];
 
+const indexedColor = [
+    '#000000',
+    '#FFFFFF',
+    '#FF0000',
+    '#00FF00',
+    '#0000FF',
+    '#FFFF00',
+    '#FF00FF',
+    '#00FFFF',
+    '#000000',
+    '#FFFFFF',
+    '#FF0000',
+    '#00FF00',
+    '#0000FF',
+    '#FFFF00',
+    '#FF00FF',
+    '#00FFFF',
+    '#800000',
+    '#008000',
+    '#000080',
+    '#808000',
+    '#800080',
+    '#008080',
+    '#C0C0C0',
+    '#808080',
+    '#9999FF',
+    '#993366',
+    '#FFFFCC',
+    '#CCFFFF',
+    '#660066',
+    '#FF8080',
+    '#0066CC',
+    '#CCCCFF',
+    '#000080',
+    '#FF00FF',
+    '#FFFF00',
+    '#00FFFF',
+    '#800080',
+    '#800000',
+    '#008080',
+    '#0000FF',
+    '#00CCFF',
+    '#CCFFFF',
+    '#CCFFCC',
+    '#FFFF99',
+    '#99CCFF',
+    '#FF99CC',
+    '#CC99FF',
+    '#FFCC99',
+    '#3366FF',
+    '#33CCCC',
+    '#99CC00',
+    '#FFCC00',
+    '#FF9900',
+    '#FF6600',
+    '#666699',
+    '#969696',
+    '#003366',
+    '#339966',
+    '#003300',
+    '#333300',
+    '#993300',
+    '#993366',
+    '#333399',
+    '#333333',
+    '#FFFFFF'
+];
+
 let defaultColWidth = 80;
 let defaultRowHeight = 24;
 export function getData(src, options={}) {
@@ -154,6 +222,8 @@ function getStyle(cell){
             backGroundColor = transferArgbColor(cell.style.fill.fgColor.argb);
         }else if(cell.style.fill.fgColor.hasOwnProperty('theme')){
             backGroundColor = transferThemeColor(cell.style.fill.fgColor.theme, cell.style.fill.fgColor.tint);
+        }else if(cell.style.fill.fgColor.indexed){
+            backGroundColor = indexedColor[cell.style.fill.fgColor.indexed] || '#C7C9CC';
         }else{
             backGroundColor = '#C7C9CC';
         }
@@ -173,7 +243,9 @@ function getStyle(cell){
             fontColor = transferArgbColor(cell.style.font.color.argb);
         }else if(cell.style.font.color.hasOwnProperty('theme')){
             fontColor = transferThemeColor(cell.style.font.color.theme, cell.style.font.color.tint);
-        }else{
+        }else if(cell.style.font.color.indexed){
+            fontColor = indexedColor[cell.style.font.color.indexed] || '#000000';
+        }else {
             fontColor = '#000000';
         }
 
@@ -208,6 +280,8 @@ function getStyle(cell){
                     bordColor = transferArgbColor(originBorder.color.argb);
                 }else if(originBorder.color.hasOwnProperty('theme')){
                     bordColor = transferThemeColor(originBorder.color.theme, originBorder.color.tint);
+                }else if(originBorder.color.indexed){
+                    bordColor = indexedColor[originBorder.color.indexed];
                 }
             }
             styleBorder[position] = [originBorder.style || 'thin', bordColor];
