@@ -34,7 +34,11 @@ export default defineComponent({
 
         function installPdfScript() {
             return loadScript(pdfJsLibSrc).then(() => {
-                window.pdfjsLib.GlobalWorkerOptions.workerSrc = PdfJsWorkerSrc;
+                if(window.pdfjsLib){
+                    window.pdfjsLib.GlobalWorkerOptions.workerSrc = PdfJsWorkerSrc;
+                }else{
+                  return Promise.reject('window.pdfjsLib未找到');
+                }
             });
         }
 
@@ -119,12 +123,16 @@ export default defineComponent({
 
         onMounted(() => {
             if (props.src) {
-                checkPdfLib().then(init);
+                checkPdfLib().then(init).catch(e=>{
+                    console.warn(e);
+                });
             }
         });
 
         watch(() => props.src, () => {
-            checkPdfLib().then(init);
+            checkPdfLib().then(init).catch(e=>{
+                console.warn(e);
+            });
         });
         function download(fileName){
             pdfDocument && pdfDocument._transport && pdfDocument._transport.getData().then(fileData=>{

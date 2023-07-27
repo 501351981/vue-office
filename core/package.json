@@ -7,7 +7,8 @@
     "build": "node script/bak-vue.js && vite build",
     "lib": "node script/bak-vue.js bak && lerna run build",
     "lib:js-excel": "node script/bak-vue.js bak && lerna run build --scope @js-preview/excel",
-    "lib:vue-excel": "node script/bak-vue.js bak && lerna run build --scope @vue-office/excel"
+    "lib:vue-excel": "node script/bak-vue.js bak && lerna run build --scope @vue-office/excel",
+    "lib:vue-pdf": "node script/bak-vue.js bak && lerna run build --scope @vue-office/pdf"
   },
   "dependencies": {
     "@babel/preset-env": "^7.22.5",

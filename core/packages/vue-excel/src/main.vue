@@ -63,7 +63,7 @@ export default defineComponent({
                     _worksheets:[]
                 };
                 clearCache();
-                xs.loadData({});
+                xs && xs.loadData({});
                 emit('error', e);
             });
         }
@@ -76,7 +76,7 @@ export default defineComponent({
                 observer.observe(rootRef.value, observerConfig);
                 observerCallback(rootRef);
 
-                window.xs = xs = new Spreadsheet(rootRef.value, {
+                xs = new Spreadsheet(rootRef.value, {
                     mode: 'read',
                     showToolbar: false,
                     showContextmenu: props.options.showContextmenu || false,
