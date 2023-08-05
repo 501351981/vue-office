@@ -131,16 +131,24 @@ export function readExcelData(buffer){
 
 
 function transferColumns(excelSheet, spreadSheet, options){
-    for(let i = 0;i < (excelSheet.columns || []).length; i++){
-        spreadSheet.cols[i.toString()] = {};
-        if(excelSheet.columns[i].width) {
-            spreadSheet.cols[i.toString()].width = excelSheet.columns[i].width * 6 + (options.widthOffset || 0);
-        } else {
-            spreadSheet.cols[i.toString()].width = defaultColWidth + (options.widthOffset || 0);
-        }
-    }
+    // for(let i = 0;i < (excelSheet.columns || []).length; i++){
+    //     spreadSheet.cols[i.toString()] = {};
+    //     if(excelSheet.columns[i].width) {
+    //         spreadSheet.cols[i.toString()].width = excelSheet.columns[i].width * 6 + (options.widthOffset || 0);
+    //     } else {
+    //         spreadSheet.cols[i.toString()].width = defaultColWidth + (options.widthOffset || 0);
+    //     }   
+    // }
 
-    spreadSheet.cols.len = Math.max(Object.keys(spreadSheet.cols).length, options.minColLength || 0);
+    // spreadSheet.cols.len = Math.max(Object.keys(spreadSheet.cols).length, options.minColLength || 0);
+
+    const colsNewT = filter_with(excelSheet.columns || [],options.filterCols);
+    const lenNewT = Object.keys(colsNewT).length;
+    for (let i = 0; i < lenNewT; i++){
+        spreadSheet.cols[i.toString()] = {};
+        spreadSheet.cols[i.toString()].width = getWidth_withOffset(colsNewT[i],defaultColWidth,options);
+    }
+    spreadSheet.cols.len = Math.max(lenNewT,options.minColLength || 0);
 }
 
 function getCellText(cell){
@@ -293,6 +301,32 @@ function getStyle(cell){
     return cell.style;
 }
 
+function getHeight_withOffset(rowRaw,heightDef,options,){
+    const srcT = rowRaw.height ? rowRaw.height : heightDef;
+    let offsetT = 0;
+    if(typeof options.heightOffset == 'function')
+        offsetT = options.heightOffset(rowRaw);
+    else if(options.heightOffset)
+        offsetT = options.heightOffset;
+    return srcT + offsetT;
+}
+
+function getWidth_withOffset(colRaw,widthDef,options,){
+    const srcT = colRaw.width ? colRaw.width*6 : widthDef;
+    let offsetT = 0;
+    if(typeof options.widthOffset == 'function')
+        offsetT = options.widthOffset(colRaw);
+    else if(options.widthOffset)
+        offsetT = options.widthOffset;
+    return srcT + offsetT;
+}
+
+function filter_with(arg,funcT,){
+    if(funcT)
+        return funcT(arg);
+    return arg;
+}
+
 export function transferExcelToSpreadSheet(workbook, options){
     let workbookData = [];
     // console.log(workbook, 'workbook')
@@ -318,14 +352,17 @@ export function transferExcelToSpreadSheet(workbook, options){
 
         transferColumns(sheet,sheetData, options);
         // 遍历行
-        (sheet._rows || []).forEach((row,spreadSheetRowIndex) =>{
+        //(sheet._rows || []).forEach((row,spreadSheetRowIndex) =>{
+        const rowsNewT = filter_with(sheet._rows || [], options.filterRows);
+        (rowsNewT).forEach((row,spreadSheetRowIndex) =>{
             sheetData.rows[spreadSheetRowIndex] = { cells: {} };
 
-            if(row.height){
-                sheetData.rows[spreadSheetRowIndex].height = row.height + (options.heightOffset || 0);
-            }else{
-                sheetData.rows[spreadSheetRowIndex].height = defaultRowHeight + (options.heightOffset || 0);
-            }
+            // if(row.height){
+            //     sheetData.rows[spreadSheetRowIndex].height = row.height + (options.heightOffset || 0);
+            // }else{
+            //     sheetData.rows[spreadSheetRowIndex].height = defaultRowHeight + (options.heightOffset || 0);
+            // }
+            sheetData.rows[spreadSheetRowIndex].height = getHeight_withOffset(row,defaultRowHeight,options)
             //includeEmpty = false 不包含空白单元格
             (row._cells || []).forEach((cell, spreadSheetColIndex) =>{
                 sheetData.rows[spreadSheetRowIndex].cells[spreadSheetColIndex] = {};
@@ -337,7 +374,10 @@ export function transferExcelToSpreadSheet(workbook, options){
                 if(mergeAddress){
                     sheetData.rows[spreadSheetRowIndex].cells[spreadSheetColIndex].merge = [mergeAddress.YRange, mergeAddress.XRange];
                 }
-                sheetData.rows[spreadSheetRowIndex].cells[spreadSheetColIndex].text = getCellText(cell);
+                //sheetData.rows[spreadSheetRowIndex].cells[spreadSheetColIndex].text = getCellText(cell);
+                const cellText = options.getCellText ? options.getCellText(cell): getCellText(cell);
+                sheetData.rows[spreadSheetRowIndex].cells[spreadSheetColIndex].text = cellText;
+
                 sheetData.styles.push(getStyle(cell));
                 sheetData.rows[spreadSheetRowIndex].cells[spreadSheetColIndex].style = sheetData.styles.length - 1;
             });
@@ -345,7 +385,8 @@ export function transferExcelToSpreadSheet(workbook, options){
         if(sheetData._media){
             sheetData.media = sheetData._media;
         }
-        sheetData.rows.len = Math.max(Object.keys(sheetData.rows).length, 100);
+        //sheetData.rows.len = Math.max(Object.keys(sheetData.rows).length, 100);
+        sheetData.rows.len = Math.max(Object.keys(rowsNewT).length, options.minRowLength || 0);
         workbookData.push(sheetData);
     });
     // console.log(workbookData, 'workbookData')
