@@ -145,7 +145,7 @@ class JsPdfPreview{
             });
         }));
     }
-    download(fileName){
+    save(fileName){
         this.pdfDocument && this.pdfDocument._transport && this.pdfDocument._transport.getData().then(fileData=>{
             downloadFile(fileName || `js-preview-pdf-${new Date().getTime()}.pdf`,fileData.buffer);
         });

@@ -145,13 +145,13 @@ export default defineComponent({
                 xs.loadData({});
             }
         });
-        function download(fileName){
+        function save(fileName){
             downloadFile(fileName || `vue-office-excel-${new Date().getTime()}.xlsx`,fileData);
         }
         return {
             wrapperRef,
             rootRef,
-            download
+            save
         };
     }
 });

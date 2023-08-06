@@ -20,7 +20,7 @@ export interface Options {
 
 export interface JsDocxPreview {
     preview: (src: string | ArrayBuffer | Blob) => Promise<any>;
-    download: (fileName?: string) => void;
+    save: (fileName?: string) => void;
     setOptions: (options: Options) => void;
     setRequestOptions: (requestOptions?: any) => void;
     destroy: ()=> void;

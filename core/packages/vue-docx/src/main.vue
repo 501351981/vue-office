@@ -51,12 +51,12 @@ export default defineComponent({
                 });
             }
         });
-        function download(fileName){
+        function save(fileName){
             downloadFile(fileName || `vue-office-docx-${new Date().getTime()}.docx`,fileData);
         }
         return {
             rootRef,
-            download
+            save
         };
     }
 });
