@@ -134,7 +134,7 @@ export default defineComponent({
                 console.warn(e);
             });
         });
-        function download(fileName){
+        function save(fileName){
             pdfDocument && pdfDocument._transport && pdfDocument._transport.getData().then(fileData=>{
                 downloadFile(fileName || `vue-office-pdf-${new Date().getTime()}.pdf`,fileData.buffer);
             });
@@ -142,7 +142,7 @@ export default defineComponent({
         return {
             rootRef,
             numPages,
-            download
+            save
         };
     }
 });

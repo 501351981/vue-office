@@ -139,7 +139,7 @@ class JsExcelPreview {
             });
         }));
     }
-    download(fileName){
+    save(fileName){
         downloadFile(fileName || `js-preview-excel-${new Date().getTime()}.xlsx`,this.fileData);
     }
     destroy(){

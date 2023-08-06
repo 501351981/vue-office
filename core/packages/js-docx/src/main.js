@@ -45,7 +45,7 @@ class JsDocxPreview {
             });
         });
     }
-    download(fileName){
+    save(fileName){
         downloadFile(fileName || `js-preview-docx-${new Date().getTime()}.docx`,this.fileData);
     }
     destroy(){
