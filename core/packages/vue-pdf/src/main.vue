@@ -1,12 +1,13 @@
 <script>
 import {defineComponent, ref, onMounted, watch} from 'vue-demi';
-import {worker} from './worker';
-import {pdfjsLib} from './pdf';
+import workerStr from './worker?raw';
+import pdfjsLib from './pdf?raw';
 import {download as downloadFile, getUrl, loadScript} from '../../../utils/url';
+import {base64_encode} from '../../../utils/base64';
 import omit from 'lodash/omit';
 
-const pdfJsLibSrc = `data:text/javascript;base64,${pdfjsLib}`;
-const PdfJsWorkerSrc = `data:text/javascript;base64,${worker}`;
+const pdfJsLibSrc = `data:text/javascript;base64,${(base64_encode(pdfjsLib))}`;
+const PdfJsWorkerSrc = `data:text/javascript;base64,${(base64_encode(workerStr))}`;
 
 export default defineComponent({
     name: 'VueOfficePdf',
