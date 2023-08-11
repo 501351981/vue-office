@@ -186,7 +186,9 @@ export default {
 
 <img src="https://501351981.github.io/vue-office/examples/dist/static/wx.png" alt="赞助二维码" width="260"/>
 
-打赏的朋友欢迎添加微信，交流前端技术，【仅添加打赏过的用户，定期删除屏蔽朋友圈好友】
+打赏的朋友欢迎**添加微信**，交流前端技术
+
+【**仅添加**打赏过的用户（工作太忙了，请理解），不定期删除屏蔽朋友圈的好友】
 
 <img src="https://501351981.github.io/vue-office/examples/dist/static/wxqrcode.png" alt="个人微信" width="260"/>
 打赏记录如下，感谢每一位打赏的朋友
