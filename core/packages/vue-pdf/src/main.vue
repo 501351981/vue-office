@@ -65,7 +65,9 @@ export default defineComponent({
             loadingTask.promise.then((pdf) => {
                 pdfDocument = pdf;
                 numPages.value = pdfDocument.numPages;
-                renderPage(1);
+                setTimeout(()=>{
+                    renderPage(1);
+                });
             }).catch((e) => {
                 emit('error', e);
             });
