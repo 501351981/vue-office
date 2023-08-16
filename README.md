@@ -13,13 +13,13 @@
 ## 安装
 ```shell
 #docx文档预览组件
-npm install @vue-office/docx vue-demi
+npm install @vue-office/docx vue-demi@0.13.11
 
 #excel文档预览组件
-npm install @vue-office/excel vue-demi
+npm install @vue-office/excel vue-demi@0.13.11
 
 #pdf文档预览组件
-npm install @vue-office/pdf vue-demi
+npm install @vue-office/pdf vue-demi@0.13.11
 ```
 如果是vue2.6版本或以下还需要额外安装 @vue/composition-api
 ```shell
