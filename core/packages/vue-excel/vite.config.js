@@ -4,6 +4,7 @@ import vue3 from '@vitejs/plugin-vue';
 import * as compiler from '@vue/compiler-sfc';
 import { isVue2 } from 'vue-demi';
 const { resolve } = require('path');
+import babel from '@rollup/plugin-babel';
 
 export default defineConfig({
   plugins: [
@@ -11,9 +12,10 @@ export default defineConfig({
         ? createVuePlugin()
         : vue3({
           compiler: compiler
-        }),
+        })
   ],
   build: {
+    minify: 'terser',
     target: 'es2015',
     outDir: 'lib/v' + (isVue2 ? '2' : '3'),
     lib: {
@@ -32,6 +34,27 @@ export default defineConfig({
           'vue-demi': 'VueDemi'
         },
       },
+      plugins: [
+        babel({
+          extensions: ['.js', '.ts', '.vue'],
+          babelHelpers: 'runtime',
+          plugins: [
+              '@babel/plugin-transform-runtime',
+            '@babel/plugin-transform-template-literals'
+          ],
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                useBuiltIns: false,
+                targets: {
+                  chrome: '40'
+                },
+              },
+            ],
+          ],
+        }),
+      ],
     },
   },
 });
