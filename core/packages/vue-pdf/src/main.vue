@@ -33,8 +33,7 @@ export default defineComponent({
         const rootRef = ref([]);
         const numPages = ref(0);
 
-        const lazySize = ref(5);
-        const pageSize = ref(lazySize.value);
+        const lazySize = 5;
 
         function installPdfScript() {
             return loadScript(pdfJsLibSrc).then(() => {
@@ -67,7 +66,7 @@ export default defineComponent({
             });
             loadingTask.promise.then((pdf) => {
                 pdfDocument = pdf;
-                numPages.value = Math.min(pdfDocument.numPages, lazySize.value);
+                numPages.value = Math.min(pdfDocument.numPages, lazySize);
                 setTimeout(()=>{
                     renderPage(1);
                 });
@@ -80,8 +79,9 @@ export default defineComponent({
             const { scrollTop, scrollHeight, clientHeight } = e.target;
             if (scrollTop + clientHeight >= scrollHeight) {
                 if (numPages.value < pdfDocument.numPages) {
-                    numPages.value += Math.min(lazySize.value, pdfDocument.numPages)
-                    renderPage(1);
+                    let oldNum = numPages.value;
+                    numPages.value += Math.min(lazySize, pdfDocument.numPages);
+                    renderPage(oldNum+1);
                 }
             }
         }
