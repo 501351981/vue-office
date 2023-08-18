@@ -1,12 +1,13 @@
 <script>
 import {defineComponent, ref, onMounted, watch} from 'vue-demi';
-import {worker} from './worker';
-import {pdfjsLib} from './pdf';
+import workerStr from './worker?raw';
+import pdfjsLib from './pdf?raw';
 import {download as downloadFile, getUrl, loadScript} from '../../../utils/url';
+import {base64_encode} from '../../../utils/base64';
 import omit from 'lodash/omit';
 
-const pdfJsLibSrc = `data:text/javascript;base64,${pdfjsLib}`;
-const PdfJsWorkerSrc = `data:text/javascript;base64,${worker}`;
+const pdfJsLibSrc = `data:text/javascript;base64,${(base64_encode(pdfjsLib))}`;
+const PdfJsWorkerSrc = `data:text/javascript;base64,${(base64_encode(workerStr))}`;
 
 export default defineComponent({
     name: 'VueOfficePdf',
@@ -64,7 +65,9 @@ export default defineComponent({
             loadingTask.promise.then((pdf) => {
                 pdfDocument = pdf;
                 numPages.value = pdfDocument.numPages;
-                renderPage(1);
+                setTimeout(()=>{
+                    renderPage(1);
+                });
             }).catch((e) => {
                 emit('error', e);
             });
@@ -134,7 +137,7 @@ export default defineComponent({
                 console.warn(e);
             });
         });
-        function download(fileName){
+        function save(fileName){
             pdfDocument && pdfDocument._transport && pdfDocument._transport.getData().then(fileData=>{
                 downloadFile(fileName || `vue-office-pdf-${new Date().getTime()}.pdf`,fileData.buffer);
             });
@@ -142,7 +145,7 @@ export default defineComponent({
         return {
             rootRef,
             numPages,
-            download
+            save
         };
     }
 });

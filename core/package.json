@@ -8,6 +8,7 @@
     "lib": "node script/bak-vue.js bak && lerna run build",
     "lib:js-excel": "node script/bak-vue.js bak && lerna run build --scope @js-preview/excel",
     "lib:vue-excel": "node script/bak-vue.js bak && lerna run build --scope @vue-office/excel",
+    "lib:js-pdf": "node script/bak-vue.js bak && lerna run build --scope @js-preview/pdf",
     "lib:vue-pdf": "node script/bak-vue.js bak && lerna run build --scope @vue-office/pdf"
   },
   "dependencies": {

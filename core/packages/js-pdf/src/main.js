@@ -1,10 +1,10 @@
-import {worker} from '../../vue-pdf/src/worker';
-import {pdfjsLib} from '../../vue-pdf/src/pdf';
+import {workerStr} from './worker.js';
+import {pdfLibJsStr} from './pdf.js';
 import {download as downloadFile, getUrl, loadScript} from '../../../utils/url';
 import omit from 'lodash/omit';
 
-const pdfJsLibSrc = `data:text/javascript;base64,${pdfjsLib}`;
-const PdfJsWorkerSrc = `data:text/javascript;base64,${worker}`;
+const pdfJsLibSrc = `data:text/javascript;base64,${pdfLibJsStr}`;
+const PdfJsWorkerSrc = `data:text/javascript;base64,${workerStr}`;
 class JsPdfPreview{
     container = null;
     wrapper = null;
@@ -145,7 +145,7 @@ class JsPdfPreview{
             });
         }));
     }
-    download(fileName){
+    save(fileName){
         this.pdfDocument && this.pdfDocument._transport && this.pdfDocument._transport.getData().then(fileData=>{
             downloadFile(fileName || `js-preview-pdf-${new Date().getTime()}.pdf`,fileData.buffer);
         });
