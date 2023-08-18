@@ -13,13 +13,13 @@
 ## 安装
 ```shell
 #docx文档预览组件
-npm install @vue-office/docx vue-demi
+npm install @vue-office/docx vue-demi@0.13.11
 
 #excel文档预览组件
-npm install @vue-office/excel vue-demi
+npm install @vue-office/excel vue-demi@0.13.11
 
 #pdf文档预览组件
-npm install @vue-office/pdf vue-demi
+npm install @vue-office/pdf vue-demi@0.13.11
 ```
 如果是vue2.6版本或以下还需要额外安装 @vue/composition-api
 ```shell
@@ -182,11 +182,11 @@ export default {
 
 ## 赞助和微信交流
 
-**_如果该项目确实帮助到了您_**，为您节省了时间，请您不吝赞助，优化项目真的都是用爱发电^_^，有很多大的优化点或者新功能开发实在没有精力，一边要努力工作以免被裁员，一边要陪伴家人，人已不再年轻，没有收益的事情很难抽出更多时间精力~~，不能打赏的朋友麻烦帮点个免费的赞
+**_如果该项目确实帮助到了您_**，为您节省了时间，请您不吝赞助，请作者喝一杯秋天的奶茶，暖一暖冰冷的心吧，哈哈哈，优化项目真的都是用爱发电^_^，不能打赏的朋友麻烦帮点个免费的赞
 
 <img src="https://501351981.github.io/vue-office/examples/dist/static/wx.png" alt="赞助二维码" width="260"/>
 
-打赏的朋友欢迎**添加微信**，交流前端技术
+打赏的朋友欢迎**添加微信**，交流前端开发中遇到的技术、问题和困惑。
 
 【**仅添加**打赏过的用户（工作太忙了，请理解），不定期删除屏蔽朋友圈的好友】
 

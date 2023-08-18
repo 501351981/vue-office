@@ -68,7 +68,9 @@ export default defineComponent({
             loadingTask.promise.then((pdf) => {
                 pdfDocument = pdf;
                 numPages.value = Math.min(pdfDocument.numPages, lazySize.value);
-                renderPage(1);
+                setTimeout(()=>{
+                    renderPage(1);
+                });
             }).catch((e) => {
                 emit('error', e);
             });

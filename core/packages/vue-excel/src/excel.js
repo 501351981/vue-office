@@ -145,10 +145,59 @@ function transferColumns(excelSheet, spreadSheet, options){
 
 function getCellText(cell){
     //console.log(cell);
-    const {numFmt, value, type} = cell;
+    let {numFmt, value, type} = cell;
     switch (type){
         case 2: //数字
-            return value + '';
+            try {
+                //numFmt:
+                // "0.00%"
+                // "0.00_);(0.00)"
+                // "#,##0.000_);(#,##0.000)"   千分位
+                // "#,##0.000;[Red]#,##0.000"
+                if(cell.style.numFmt){
+                    if(cell.style.numFmt.endsWith('%')){
+                        let precision = cell.style.numFmt.match(/\.(\d+)%/);
+                        if(precision){
+                            return (value * 100).toFixed(precision[1].length) + '%';
+                        }else {
+                            return value * 100 + '%';
+                        }
+                    }else if(/0(\.0+)?/.test(cell.style.numFmt)){
+                        if(value === 0 && cell.style.numFmt.startsWith('_')){
+                            return '-';
+                        }
+                        let precision = cell.style.numFmt.match(/0\.(0+)(_|;|$)/);
+                        if(precision){
+                            precision = precision[1].length;
+                        }else{
+                            precision = 0;
+                        }
+
+                        let result = value.toFixed(precision) + '';
+                        if(cell.style.numFmt.includes('#,##')){
+                            //千分位
+                            result = result.split('.');
+                            let number = result[0].split('').reverse();
+                            let newNumber = [];
+                            for(let i = 0; i< number.length; i++){
+                                newNumber.push(number[i]);
+                                if((i+1) % 3 === 0 && i < number.length - 1 && number[i+1] !== '-'){
+                                    newNumber.push(',');
+                                }
+
+                            }
+                            result[0] = newNumber.reverse().join('');
+                            result = result.join('.');
+                        }
+                        return result;
+                    }
+
+                }
+                return value + '';
+            }catch (e){
+                return value;
+            }
+            
         case 3: //字符串
             return value;
         case 4: //日期
@@ -295,7 +344,7 @@ function getStyle(cell){
 
 export function transferExcelToSpreadSheet(workbook, options){
     let workbookData = [];
-    // console.log(workbook, 'workbook')
+    console.log(workbook, 'workbook');
     workbook.eachSheet((sheet) => {
         //console.log(sheet,'sheet');
         // 构造x-data-spreadsheet 的 sheet 数据源结构
@@ -348,7 +397,7 @@ export function transferExcelToSpreadSheet(workbook, options){
         sheetData.rows.len = Math.max(Object.keys(sheetData.rows).length, 100);
         workbookData.push(sheetData);
     });
-    // console.log(workbookData, 'workbookData')
+    //console.log(workbookData, 'workbookData')
     return {
         workbookData,
         workbookSource: workbook,
