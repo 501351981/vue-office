@@ -1,9 +1,9 @@
 <script>
-import {defineComponent, ref, onMounted, watch} from 'vue-demi';
+import { defineComponent, ref, onMounted, watch } from 'vue-demi';
 import workerStr from './worker?raw';
 import pdfjsLib from './pdf?raw';
-import {download as downloadFile, getUrl, loadScript} from '../../../utils/url';
-import {base64_encode} from '../../../utils/base64';
+import { download as downloadFile, getUrl, loadScript } from '../../../utils/url';
+import { base64_encode } from '../../../utils/base64';
 import omit from 'lodash/omit';
 
 const pdfJsLibSrc = `data:text/javascript;base64,${(base64_encode(pdfjsLib))}`;
@@ -27,18 +27,20 @@ export default defineComponent({
         }
     },
     emits: ['rendered', 'error'],
-    setup(props, {emit}) {
+    setup(props, { emit }) {
         let pdfDocument = null;
         let loadingTask = null;
         const rootRef = ref([]);
         const numPages = ref(0);
 
+        const lazySize = 5;
+
         function installPdfScript() {
             return loadScript(pdfJsLibSrc).then(() => {
-                if(window.pdfjsLib){
+                if (window.pdfjsLib) {
                     window.pdfjsLib.GlobalWorkerOptions.workerSrc = PdfJsWorkerSrc;
-                }else{
-                  return Promise.reject('window.pdfjsLib未找到');
+                } else {
+                    return Promise.reject('window.pdfjsLib未找到');
                 }
             });
         }
@@ -64,7 +66,7 @@ export default defineComponent({
             });
             loadingTask.promise.then((pdf) => {
                 pdfDocument = pdf;
-                numPages.value = pdfDocument.numPages;
+                numPages.value = Math.min(pdfDocument.numPages, lazySize);
                 setTimeout(()=>{
                     renderPage(1);
                 });
@@ -73,9 +75,20 @@ export default defineComponent({
             });
         }
 
+        function onScrollPdf(e) {
+            const { scrollTop, scrollHeight, clientHeight } = e.target;
+            if (scrollTop + clientHeight >= scrollHeight) {
+                if (numPages.value < pdfDocument.numPages) {
+                    let oldNum = numPages.value;
+                    numPages.value += Math.min(lazySize, pdfDocument.numPages);
+                    renderPage(oldNum+1);
+                }
+            }
+        }
+
         function renderPage(num) {
             pdfDocument.getPage(num).then((pdfPage) => {
-                const viewport = pdfPage.getViewport({scale: 2});
+                const viewport = pdfPage.getViewport({ scale: 2 });
                 const outputScale = window.devicePixelRatio || 1;
 
                 const canvas = rootRef.value[num - 1];
@@ -91,7 +104,7 @@ export default defineComponent({
                     domWidth = Math.floor(props.options.width);
                     domHeight = Math.floor(domHeight * scale);
                 }
-                if(domWidth > document.documentElement.clientWidth){
+                if (domWidth > document.documentElement.clientWidth) {
                     let scale = document.documentElement.clientWidth / domWidth;
                     domWidth = Math.floor(document.documentElement.clientWidth);
                     domHeight = Math.floor(domHeight * scale);
@@ -126,46 +139,38 @@ export default defineComponent({
 
         onMounted(() => {
             if (props.src) {
-                checkPdfLib().then(init).catch(e=>{
+                checkPdfLib().then(init).catch(e => {
                     console.warn(e);
                 });
             }
         });
 
         watch(() => props.src, () => {
-            checkPdfLib().then(init).catch(e=>{
+            checkPdfLib().then(init).catch(e => {
                 console.warn(e);
             });
         });
-        function save(fileName){
-            pdfDocument && pdfDocument._transport && pdfDocument._transport.getData().then(fileData=>{
-                downloadFile(fileName || `vue-office-pdf-${new Date().getTime()}.pdf`,fileData.buffer);
+        function save(fileName) {
+            pdfDocument && pdfDocument._transport && pdfDocument._transport.getData().then(fileData => {
+                downloadFile(fileName || `vue-office-pdf-${new Date().getTime()}.pdf`, fileData.buffer);
             });
         }
         return {
             rootRef,
             numPages,
-            save
+            save,
+            onScrollPdf
         };
     }
 });
 </script>
 
 <template>
-    <div class="vue-office-pdf" ref="vue-office-pdf" style="text-align: center;overflow-y: auto;">
-        <div
-            v-if="numPages"
-            class="vue-office-pdf-wrapper"
-            style="background: gray; padding: 30px 0;position: relative;">
-            <canvas
-                v-for="page in numPages"
-                ref="rootRef"
-                :key="page"
-                style="width:100%"
-            />
+    <div class="vue-office-pdf" ref="vue-office-pdf" style="text-align: center;overflow-y: auto;" @scroll="onScrollPdf">
+        <div v-if="numPages" class="vue-office-pdf-wrapper" style="background: gray; padding: 30px 0;position: relative;">
+            <canvas v-for="page in numPages" ref="rootRef" :key="page" style="width:100%" />
         </div>
     </div>
 </template>
 <style lang="less">
-
 </style>
