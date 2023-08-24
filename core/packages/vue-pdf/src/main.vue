@@ -78,11 +78,14 @@ export default defineComponent({
         function onScrollPdf(e) {
             const { scrollTop, scrollHeight, clientHeight } = e.target;
             if (scrollTop + clientHeight >= scrollHeight) {
-                if (numPages.value < pdfDocument.numPages) {
-                    let oldNum = numPages.value;
-                    numPages.value += Math.min(lazySize, pdfDocument.numPages);
-                    renderPage(oldNum+1);
-                }
+              if (numPages.value >= pdfDocument.numPages) {
+                return;
+              }
+              let oldNum = numPages.value;
+              numPages.value = Math.min(pdfDocument.numPages, oldNum + lazySize);
+              if (numPages.value > oldNum) {
+                renderPage(oldNum + 1);
+              }
             }
         }
 
