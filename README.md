@@ -131,17 +131,17 @@ export default {
     return {
       docx: '' 
     }
-  },
-    mounted(){
-        fetch('你的API文件地址', {
-            method: 'post'
-        }).then(res=>{
-            //读取文件的arrayBuffer
-            res.arrayBuffer().then(res=>{
-                this.src = res
-            })
+  }, 
+  mounted(){
+    fetch('你的API文件地址', {
+        method: 'post'
+    }).then(res=>{
+        //读取文件的arrayBuffer
+        res.arrayBuffer().then(res=>{
+            this.docx = res
         })
-    },
+    })
+  },
   methods:{
     rendered(){
       console.log("渲染完成")
