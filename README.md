@@ -103,6 +103,55 @@ export default {
 }
 </script>
 ```
+
+**二进制文件预览**
+
+如果后端给的不是CDN地址，而是一些POST接口，该接口返回二进制流，则可以调用接口获取文件的ArrayBuffer数据，传递给src属性。
+
+```vue
+<template>
+  <vue-office-docx 
+      :src="docx"
+      style="height: 100vh;"
+      @rendered="rendered"
+  />
+</template>
+
+<script>
+//引入VueOfficeDocx组件
+import VueOfficeDocx from '@vue-office/docx'
+//引入相关样式
+import '@vue-office/docx/lib/index.css'
+
+export default {
+  components:{
+    VueOfficeDocx
+  },
+  data(){
+    return {
+      docx: '' 
+    }
+  },
+    mounted(){
+        fetch('你的API文件地址', {
+            method: 'post'
+        }).then(res=>{
+            //读取文件的arrayBuffer
+            res.arrayBuffer().then(res=>{
+                this.src = res
+            })
+        })
+    },
+  methods:{
+    rendered(){
+      console.log("渲染完成")
+    }
+  }
+}
+</script>
+```
+
+
 ### excel文件预览
 
 通过网络地址预览示例如下，通过文件ArrayBuffer预览和上面docx的使用方式一致。
