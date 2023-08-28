@@ -1,7 +1,7 @@
 let cache = [];
 export function renderImage(ctx, medias, sheet, offset){
-    // console.log('medias',  medias)
-    // console.log('sheet',  sheet)
+    // console.log('medias', medias);
+    // console.log('sheet', sheet);
     // console.log('offset',  offset)
     if(sheet && sheet._media.length){
         sheet._media.forEach(media => {
@@ -105,7 +105,7 @@ function drawImage(ctx,index, data, position){
         // console.log('=>', sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
         ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
     }).catch(e=>{
-
+        console.error(e);
     });
 }
 function getImage(index, data){
@@ -113,8 +113,8 @@ function getImage(index, data){
         if(cache[index]){
             return resolve(cache[index]);
         }
-        const {buffer, extension} = data.buffer;
-        let blob = new Blob([buffer], { type: 'image/' + extension});
+        const {buffer} = data.buffer;
+        let blob = new Blob([buffer], { type: 'image/' + data.extension});
         let url = URL.createObjectURL(blob);
         let image = new Image();
         image.src = url;

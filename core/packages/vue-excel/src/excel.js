@@ -345,7 +345,9 @@ function getStyle(cell){
 export function transferExcelToSpreadSheet(workbook, options){
     let workbookData = [];
     // console.log(workbook, 'workbook');
+    let sheets = [];
     workbook.eachSheet((sheet) => {
+        sheets.push(sheet);
         //console.log(sheet,'sheet');
         // 构造x-data-spreadsheet 的 sheet 数据源结构
         let sheetData = { name: sheet.name,styles : [], rows: {},cols:{}, merges:[],media:[] };
@@ -397,7 +399,8 @@ export function transferExcelToSpreadSheet(workbook, options){
         sheetData.rows.len = Math.max(Math.max(...Object.keys(sheetData.rows)) + 1, 100);
         workbookData.push(sheetData);
     });
-    //console.log(workbookData, 'workbookData')
+    //console.log(workbookData, 'workbookData');
+    workbook._worksheets = sheets;
     return {
         workbookData,
         workbookSource: workbook,

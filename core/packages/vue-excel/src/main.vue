@@ -33,7 +33,7 @@ export default defineComponent({
             _worksheets:[]
         };
         let mediasSource = [];
-        let sheetIndex = 1;
+        let sheetIndex = 0;
         let ctx = null;
         let xs = null;
         let offset = null;
@@ -49,7 +49,7 @@ export default defineComponent({
                 mediasSource = medias;
                 workbookDataSource = workbookSource;
                 offset = null;
-                sheetIndex = 1;
+                sheetIndex = 0;
                 clearCache();
                 xs.loadData(workbookData);
                 renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
@@ -100,7 +100,7 @@ export default defineComponent({
                 let swapFunc = xs.bottombar.swapFunc;
                 xs.bottombar.swapFunc = function (index) {
                     swapFunc.call(xs.bottombar, index);
-                    sheetIndex = index + 1;
+                    sheetIndex = index;
                     setTimeout(()=>{
                         xs.reRender();
                         renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
