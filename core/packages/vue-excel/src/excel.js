@@ -396,10 +396,12 @@ export function transferExcelToSpreadSheet(workbook, options){
         if(sheetData._media){
             sheetData.media = sheetData._media;
         }
-        sheetData.rows.len = Math.max(Math.max(...Object.keys(sheetData.rows)) + 1, 100);
+
+        let tempRowsKeys = Object.keys(sheetData.rows);
+        sheetData.rows.len = Math.max(tempRowsKeys[tempRowsKeys.length-1] + 1, 100);
         workbookData.push(sheetData);
     });
-    //console.log(workbookData, 'workbookData');
+    // console.log(workbookData, 'workbookData');
     workbook._worksheets = sheets;
     return {
         workbookData,

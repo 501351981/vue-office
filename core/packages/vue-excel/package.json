@@ -1,6 +1,6 @@
 {
   "name": "@vue-office/excel",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "",
   "main": "lib/index.js",
   "files": [
