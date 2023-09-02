@@ -33,7 +33,11 @@ class JsPdfPreview{
         this.wrapperMain.setAttribute('style', 'background: gray; padding: 30px 0;position: relative;');
         this.wrapper.appendChild(this.wrapperMain);
     }
-    createCanvas(){
+    createCanvas(num){
+        let existCanvas = this.wrapperMain.querySelectorAll('canvas');
+        if(existCanvas[num -1]){
+            return [existCanvas[num -1], existCanvas[num -1].getContext('2d')];
+        }
         const canvas = document.createElement('canvas');
         canvas.setAttribute('style', 'width:100%');
         this.wrapperMain.appendChild(canvas);
@@ -64,7 +68,7 @@ class JsPdfPreview{
         return this.pdfDocument.getPage(num).then((pdfPage) => {
             const viewport = pdfPage.getViewport({scale: 2});
             const outputScale = window.devicePixelRatio || 1;
-            let [canvas, ctx] = this.createCanvas();
+            let [canvas, ctx] = this.createCanvas(num);
 
             canvas.width = Math.floor(viewport.width * outputScale);
             canvas.height = Math.floor(viewport.height * outputScale);
@@ -76,9 +80,10 @@ class JsPdfPreview{
                 domWidth = Math.floor(this.options.width);
                 domHeight = Math.floor(domHeight * scale);
             }
-            if(domWidth > document.documentElement.clientWidth){
-                let scale = document.documentElement.clientWidth / domWidth;
-                domWidth = Math.floor(document.documentElement.clientWidth);
+            let wrapperWidth = this.wrapperMain.getBoundingClientRect().width - 20;
+            if(domWidth > wrapperWidth){
+                let scale = wrapperWidth / domWidth;
+                domWidth = Math.floor(wrapperWidth);
                 domHeight = Math.floor(domHeight * scale);
             }
 
@@ -96,7 +101,7 @@ class JsPdfPreview{
             });
             return renderTask.promise.then(() => {
                 if (this.pdfDocument.numPages > num) {
-                    this.renderSinglePage(num + 1);
+                    return this.renderSinglePage(num + 1);
                 }
             });
         });
@@ -104,6 +109,13 @@ class JsPdfPreview{
     renderPage(){
         if(!this.wrapperMain){
             this.createWrapperMain();
+        }else{
+            let canvas = this.wrapperMain.querySelectorAll('canvas');
+            if(canvas.length > this.pdfDocument.numPages){
+                for(let i = canvas.length-1; i >= this.pdfDocument.numPages; i--){
+                    this.wrapperMain.removeChild(canvas[i]);
+                }
+            }
         }
         return this.renderSinglePage(1);
     }
@@ -144,6 +156,14 @@ class JsPdfPreview{
                 reject(e);
             });
         }));
+    }
+    rerender(){
+        return this.renderPage().then(_=>{
+            return Promise.resolve();
+        }).catch(e=>{
+            this.clearAllCanvas();
+            return Promise.reject(e);
+        });
     }
     save(fileName){
         this.pdfDocument && this.pdfDocument._transport && this.pdfDocument._transport.getData().then(fileData=>{

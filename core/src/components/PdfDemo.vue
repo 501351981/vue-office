@@ -2,7 +2,7 @@
 import VueOfficePdf from '../../packages/vue-pdf/index';
 import PreviewWrapper from '../common/PreviewWrapper.vue';
 import useLoading from '../hooks/useLoading.js';
-import {ref} from "vue";
+import {ref} from 'vue';
 function onRendered(){
     useLoading.hideLoading();
 }
@@ -15,6 +15,7 @@ const defaultSrc = location.origin +
     + 'static/test-files/test.pdf';
 const docxRef = ref();
 
+window.docxRef = docxRef;
 // setTimeout(()=>{
 //     console.log( docxRef.value.download());
 // }, 2000);

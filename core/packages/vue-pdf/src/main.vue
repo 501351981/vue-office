@@ -30,6 +30,7 @@ export default defineComponent({
     setup(props, { emit }) {
         let pdfDocument = null;
         let loadingTask = null;
+        const wrapperRef = ref(null);
         const rootRef = ref([]);
         const numPages = ref(0);
 
@@ -107,9 +108,10 @@ export default defineComponent({
                     domWidth = Math.floor(props.options.width);
                     domHeight = Math.floor(domHeight * scale);
                 }
-                if (domWidth > document.documentElement.clientWidth) {
-                    let scale = document.documentElement.clientWidth / domWidth;
-                    domWidth = Math.floor(document.documentElement.clientWidth);
+                let wrapperWidth = wrapperRef.value.getBoundingClientRect().width - 20;
+                if (domWidth > wrapperWidth) {
+                    let scale = wrapperWidth / domWidth;
+                    domWidth = Math.floor(wrapperWidth);
                     domHeight = Math.floor(domHeight * scale);
                 }
 
@@ -140,6 +142,9 @@ export default defineComponent({
 
         }
 
+        function rerender(){
+            renderPage(1);
+        }
         onMounted(() => {
             if (props.src) {
                 checkPdfLib().then(init).catch(e => {
@@ -159,10 +164,12 @@ export default defineComponent({
             });
         }
         return {
+            wrapperRef,
             rootRef,
             numPages,
             save,
-            onScrollPdf
+            onScrollPdf,
+            rerender
         };
     }
 });
@@ -170,7 +177,7 @@ export default defineComponent({
 
 <template>
     <div class="vue-office-pdf" ref="vue-office-pdf" style="text-align: center;overflow-y: auto;" @scroll="onScrollPdf">
-        <div v-if="numPages" class="vue-office-pdf-wrapper" style="background: gray; padding: 30px 0;position: relative;">
+        <div v-if="numPages" ref="wrapperRef" class="vue-office-pdf-wrapper" style="background: gray; padding: 30px 0;position: relative;">
             <canvas v-for="page in numPages" ref="rootRef" :key="page" style="width:100%" />
         </div>
     </div>

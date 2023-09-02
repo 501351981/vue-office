@@ -1,5 +1,5 @@
 <template>
-<div ref="dom" style="height: calc(100vh - 50px)">
+<div ref="dom" style="height: calc(100vh - 50px);">
     
 </div>
 </template>
@@ -17,6 +17,7 @@ onMounted(() => {
     }).catch(err=>{
         console.log('err',err);
     });
+
 
 });
 
