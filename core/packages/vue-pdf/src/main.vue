@@ -67,7 +67,7 @@ export default defineComponent({
             });
             loadingTask.promise.then((pdf) => {
                 pdfDocument = pdf;
-                numPages.value = Math.min(pdfDocument.numPages, lazySize);
+                numPages.value = props.options.lazy ? Math.min(pdfDocument.numPages, lazySize) : pdfDocument.numPages;
                 setTimeout(()=>{
                     renderPage(1);
                 });
@@ -77,6 +77,9 @@ export default defineComponent({
         }
 
         function onScrollPdf(e) {
+            if(!props.options.lazy){
+                return;
+            }
             const { scrollTop, scrollHeight, clientHeight } = e.target;
             if (scrollTop + clientHeight >= scrollHeight) {
               if (numPages.value >= pdfDocument.numPages) {
@@ -179,6 +182,7 @@ export default defineComponent({
     <div class="vue-office-pdf" ref="vue-office-pdf" style="text-align: center;overflow-y: auto;" @scroll="onScrollPdf">
         <div v-if="numPages" ref="wrapperRef" class="vue-office-pdf-wrapper" style="background: gray; padding: 30px 0;position: relative;">
             <canvas v-for="page in numPages" ref="rootRef" :key="page" style="width:100%" />
+            <slot></slot>
         </div>
     </div>
 </template>

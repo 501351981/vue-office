@@ -28,11 +28,17 @@ widthOffset：在默认渲染的列表宽度上再加10px宽
 
 heightOffset：在默认渲染的列表高度上再加10px高
 
+transformData：在预览之前可以通过transformData对即将渲染数据及样式进行修改
+
 ```javascript
 {
   "minColLength": 20,
   "widthOffset": 0, //在默认渲染的列表宽度上再加10px宽
   "heightOffset": 0, //在默认渲染的列表高度上再加10px高
+  "transformData": function (workbookData){
+      //修改workbookData
+      return workbookData;    
+  }
 }
 ```
 

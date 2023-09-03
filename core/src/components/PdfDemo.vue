@@ -32,10 +32,11 @@ window.docxRef = docxRef;
           ref="docxRef"
           :src="slotProps.src"
           style="flex: 1;height: 0"
-          :options="{}"
+          :options="{lazy:true}"
           @rendered="onRendered"
           @error="onError"
-      />
+      >
+      </VueOfficePdf>
     </template>
   </PreviewWrapper>
 </template>
