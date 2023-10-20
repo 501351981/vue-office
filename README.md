@@ -235,22 +235,17 @@ export default {
 
 <img src="https://501351981.github.io/vue-office/examples/dist/static/wx.png" alt="赞助二维码" width="260"/>
 
-<span style="color: red;">打赏的朋友欢迎**添加微信**或者进入前端开发交流群</span>，交流前端开发中遇到的技术、问题和困惑。
+<span style="color: red;">打赏的朋友欢迎**添加微信**</span>，交流前端开发中遇到的技术、问题和困惑。
 
 >【<span style="color:red;">**仅添加**打赏过的用户，不定期删除屏蔽朋友圈的好友</span>（为什么打赏了才能微信问问题？那别人为什么要先付出时间去解答你的问题？都是成年人了，人与人之间是价值交换，不是单向付出）】
 > [常见问题](https://501351981.github.io/vue-office/examples/docs/guide/faq.html)
 
 <img src="https://501351981.github.io/vue-office/examples/dist/static/wxqrcode.png" alt="个人微信" width="260"/>
 
-<img src="https://501351981.github.io/vue-office/examples/dist/static/qun.png" alt="前端群" width="260"/>
-
 
 ### 恳请各位大佬不吝点赞，开源不易，感谢支持~~
 
 
 ## 我的其他库
-- v-focus-next：一个Vue指令，使用该指令后，在表单中回车之后可以自动聚焦下一个表单元素，大大提升表单填写的流畅性。
-[《v-focus-next》](https://github.com/501351981/v-focus-next)
 
-  
 - HowToCode：前端编程之道，探讨如何写出高质量的前端代码，总结前端编程的各种方法论、原则、思维模型等。[《前端编程之道》](https://github.com/501351981/HowToCode)

@@ -67,7 +67,7 @@ class JsExcelPreview {
         let swapFunc = this.xs.bottombar.swapFunc;
         this.xs.bottombar.swapFunc = function (index) {
             swapFunc.call(that.xs.bottombar, index);
-            that.sheetIndex = index + 1;
+            that.sheetIndex = index;
             setTimeout(()=>{
                 that.xs.reRender();
                 renderImage(that.ctx, that.mediasSource,that.workbookDataSource._worksheets[that.sheetIndex], that.offset);
@@ -100,7 +100,7 @@ class JsExcelPreview {
             this.mediasSource = medias;
             this.workbookDataSource = workbookSource;
             this.offset = null;
-            this.sheetIndex = 1;
+            this.sheetIndex = 0;
             clearCache();
             this.xs.loadData(workbookData);
             renderImage(this.ctx, this.mediasSource,this.workbookDataSource._worksheets[this.sheetIndex], this.offset);
@@ -132,7 +132,10 @@ class JsExcelPreview {
     preview(src){
         return new Promise(((resolve, reject) => {
             getData(src, this.requestOptions).then((res)=>{
-                this.renderExcel(res).then(resolve);
+                this.renderExcel(res).then(resolve).catch(e =>{
+                    this.xs.loadData({});
+                    reject(e);
+                });
             }).catch(e => {
                 this.xs.loadData({});
                 reject(e);
