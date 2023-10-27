@@ -1,3 +1,4 @@
+import hack from './src/hack';
 import VueOfficeDocx from './src/main.vue';
 
 VueOfficeDocx.install = function (Vue) {

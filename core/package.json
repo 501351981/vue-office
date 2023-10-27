@@ -7,7 +7,9 @@
     "build": "node script/bak-vue.js && vite build",
     "lib": "node script/bak-vue.js bak && lerna run build",
     "lib:js-excel": "node script/bak-vue.js bak && lerna run build --scope @js-preview/excel",
+    "lib:js-docx": "node script/bak-vue.js bak && lerna run build --scope @js-preview/docx",
     "lib:vue-excel": "node script/bak-vue.js bak && lerna run build --scope @vue-office/excel",
+    "lib:vue-docx": "node script/bak-vue.js bak && lerna run build --scope @vue-office/docx",
     "lib:js-pdf": "node script/bak-vue.js bak && lerna run build --scope @js-preview/pdf",
     "lib:vue-pdf": "node script/bak-vue.js bak && lerna run build --scope @vue-office/pdf"
   },

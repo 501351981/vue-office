@@ -1,3 +1,4 @@
+import hack from './hack.js';
 import docx from '../../vue-docx/src/docx';
 import {download as downloadFile} from '../../../utils/url.js';
 class JsDocxPreview {
