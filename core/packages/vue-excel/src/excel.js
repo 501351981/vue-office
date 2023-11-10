@@ -163,6 +163,13 @@ function getCellText(cell){
                             return value * 100 + '%';
                         }
                     }else if(/0(\.0+)?/.test(cell.style.numFmt)){
+                        let prefix = '';
+                        if(cell.style.numFmt.startsWith('$')){
+                            prefix = '$';
+                        }else if(cell.style.numFmt.startsWith('"¥')){
+                            prefix = '¥';
+                        }
+
                         if(value === 0 && cell.style.numFmt.startsWith('_')){
                             return '-';
                         }
@@ -189,7 +196,7 @@ function getCellText(cell){
                             result[0] = newNumber.reverse().join('');
                             result = result.join('.');
                         }
-                        return result;
+                        return prefix + result;
                     }
 
                 }
@@ -225,6 +232,8 @@ function getCellText(cell){
             return get(value, 'result.error') || value.result;
         case 8: //富文本
             return cell.text;
+        case 9: //Boolean
+            return cell.text.toUpperCase();
         default:
             return value;
     }
@@ -344,7 +353,7 @@ function getStyle(cell){
 
 export function transferExcelToSpreadSheet(workbook, options){
     let workbookData = [];
-    // console.log(workbook, 'workbook');
+    console.log(workbook, 'workbook');
     let sheets = [];
     workbook.eachSheet((sheet) => {
         sheets.push(sheet);

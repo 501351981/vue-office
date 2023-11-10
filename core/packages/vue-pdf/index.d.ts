@@ -1,7 +1,7 @@
 declare const VueOfficePdf: {
     install?: (vue: any) => void;
     src: string|ArrayBuffer|Blob;
-    rerender: () => any;
+    rerender?: () => any;
     staticFileUrl?: string,
     requestOptions?: any;
     options?: any
