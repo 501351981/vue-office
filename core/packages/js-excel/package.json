@@ -1,7 +1,7 @@
 {
   "name": "@js-preview/excel",
   "type" :"module",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "",
   "main": "lib/index.js",
   "files": [

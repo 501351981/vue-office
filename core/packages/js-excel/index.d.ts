@@ -1,5 +1,6 @@
 export interface Options {
     minColLength?: number;
+    minRowLength?: number;
     showContextmenu?: boolean;
 }
 

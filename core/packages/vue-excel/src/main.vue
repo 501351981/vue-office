@@ -27,7 +27,6 @@ export default defineComponent({
     },
     emits: ['rendered', 'error'],
     setup(props, {emit}) {
-        console.log(props.options.transformData)
         const wrapperRef = ref(null);
         const rootRef = ref(null);
         let workbookDataSource = {

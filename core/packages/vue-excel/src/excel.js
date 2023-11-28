@@ -353,7 +353,7 @@ function getStyle(cell){
 
 export function transferExcelToSpreadSheet(workbook, options){
     let workbookData = [];
-    console.log(workbook, 'workbook');
+    // console.log(workbook, 'workbook');
     let sheets = [];
     workbook.eachSheet((sheet) => {
         sheets.push(sheet);
@@ -407,7 +407,9 @@ export function transferExcelToSpreadSheet(workbook, options){
         }
 
         let tempRowsKeys = Object.keys(sheetData.rows);
-        sheetData.rows.len = Math.max(tempRowsKeys[tempRowsKeys.length-1] + 1, 100);
+
+        sheetData.rows.len = Math.max(+tempRowsKeys[tempRowsKeys.length-1] + 1,
+            options.hasOwnProperty('minRowLength') ? options.minRowLength : 100);
         workbookData.push(sheetData);
     });
     // console.log(workbookData, 'workbookData');
