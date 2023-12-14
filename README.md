@@ -23,7 +23,7 @@ npm install @vue-office/pdf vue-demi@0.13.11
 ```
 如果是vue2.6版本或以下还需要额外安装 @vue/composition-api
 ```shell
-npm install @vue/composition-api/
+npm install @vue/composition-api
 ```
 
 ## 使用示例
