@@ -1,5 +1,5 @@
 <script>
-import { defineComponent, ref, onMounted, watch } from 'vue-demi';
+import { defineComponent, ref, onMounted, watch, onBeforeUnmount } from 'vue-demi';
 import workerStr from './worker?raw';
 import pdfjsLib from './pdf?raw';
 import { download as downloadFile, getUrl, loadScript } from '../../../utils/url';
@@ -36,6 +36,14 @@ export default defineComponent({
 
         const lazySize = 5;
 
+        onBeforeUnmount(()=>{
+            if(pdfDocument === null){
+                return;
+            }
+            pdfDocument.destroy();
+            pdfDocument = null;
+            loadingTask = null;
+        });
         function installPdfScript() {
             return loadScript(pdfJsLibSrc).then(() => {
                 if (window.pdfjsLib) {
@@ -66,6 +74,7 @@ export default defineComponent({
                 ...omit(props.options, ['width'])
             });
             loadingTask.promise.then((pdf) => {
+                pdfDocument && pdfDocument.destroy();
                 pdfDocument = pdf;
                 numPages.value = props.options.lazy ? Math.min(pdfDocument.numPages, lazySize) : pdfDocument.numPages;
                 setTimeout(()=>{

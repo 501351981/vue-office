@@ -140,6 +140,7 @@ class JsPdfPreview{
             }
             this.checkPdfLib().then(_=>{
                 this.getDocument(src).then(pdf=>{
+                    this.pdfDocument && this.pdfDocument.destroy();
                     this.pdfDocument = pdf;
                     this.renderPage().then(_=>{
                         resolve();
@@ -177,6 +178,7 @@ class JsPdfPreview{
         this.wrapperMain = null;
         this.options = {};
         this.requestOptions = {};
+        this.pdfDocument && this.pdfDocument.destroy();
         this.pdfDocument = null;
     }
 }

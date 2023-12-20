@@ -14,7 +14,10 @@
     "lib:vue-pdf": "node script/bak-vue.js bak && lerna run build --scope @vue-office/pdf"
   },
   "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.23.6",
+    "@babel/plugin-transform-template-literals": "^7.23.3",
     "@babel/preset-env": "^7.22.5",
+    "@babel/runtime": "^7.23.6",
     "@rollup/plugin-babel": "^6.0.3",
     "@vue/compiler-sfc": "3.2.45",
     "ant-design-vue": "^3.2.17",
@@ -27,7 +30,7 @@
     "rollup": "^3.26.0",
     "rollup-plugin-postcss": "^4.0.2",
     "tinycolor2": "^1.6.0",
-    "vue-demi": "^0.13.11",
+    "vue-demi": "^0.14.6",
     "x-data-spreadsheet": "^1.1.9"
   },
   "devDependencies": {

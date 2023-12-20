@@ -1,7 +1,7 @@
 <script>
 import {defineComponent, ref, onMounted, watch} from 'vue-demi';
 import docx from './docx';
-import {download as downloadFile} from "../../../utils/url";
+import {download as downloadFile} from '../../../utils/url';
 
 export default defineComponent({
     name: 'VueOfficeDocx',
