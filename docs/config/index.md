@@ -26,9 +26,9 @@ minColLength: excel最少渲染多少列，如果想实现xlsx文件内容有几
 
 minRowLength: excel最少渲染多少行，如果想实现根据xlsx实际函数渲染，可以将此值设置为0.
 
-widthOffset：在默认渲染的列表宽度上再加10px宽
+widthOffset：在默认渲染的列表宽度上再加 Npx宽
 
-heightOffset：在默认渲染的列表高度上再加10px高
+heightOffset：在默认渲染的列表高度上再加 Npx高
 
 transformData：在预览之前可以通过transformData对即将渲染数据及样式进行修改
 
@@ -36,8 +36,8 @@ transformData：在预览之前可以通过transformData对即将渲染数据及
 {
   "minColLength": 20, 
   "minRowLength": 100,
-  "widthOffset": 0, //在默认渲染的列表宽度上再加10px宽
-  "heightOffset": 0, //在默认渲染的列表高度上再加10px高
+  "widthOffset": 10, //在默认渲染的列表宽度上再加10px宽
+  "heightOffset": 10, //在默认渲染的列表高度上再加10px高
   "transformData": function (workbookData){
       //修改workbookData
       return workbookData;    
