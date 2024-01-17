@@ -13,6 +13,7 @@ function onError(e){
 }
 
 function transformData(data){
+    data[0].cols[1].width = 320;
     console.log('transformData', data);
     return data;
 }
@@ -37,7 +38,7 @@ const docxRef = ref();
       <VueOfficeExcel
           ref="docxRef"
           :src="slotProps.src"
-          :options="{transformData}"
+          :options="{transformData, widthOffset: 0}"
           style="flex: 1;height: 0"
           v-loading="true"
           @rendered="onRendered"
