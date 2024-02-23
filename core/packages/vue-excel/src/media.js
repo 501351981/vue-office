@@ -1,5 +1,5 @@
 let cache = [];
-export function renderImage(ctx, medias, sheet, offset){
+export function renderImage(ctx, medias, sheet, offset, options={}){
     // console.log('medias', medias);
     // console.log('sheet', sheet);
     // console.log('offset',  offset)
@@ -7,7 +7,7 @@ export function renderImage(ctx, medias, sheet, offset){
         sheet._media.forEach(media => {
             let {imageId, range, type} = media;
             if(type === 'image'){
-                let position = calcPosition(sheet,range,offset);
+                let position = calcPosition(sheet,range,offset, options);
                 drawImage(ctx,imageId, medias[imageId], position);
             }
         });
@@ -20,8 +20,8 @@ let defaultColWidth = 80;
 let defaultRowHeight = 24;
 let devicePixelRatio = window.devicePixelRatio;
 
-function calcPosition(sheet, range, offset){
-
+function calcPosition(sheet, range, offset, options){
+    let {widthOffset, heightOffset} = options;
     let {tl={}, br={}} = range;
     let {nativeCol, nativeColOff, nativeRow, nativeRowOff} = tl;
 
@@ -29,9 +29,11 @@ function calcPosition(sheet, range, offset){
     let basicY = clipHeight;
     for(let i=0; i < nativeCol; i++){
         basicX += sheet?._columns?.[i]?.width*6 || defaultColWidth;
+        basicX += widthOffset || 0;
     }
     for(let i=0; i < nativeRow; i++){
         basicY += sheet?._rows?.[i]?.height || defaultRowHeight;
+        basicY += heightOffset || 0;
     }
     let x = basicX + nativeColOff/12700;
     let y = basicY + nativeRowOff/12700;

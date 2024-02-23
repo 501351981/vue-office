@@ -55,7 +55,7 @@ export default defineComponent({
                 sheetIndex = 0;
                 clearCache();
                 xs.loadData(workbookData);
-                renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
+                renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset, props.options);
                 emit('rendered');
                 //涉及clear和offset
 
@@ -106,7 +106,7 @@ export default defineComponent({
                     sheetIndex = index;
                     setTimeout(()=>{
                         xs.reRender();
-                        renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
+                        renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset, props.options);
                     });
 
                 };
@@ -114,14 +114,14 @@ export default defineComponent({
                 xs.sheet.editor.clear = function (...args){
                     clear.apply(xs.sheet.editor, args);
                     setTimeout(()=>{
-                        renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
+                        renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset, props.options);
                     });
                 };
                 let setOffset = xs.sheet.editor.setOffset;
                 xs.sheet.editor.setOffset = function (...args){
                     setOffset.apply(xs.sheet.editor, args);
                     offset = args[0];
-                    renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset);
+                    renderImage(ctx, mediasSource, workbookDataSource._worksheets[sheetIndex], offset, props.options);
                 };
                 const canvas = rootRef.value.querySelector('canvas');
                 ctx = canvas.getContext('2d');
