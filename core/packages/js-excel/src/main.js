@@ -96,7 +96,10 @@ class JsExcelPreview {
             if (!workbook._worksheets || workbook._worksheets.length === 0) {
                 throw new Error('未获取到数据，可能文件格式不正确或文件已损坏');
             }
-            const {workbookData, medias, workbookSource} = transferExcelToSpreadSheet(workbook, this.options);
+            let {workbookData, medias, workbookSource} = transferExcelToSpreadSheet(workbook, this.options);
+            if(this.options.transformData && typeof this.options.transformData === 'function' ){
+                workbookData = this.options.transformData(workbookData);
+            }
             this.mediasSource = medias;
             this.workbookDataSource = workbookSource;
             this.offset = null;

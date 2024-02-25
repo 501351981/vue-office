@@ -11,6 +11,10 @@ import '../../packages/js-excel/index.css';
 const dom = ref(null);
 onMounted(() => {
     window.myExcelPreview = jsExcel.init(dom.value, {
+        transformData: function (workBook){
+            console.log('transformData', workBook);
+            return workBook;
+        }
 
     });
     window.myExcelPreview.preview('/vue-office/examples/dist/static/test-files/test.xlsx').then(_=>{
