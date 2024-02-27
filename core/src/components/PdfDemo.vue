@@ -16,6 +16,12 @@ const defaultSrc = location.origin +
 const docxRef = ref();
 
 window.docxRef = docxRef;
+
+const requestOptions = {
+    headers: {
+        'component-name': 'VueOfficePdf'
+    }
+};
 // setTimeout(()=>{
 //     console.log( docxRef.value.download());
 // }, 2000);
@@ -33,6 +39,7 @@ window.docxRef = docxRef;
           :src="slotProps.src"
           style="flex: 1;height: 0"
           :options="{lazy:true}"
+          :request-options="requestOptions"
           @rendered="onRendered"
           @error="onError"
       >

@@ -45,6 +45,9 @@ export default defineComponent({
                 if (!workbook._worksheets || workbook._worksheets.length === 0) {
                     throw new Error('未获取到数据，可能文件格式不正确或文件已损坏');
                 }
+                if(props.options.beforeTransformData && typeof props.options.beforeTransformData === 'function' ){
+                    workbook = props.options.beforeTransformData(workbook);
+                }
                 let {workbookData, medias, workbookSource} = transferExcelToSpreadSheet(workbook, {...defaultOptions, ...props.options});
                 if(props.options.transformData && typeof props.options.transformData === 'function' ){
                     workbookData = props.options.transformData(workbookData);

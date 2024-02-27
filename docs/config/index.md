@@ -30,7 +30,10 @@ widthOffset：在默认渲染的列表宽度上再加 Npx宽
 
 heightOffset：在默认渲染的列表高度上再加 Npx高
 
-transformData：在预览之前可以通过transformData对即将渲染数据及样式进行修改
+beforeTransformData: 底层通过exceljs获取excel文件内容，通过该钩子函数，可以对获取的excel文件内容进行修改，比如某个单元格的数据显示不正确，可以在此自行修改每个单元格的value值。
+
+
+transformData：将获取到的excel数据进行处理之后且渲染到页面之前，可通过transformData对即将渲染的数据及样式进行修改，此时每个单元格的text值就是即将渲染到页面上的内容。
 
 ```javascript
 {
@@ -38,8 +41,12 @@ transformData：在预览之前可以通过transformData对即将渲染数据及
   "minRowLength": 100,
   "widthOffset": 10, //在默认渲染的列表宽度上再加10px宽
   "heightOffset": 10, //在默认渲染的列表高度上再加10px高
+  "beforeTransformData": function (workbookData){
+        //修改workbookData，可以打印出来看看数据格式
+        return workbookData;
+  },
   "transformData": function (workbookData){
-      //修改workbookData
+      //修改workbookData，可以打印出来看看数据格式
       return workbookData;    
   }
 }

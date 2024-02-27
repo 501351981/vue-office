@@ -16,6 +16,11 @@ const defaultSrc = location.origin +
     + 'static/test-files/test.docx';
 
 const docxRef = ref();
+const requestOptions = {
+    headers: {
+        'component-name': 'VueOfficeDocx'
+    }
+};
 
 // setTimeout(()=>{
 //    console.log( docxRef.value.download());
@@ -32,6 +37,7 @@ const docxRef = ref();
       <VueOfficeDocx
           ref="docxRef"
           :src="slotProps.src"
+          :request-options="requestOptions"
           style="flex: 1;height: 0"
           @rendered="onRendered"
           @error="onError"

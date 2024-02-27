@@ -57,6 +57,8 @@ class JsPdfPreview{
     getDocument(src){
         const loadingTask = window.pdfjsLib.getDocument({
             url: getUrl(src),
+            httpHeaders: this.requestOptions && this.requestOptions.headers,
+            withCredentials: this.requestOptions && this.requestOptions.withCredentials,
             cMapUrl: `${this.options.staticFileUrl.endsWith('/') ? this.options.staticFileUrl : this.options.staticFileUrl + '/'}cmaps/`,
             cMapPacked: true,
             enableXfa: true,

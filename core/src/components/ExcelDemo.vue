@@ -12,6 +12,11 @@ function onError(e){
     useLoading.hideLoading();
 }
 
+function beforeTransformData(data){
+    console.log('beforeTransformData', data);
+    return data;
+}
+
 function transformData(data){
     console.log('transformData', data);
     return data;
@@ -37,7 +42,7 @@ const docxRef = ref();
       <VueOfficeExcel
           ref="docxRef"
           :src="slotProps.src"
-          :options="{transformData}"
+          :options="{beforeTransformData, transformData}"
           style="flex: 1;height: 0"
           v-loading="true"
           @rendered="onRendered"

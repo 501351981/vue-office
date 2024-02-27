@@ -68,6 +68,8 @@ export default defineComponent({
             }
             loadingTask = window.pdfjsLib.getDocument({
                 url: getUrl(props.src),
+                httpHeaders: props.requestOptions && props.requestOptions.headers,
+                withCredentials: props.requestOptions && props.requestOptions.withCredentials,
                 cMapUrl: `${props.staticFileUrl.endsWith('/') ? props.staticFileUrl : props.staticFileUrl + '/'}cmaps/`,
                 cMapPacked: true,
                 enableXfa: true,
