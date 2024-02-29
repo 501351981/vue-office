@@ -143,6 +143,10 @@ class JsExcelPreview {
                     reject(e);
                 });
             }).catch(e => {
+                this.mediasSource = [];
+                this.workbookDataSource = {
+                    _worksheets:[]
+                };
                 this.xs.loadData({});
                 reject(e);
             });

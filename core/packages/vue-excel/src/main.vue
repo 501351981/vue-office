@@ -144,6 +144,10 @@ export default defineComponent({
         watch(() => props.src, () => {
             if (props.src) {
                 getData(props.src, props.requestOptions).then(renderExcel).catch(e => {
+                    mediasSource = [];
+                    workbookDataSource = {
+                        _worksheets:[]
+                    };
                     xs.loadData({});
                     emit('error', e);
                 });
