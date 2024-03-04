@@ -139,6 +139,10 @@ class JsExcelPreview {
         return new Promise(((resolve, reject) => {
             getData(src, this.requestOptions).then((res)=>{
                 this.renderExcel(res).then(resolve).catch(e =>{
+                    this.mediasSource = [];
+                    this.workbookDataSource = {
+                        _worksheets:[]
+                    };
                     this.xs.loadData({});
                     reject(e);
                 });

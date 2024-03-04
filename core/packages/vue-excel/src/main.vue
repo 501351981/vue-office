@@ -130,6 +130,10 @@ export default defineComponent({
                 ctx = canvas.getContext('2d');
                 if (props.src) {
                     getData(props.src, props.requestOptions).then(renderExcel).catch(e => {
+                        mediasSource = [];
+                        workbookDataSource = {
+                            _worksheets:[]
+                        };
                         xs.loadData({});
                         emit('error', e);
                     });
@@ -152,7 +156,12 @@ export default defineComponent({
                     emit('error', e);
                 });
             } else {
+                mediasSource = [];
+                workbookDataSource = {
+                    _worksheets:[]
+                };
                 xs.loadData({});
+                emit('error', new Error('src属性不能为空'));
             }
         });
         function save(fileName){
