@@ -4,6 +4,7 @@ import tinycolor from 'tinycolor2';
 import {cloneDeep, get, find} from 'lodash';
 import {getDarkColor, getLightColor} from './color';
 import dayjs from 'dayjs';
+import {read, write} from 'xlsx';
 
 const themeColor = [
     '#FFFFFF',
@@ -118,8 +119,12 @@ function requestExcel(src, options) {
     });
 }
 
-export function readExcelData(buffer){
+export function readExcelData(buffer, xls){
     try {
+        if(xls){
+            const workbook = read(buffer, {type: 'array'});
+            buffer = write(workbook, { bookType: 'xlsx', type: 'array' });
+        }
         const wb = new Excel.Workbook();
         return wb.xlsx.load(buffer);
 

@@ -9,7 +9,7 @@ const props = defineProps({
   defaultSrc: String
 });
 
-const {type, inputSrc, src, fileList, beforeUpload} = usePreview(props.defaultSrc);
+const {type, inputSrc, src, xls, fileList, beforeUpload} = usePreview(props.defaultSrc);
 watch(src,()=>{
     useLoading.showLoading();
 },{
@@ -35,7 +35,7 @@ watch(src,()=>{
           v-if="type==='url'"
           type="primary"
           style="margin-left: 10px"
-          @click="src=inputSrc"
+          @click="src=inputSrc; xls=inputSrc.endsWith('xls')"
       >
         预览
       </a-button>
@@ -53,7 +53,7 @@ watch(src,()=>{
       </a-upload>
 
     </div>
-    <slot :src="src"></slot>
+    <slot :src="src" :xls="xls"></slot>
     <div class="preview-wrapper-main">
 
     </div>

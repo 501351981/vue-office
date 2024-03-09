@@ -34,7 +34,7 @@ const docxRef = ref();
 
 <template>
   <PreviewWrapper
-      accept=".xlsx"
+      accept=".xlsx,.xls"
       placeholder="请输入xlsx文件地址"
       :default-src="defaultSrc"
   >
@@ -42,7 +42,7 @@ const docxRef = ref();
       <VueOfficeExcel
           ref="docxRef"
           :src="slotProps.src"
-          :options="{beforeTransformData, transformData}"
+          :options="{beforeTransformData, transformData, xls: slotProps.xls}"
           style="flex: 1;height: 0"
           v-loading="true"
           @rendered="onRendered"

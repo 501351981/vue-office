@@ -31,7 +31,8 @@
     "rollup-plugin-postcss": "^4.0.2",
     "tinycolor2": "^1.6.0",
     "vue-demi": "^0.14.6",
-    "x-data-spreadsheet": "^1.1.9"
+    "x-data-spreadsheet": "^1.1.9",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.2",

@@ -5,6 +5,7 @@ import {readOnlyInput} from '../../vue-excel/src/hack';
 import {debounce} from 'lodash';
 import {download as downloadFile} from '../../../utils/url.js';
 const defaultOptions = {
+    xls: false,
     minColLength: 20
 };
 class JsExcelPreview {
@@ -92,7 +93,7 @@ class JsExcelPreview {
     }
     renderExcel(buffer){
         this.fileData = buffer;
-        return readExcelData(buffer).then(workbook => {
+        return readExcelData(buffer, this.options.xls).then(workbook => {
             if (!workbook._worksheets || workbook._worksheets.length === 0) {
                 throw new Error('未获取到数据，可能文件格式不正确或文件已损坏');
             }

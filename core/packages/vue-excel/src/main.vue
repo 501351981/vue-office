@@ -8,6 +8,7 @@ import {debounce} from 'lodash';
 import {download as downloadFile} from '../../../utils/url';
 
 const defaultOptions = {
+    xls: false,
     minColLength: 20
 };
 export default defineComponent({
@@ -41,7 +42,7 @@ export default defineComponent({
 
         function renderExcel(buffer) {
             fileData = buffer;
-            readExcelData(buffer).then(workbook => {
+            readExcelData(buffer, props.options.xls).then(workbook => {
                 if (!workbook._worksheets || workbook._worksheets.length === 0) {
                     throw new Error('未获取到数据，可能文件格式不正确或文件已损坏');
                 }
