@@ -107,7 +107,7 @@ export default defineComponent({
         function renderPage(num) {
             pdfDocument.getPage(num).then((pdfPage) => {
                 const viewport = pdfPage.getViewport({ scale: 2 });
-                const outputScale = window.devicePixelRatio || 1;
+                const outputScale =  window.devicePixelRatio > 2 ? 1.5 : 2;
 
                 const canvas = rootRef.value[num - 1];
                 const ctx = canvas.getContext('2d');

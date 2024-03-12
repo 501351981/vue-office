@@ -69,7 +69,7 @@ class JsPdfPreview{
     renderSinglePage(num){
         return this.pdfDocument.getPage(num).then((pdfPage) => {
             const viewport = pdfPage.getViewport({scale: 2});
-            const outputScale = window.devicePixelRatio || 1;
+            const outputScale = window.devicePixelRatio > 2 ? 1.5 : 2;
             let [canvas, ctx] = this.createCanvas(num);
 
             canvas.width = Math.floor(viewport.width * outputScale);
