@@ -353,6 +353,9 @@ function getStyle(cell){
         cell.style.border = styleBorder;
     }
 
+    if(cell.style.font && cell.style.font.size && typeof cell.style.font.size === 'number'){
+        cell.style.font.size = Math.round(cell.style.font.size / 1.333333);
+    }
     return cell.style;
 }
 
