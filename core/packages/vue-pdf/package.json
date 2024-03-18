@@ -1,6 +1,6 @@
 {
   "name": "@vue-office/pdf",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "description": "",
   "main": "lib/index.js",
   "files": [

@@ -5,6 +5,8 @@ import omit from 'lodash/omit';
 
 const pdfJsLibSrc = `data:text/javascript;base64,${pdfLibJsStr}`;
 const PdfJsWorkerSrc = `data:text/javascript;base64,${workerStr}`;
+let pdfJsLibLoaded = false;
+let workerLoaded = false;
 class JsPdfPreview{
     container = null;
     wrapper = null;
@@ -12,6 +14,7 @@ class JsPdfPreview{
     options = {};
     requestOptions = {};
     pdfDocument = null;
+    loopCheckTimer = null;
     constructor(container, options={}, requestOptions={}) {
         this.container = container;
         this.options = {
@@ -45,14 +48,36 @@ class JsPdfPreview{
     }
     installPdfScript() {
         return loadScript(pdfJsLibSrc).then(() => {
-            window.pdfjsLib.GlobalWorkerOptions.workerSrc = PdfJsWorkerSrc;
+            if (window.pdfjsLib && !workerLoaded) {
+                workerLoaded = true;
+                window.pdfjsLib.GlobalWorkerOptions.workerSrc = PdfJsWorkerSrc;
+            } else {
+                return Promise.reject('window.pdfjsLib未找到');
+            }
+        });
+    }
+    waitPdfjsLoad(){
+        return new Promise((resolve)=>{
+            const loopCheck = () =>{
+                if(window.pdfjsLib) {
+                    resolve();
+                }else{
+                    this.loopCheckTimer = setTimeout(loopCheck, 10);
+                }
+            };
+            loopCheck();
         });
     }
     checkPdfLib() {
         if (window.pdfjsLib) {
             return Promise.resolve();
         }
-        return this.installPdfScript();
+        if(!pdfJsLibLoaded){
+            pdfJsLibLoaded = true;
+            return this.installPdfScript();
+        }else{
+            return this.waitPdfjsLoad();
+        }
     }
     getDocument(src){
         const loadingTask = window.pdfjsLib.getDocument({
@@ -182,6 +207,7 @@ class JsPdfPreview{
         this.requestOptions = {};
         this.pdfDocument && this.pdfDocument.destroy();
         this.pdfDocument = null;
+        this.loopCheckTimer && clearTimeout(this.loopCheckTimer);
     }
 }
 export function init(container, options, requestOptions){

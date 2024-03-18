@@ -8,7 +8,8 @@ import omit from 'lodash/omit';
 
 const pdfJsLibSrc = `data:text/javascript;base64,${(base64_encode(pdfjsLib))}`;
 const PdfJsWorkerSrc = `data:text/javascript;base64,${(base64_encode(workerStr))}`;
-
+let pdfJsLibLoaded = false;
+let workerLoaded = false;
 export default defineComponent({
     name: 'VueOfficePdf',
     props: {
@@ -35,6 +36,7 @@ export default defineComponent({
         const numPages = ref(0);
 
         const lazySize = 5;
+        let loopCheckTimer = null;
 
         onBeforeUnmount(()=>{
             if(pdfDocument === null){
@@ -43,10 +45,12 @@ export default defineComponent({
             pdfDocument.destroy();
             pdfDocument = null;
             loadingTask = null;
+            loopCheckTimer && clearTimeout(loopCheckTimer);
         });
         function installPdfScript() {
             return loadScript(pdfJsLibSrc).then(() => {
-                if (window.pdfjsLib) {
+                if (window.pdfjsLib && !workerLoaded) {
+                    workerLoaded = true;
                     window.pdfjsLib.GlobalWorkerOptions.workerSrc = PdfJsWorkerSrc;
                 } else {
                     return Promise.reject('window.pdfjsLib未找到');
@@ -54,11 +58,29 @@ export default defineComponent({
             });
         }
 
+        function waitPdfjsLoad(){
+            return new Promise((resolve)=>{
+                const loopCheck = () =>{
+                    if(window.pdfjsLib) {
+                        resolve();
+                    }else{
+                        loopCheckTimer = setTimeout(loopCheck, 10);
+                    }
+                };
+                loopCheck();
+            });
+        }
         function checkPdfLib() {
             if (window.pdfjsLib) {
                 return Promise.resolve();
             }
-            return installPdfScript();
+            if(!pdfJsLibLoaded){
+                pdfJsLibLoaded = true;
+                return installPdfScript();
+            }else{
+                return waitPdfjsLoad();
+            }
+
         }
 
         function init() {
@@ -107,7 +129,7 @@ export default defineComponent({
         function renderPage(num) {
             pdfDocument.getPage(num).then((pdfPage) => {
                 const viewport = pdfPage.getViewport({ scale: 2 });
-                const outputScale =  window.devicePixelRatio > 2 ? 1.5 : 2;
+                const outputScale = window.devicePixelRatio > 2 ? 1.5 : 2;
 
                 const canvas = rootRef.value[num - 1];
                 const ctx = canvas.getContext('2d');
