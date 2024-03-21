@@ -23,7 +23,7 @@ let devicePixelRatio = window.devicePixelRatio;
 function calcPosition(sheet, range, offset, options){
     let {widthOffset, heightOffset} = options;
     let {tl={}, br={}} = range;
-    let {nativeCol, nativeColOff, nativeRow, nativeRowOff} = tl;
+    let {nativeCol=0, nativeColOff=0, nativeRow=0, nativeRowOff=0} = tl;
 
     let basicX = clipWidth;
     let basicY = clipHeight;
@@ -39,10 +39,10 @@ function calcPosition(sheet, range, offset, options){
     let y = basicY + nativeRowOff/12700;
 
     let {
-        nativeCol: nativeColEnd,
-        nativeColOff: nativeColOffEnd,
-        nativeRow: nativeRowEnd,
-        nativeRowOff: nativeRowOffEnd
+        nativeCol: nativeColEnd=0,
+        nativeColOff: nativeColOffEnd=0,
+        nativeRow: nativeRowEnd=0,
+        nativeRowOff: nativeRowOffEnd=0
     } = br;
     let width;
     if(nativeCol === nativeColEnd){
