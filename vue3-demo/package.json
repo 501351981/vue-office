@@ -1,0 +1,52 @@
+{
+  "name": "vue3-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@js-preview/docx": "^1.6.0",
+    "@js-preview/excel": "^1.7.3",
+    "@js-preview/pdf": "^1.6.5",
+    "@vue-office/docx": "^1.6.0",
+    "@vue-office/excel": "^1.7.3",
+    "@vue-office/pdf": "^1.6.5",
+    "core-js": "^3.8.3",
+    "element-plus": "^2.6.2",
+    "vue": "^3.2.13",
+    "vue-demi": "^0.14.6",
+    "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}
