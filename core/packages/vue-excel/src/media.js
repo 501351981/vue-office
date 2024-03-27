@@ -22,8 +22,8 @@ let devicePixelRatio = window.devicePixelRatio;
 
 function calcPosition(sheet, range, offset, options){
     let {widthOffset, heightOffset} = options;
-    let {tl={}, br={}} = range;
-    let {nativeCol=0, nativeColOff=0, nativeRow=0, nativeRowOff=0} = tl;
+    let {tl, br, ext} = range;
+    let {nativeCol=0, nativeColOff=0, nativeRow=0, nativeRowOff=0} = tl || {};
 
     let basicX = clipWidth;
     let basicY = clipHeight;
@@ -43,27 +43,31 @@ function calcPosition(sheet, range, offset, options){
         nativeColOff: nativeColOffEnd=0,
         nativeRow: nativeRowEnd=0,
         nativeRowOff: nativeRowOffEnd=0
-    } = br;
-    let width;
+    } = br||{};
+    let width =0;
     if(nativeCol === nativeColEnd){
         width = (nativeColOffEnd - nativeColOff) / 12700;
-    }else {
+    }else if(br) {
         width = (sheet?._columns?.[nativeCol]?.width*6 || defaultColWidth) - nativeColOff/12700;
 
         for(let i = nativeCol+1; i < nativeColEnd; i++){
             width += sheet?._columns?.[i]?.width*6 || defaultColWidth;
         }
         width += nativeColOffEnd / 12700;
+    }else if(ext?.width){
+        width = ext.width / 1.333333;
     }
     let height;
     if(nativeRow === nativeRowEnd){
         height = (nativeRowOffEnd - nativeRowOff) / 12700;
-    }else {
+    }else if(br) {
         height = (sheet?._rows?.[nativeRow]?.height || defaultRowHeight) - nativeRowOff/12700;
         for(let i = nativeRow+1; i < nativeRowEnd; i++){
             height += sheet?._rows?.[i]?.height || defaultRowHeight;
         }
         height += nativeRowOffEnd / 12700;
+    }else if(ext?.height){
+        height = ext.height / 1.333333;
     }
 
     return {
