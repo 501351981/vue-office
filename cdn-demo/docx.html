@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>docx预览</title>
+    <link rel="stylesheet" href="js-preview-lib/docx.css" />
+    <script src="js-preview-lib/docx.umd.js"></script>
+</head>
+<body>
+<div id="docx"></div>
+
+<script>
+    const myDocxPreviewer = jsPreviewDocx.init(document.getElementById('docx'));
+
+    //传递要预览的文件地址即可
+    myDocxPreviewer.preview('http://static.shanhuxueyuan.com/test.docx').then(()=>{
+        console.log('预览完成');
+    }).catch(e=>{
+        console.log('预览失败', e);
+    })
+</script>
+</body>
+</html>

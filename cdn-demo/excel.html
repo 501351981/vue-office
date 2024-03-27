@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>excel预览</title>
+    <link rel="stylesheet" href="js-preview-lib/excel.css" />
+    <script src="js-preview-lib/excel.umd.js"></script>
+</head>
+<body>
+<div id="excel" style="width: 100vw; height: 100vh"></div>
+
+<script>
+    const myExcelPreviewer = jsPreviewExcel.init(document.getElementById('excel'));
+    myExcelPreviewer .preview('http://static.shanhuxueyuan.com/test.xlsx').then(()=>{
+        console.log('预览完成');
+    }).catch(e=>{
+        console.log('预览失败', e);
+    })
+</script>
+</body>
+</html>

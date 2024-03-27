@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pdf预览</title>
+    <script src="js-preview-lib/pdf.umd.js"></script>
+</head>
+<body>
+<div id="pdf"></div>
+
+<script>
+    const myPdfPreviewer = jsPreviewPdf.init(document.getElementById('pdf'));
+    myPdfPreviewer.preview('http://static.shanhuxueyuan.com/test.pdf').then(()=>{
+        console.log('预览完成');
+    }).catch(e=>{
+        console.log('预览失败', e);
+    })
+</script>
+</body>
+</html>
