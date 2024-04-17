@@ -10,10 +10,10 @@
   "dependencies": {
     "@js-preview/docx": "^1.6.0",
     "@js-preview/excel": "^1.7.3",
-    "@js-preview/pdf": "^1.6.5",
+    "@js-preview/pdf": "^2.0.0",
     "@vue-office/docx": "^1.6.0",
     "@vue-office/excel": "^1.7.3",
-    "@vue-office/pdf": "^1.6.5",
+    "@vue-office/pdf": "^2.0.0",
     "core-js": "^3.8.3",
     "element-plus": "^2.6.2",
     "vue": "^3.2.13",

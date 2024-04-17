@@ -12,12 +12,15 @@ export default {
         }
     },
     mounted() {
-        this.myPdfPreviewer = jsPreviewPdf.init(document.getElementById('pdf'));
-        this.myPdfPreviewer.preview('http://static.shanhuxueyuan.com/test.pdf').then(()=>{
-            console.log('预览完成');
-        }).catch(e=>{
-            console.log('预览失败', e);
-        })
+        this.myPdfPreviewer = jsPreviewPdf.init(document.getElementById('pdf'), {
+            onError: (e)=>{
+                console.log('发生错误', e)
+            },
+            onRendered: ()=>{
+                console.log('渲染完成')
+            }
+        });
+        this.myPdfPreviewer.preview('http://static.shanhuxueyuan.com/test.pdf');
     },
     beforeDestroy() {
         this.myPdfPreviewer.destroy();

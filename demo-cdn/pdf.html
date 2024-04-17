@@ -9,12 +9,15 @@
 <div id="pdf"></div>
 
 <script>
-    const myPdfPreviewer = jsPreviewPdf.init(document.getElementById('pdf'));
-    myPdfPreviewer.preview('http://static.shanhuxueyuan.com/test.pdf').then(()=>{
-        console.log('预览完成');
-    }).catch(e=>{
-        console.log('预览失败', e);
-    })
+    const myPdfPreviewer = jsPreviewPdf.init(document.getElementById('pdf'), {
+        onError: (e)=>{
+            console.log('发生错误', e)
+        },
+        onRendered: ()=>{
+            console.log('渲染完成')
+        }
+    });
+    myPdfPreviewer.preview('http://static.shanhuxueyuan.com/test.pdf')
 </script>
 </body>
 </html>
