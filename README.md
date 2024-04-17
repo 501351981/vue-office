@@ -198,6 +198,7 @@ export default {
 <template>
     <vue-office-pdf 
         :src="pdf"
+        style="height: 100vh"
         @rendered="renderedHandler"
         @error="errorHandler"
     />
