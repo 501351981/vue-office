@@ -246,3 +246,7 @@ export default {
 
 <img src="https://501351981.github.io/vue-office/examples/dist/static/wxqrcode.png" alt="个人微信" width="260"/>
 
+
+# 我的其他库：
+
+- 如何更优雅地进行前端表单开发：[ConfigForm](https://github.com/501351981/config-form)
