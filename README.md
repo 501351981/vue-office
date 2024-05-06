@@ -5,6 +5,9 @@
 [《演示效果》](https://501351981.github.io/vue-office/examples/dist/)
 
 [《使用非Vue框架（原生js、React等）、或者Vue里面报错，看这里》](https://501351981.github.io/vue-office/examples/docs/guide/js-preview.html)
+
+[《详细配置》](https://501351981.github.io/vue-office/examples/docs/config/)
+
 ## 功能特色
 - 一站式：提供word(.docx)、pdf、excel(.xlsx, .xls)多种文档的在线预览方案，有它就够了
 - 简单：只需提供文档的src(网络地址)即可完成文档预览
