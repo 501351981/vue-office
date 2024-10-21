@@ -1,15 +1,12 @@
 # vue-office
 
-支持多种文件(**docx、excel、pdf**)预览的vue组件库，支持vue2/3。也支持非Vue框架的预览。
+支持多种文件(**docx、excel、pdf、pptx**)预览的vue组件库，支持vue2/3。也支持非Vue框架的预览。
 
 [《演示效果》](https://501351981.github.io/vue-office/examples/dist/)
 
 [《使用非Vue框架（原生js、React等）、或者Vue里面报错，看这里》](https://501351981.github.io/vue-office/examples/docs/guide/js-preview.html)
-
-[《详细配置》](https://501351981.github.io/vue-office/examples/docs/config/)
-
 ## 功能特色
-- 一站式：提供word(.docx)、pdf、excel(.xlsx, .xls)多种文档的在线预览方案，有它就够了
+- 一站式：提供word(.docx)、pdf、excel(.xlsx, .xls)、ppt(.pptx)多种文档的在线预览方案，有它就够了
 - 简单：只需提供文档的src(网络地址)即可完成文档预览
 - 体验好：选择每个文档的最佳预览方案，保证用户体验和性能都达到最佳状态
 - 性能好：针对数据量较大做了优化
@@ -24,6 +21,9 @@ npm install @vue-office/excel vue-demi@0.14.6
 
 #pdf文档预览组件
 npm install @vue-office/pdf vue-demi@0.14.6
+
+#pptx文档预览组件
+npm install @vue-office/pptx vue-demi@0.14.6
 ```
 如果是vue2.6版本或以下还需要额外安装 @vue/composition-api
 ```shell
@@ -39,11 +39,11 @@ npm install @vue/composition-api
 **使用网络地址预览**
 ```vue
 <template>
-  <vue-office-docx 
-      :src="docx"
-      style="height: 100vh;"
-      @rendered="rendered"
-  />
+    <vue-office-docx
+        :src="docx"
+        style="height: 100vh;"
+        @rendered="rendered"
+    />
 </template>
 
 <script>
@@ -53,19 +53,19 @@ import VueOfficeDocx from '@vue-office/docx'
 import '@vue-office/docx/lib/index.css'
 
 export default {
-  components:{
-    VueOfficeDocx
-  },
-  data(){
-    return {
-      docx: 'http://static.shanhuxueyuan.com/test6.docx' //设置文档网络地址，可以是相对地址
+    components:{
+        VueOfficeDocx
+    },
+    data(){
+        return {
+            docx: 'http://static.shanhuxueyuan.com/test6.docx' //设置文档网络地址，可以是相对地址
+        }
+    },
+    methods:{
+        rendered(){
+            console.log("渲染完成")
+        }
     }
-  },
-  methods:{
-    rendered(){
-      console.log("渲染完成")
-    }
-  }
 }
 </script>
 ```
@@ -75,10 +75,10 @@ export default {
 读取文件的ArrayBuffer
 ```vue
 <template>
-  <div>
-    <input type="file" @change="changeHandle"/>
-    <vue-office-docx :src="src"/>
-  </div>
+    <div>
+        <input type="file" @change="changeHandle"/>
+        <vue-office-docx :src="src"/>
+    </div>
 </template>
 
 <script>
@@ -86,24 +86,24 @@ import VueOfficeDocx from '@vue-office/docx'
 import '@vue-office/docx/lib/index.css'
 
 export default {
-  components: {
-    VueOfficeDocx
-  },
-  data(){
-    return {
-      src: ''
+    components: {
+        VueOfficeDocx
+    },
+    data(){
+        return {
+            src: ''
+        }
+    },
+    methods:{
+        changeHandle(event){
+            let file = event.target.files[0]
+            let fileReader = new FileReader()
+            fileReader.readAsArrayBuffer(file)
+            fileReader.onload =  () => {
+                this.src = fileReader.result
+            }
+        }
     }
-  },
-  methods:{
-    changeHandle(event){
-      let file = event.target.files[0]
-      let fileReader = new FileReader()
-      fileReader.readAsArrayBuffer(file)
-      fileReader.onload =  () => {
-        this.src = fileReader.result
-      }
-    }
-  }
 }
 </script>
 ```
@@ -114,11 +114,11 @@ export default {
 
 ```vue
 <template>
-  <vue-office-docx 
-      :src="docx"
-      style="height: 100vh;"
-      @rendered="rendered"
-  />
+    <vue-office-docx
+        :src="docx"
+        style="height: 100vh;"
+        @rendered="rendered"
+    />
 </template>
 
 <script>
@@ -128,29 +128,29 @@ import VueOfficeDocx from '@vue-office/docx'
 import '@vue-office/docx/lib/index.css'
 
 export default {
-  components:{
-    VueOfficeDocx
-  },
-  data(){
-    return {
-      docx: '' 
-    }
-  }, 
-  mounted(){
-    fetch('你的API文件地址', {
-        method: 'post'
-    }).then(res=>{
-        //读取文件的arrayBuffer
-        res.arrayBuffer().then(res=>{
-            this.docx = res
+    components:{
+        VueOfficeDocx
+    },
+    data(){
+        return {
+            docx: ''
+        }
+    },
+    mounted(){
+        fetch('你的API文件地址', {
+            method: 'post'
+        }).then(res=>{
+            //读取文件的arrayBuffer
+            res.arrayBuffer().then(res=>{
+                this.docx = res
+            })
         })
-    })
-  },
-  methods:{
-    rendered(){
-      console.log("渲染完成")
+    },
+    methods:{
+        rendered(){
+            console.log("渲染完成")
+        }
     }
-  }
 }
 </script>
 ```
@@ -200,7 +200,7 @@ export default {
 通过网络地址预览示例如下，通过文件ArrayBuffer预览和上面docx的使用方式一致。
 ```vue
 <template>
-    <vue-office-pdf 
+    <vue-office-pdf
         :src="pdf"
         style="height: 100vh"
         @rendered="renderedHandler"
@@ -249,7 +249,3 @@ export default {
 
 <img src="https://501351981.github.io/vue-office/examples/dist/static/wxqrcode.png" alt="个人微信" width="260"/>
 
-
-# 我的其他库：
-
-- 如何更优雅地进行前端表单开发：[ConfigForm](https://github.com/501351981/config-form)
