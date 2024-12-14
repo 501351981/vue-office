@@ -31,12 +31,16 @@ npm install @vue/composition-api
 ```
 
 ## 使用示例
-文档预览场景大致可以分为两种：
-- 有文档网络地址，比如 https://***.docx
-- 文件上传时预览，此时可以获取文件的ArrayBuffer或Blob
 
-### .docx文件预览
-**使用网络地址预览**
+文档预览场景大致可以分为三种：
+- 有文档CDN地址，比如 https://***.docx，将文档地址字符串传给组件的src属性
+- 通过接口请求获取文件内容，此时可以获取文件的ArrayBuffer或Blob格式数据传给组件的src属性
+- 文件上传时预览，此时可以获取文件的ArrayBuffer或Blob格式数据传给组件的src属性
+
+<details>
+<summary>docx文件预览示例 （三种使用方式均有示例）</summary>
+
+**1. 使用网络地址预览**
 ```vue
 <template>
     <vue-office-docx
@@ -70,7 +74,7 @@ export default {
 </script>
 ```
 
-**上传文件预览**
+**2. 上传文件预览**
 
 读取文件的ArrayBuffer
 ```vue
@@ -108,7 +112,7 @@ export default {
 </script>
 ```
 
-**二进制文件预览**
+**3. 二进制文件预览**
 
 如果后端给的不是CDN地址，而是一些POST接口，该接口返回二进制流，则可以调用接口获取文件的ArrayBuffer数据，传递给src属性。
 
@@ -155,8 +159,10 @@ export default {
 </script>
 ```
 
+</details>
 
-### excel文件预览
+<details>
+<summary>excel 文件预览示例 </summary>
 
 通过网络地址预览示例如下，通过文件ArrayBuffer预览和上面docx的使用方式一致。
 ```vue
@@ -195,8 +201,11 @@ export default {
 }
 </script>
 ```
+</details>
 
-### pdf文件预览
+<details>
+<summary>pdf 文件预览示例 </summary>
+
 通过网络地址预览示例如下，通过文件ArrayBuffer预览和上面docx的使用方式一致。
 ```vue
 <template>
@@ -233,15 +242,65 @@ export default {
 </script>
 ```
 
+</details>
+
+
+<details>
+<summary>pptx 文件预览示例 </summary>
+
+通过网络地址预览示例如下，通过文件ArrayBuffer预览和上面docx的使用方式一致。
+```vue
+<template>
+    <vue-office-pptx
+        :src="pdf"
+        style="height: 100vh"
+        @rendered="renderedHandler"
+        @error="errorHandler"
+    />
+</template>
+
+<script>
+import VueOfficePptx from '@vue-office/pptx'
+
+export default {
+    components: {
+        VueOfficePptx
+    },
+    data() {
+        return {
+            pdf: 'http://****/test.pptx' //设置文档地址
+        }
+    },
+    methods: {
+        renderedHandler() {
+            console.log("渲染完成")
+        },
+        errorHandler() {
+            console.log("渲染失败")
+        }
+    }
+}
+</script>
+```
+
+</details>
+
+# 项目依赖的第三方库
+
+- docx： 基于docx-preview库实现，相关issues暂不处理
+- pdf： 基于pdfjs库实现，实现了虚拟列表增加性能
+- excel: 基于exceljs 和 x-data-spreadsheet实现，全网样式支持更好
+- pptx： 基于自研库 [pptx-preview](https://github.com/501351981/pptx-preview) 实现，源码单独付费向作者索取
 
 # 我要支持作者
 
-开发这样一个复杂的预览库，需要投入很多的个人时间，作者经常在周末、节假日进行该项目的开发，付出很多精力，如果该项目帮到了您，还请您不吝打赏。
+如果该项目帮到了您，节省了您宝贵的开发时间，还请您不吝给项目点个免费的赞。
 
+当然了，如果您能请作者喝杯咖啡，哪怕喝瓶娃娃哈矿泉水，也是对作者最真诚的鼓励，打赏用户欢迎添加微信，后续交流前端相关问题。
 
 ![](https://501351981.github.io/vue-office/examples/dist/static/wx.png)
 
-添加微信咨询问题请先打赏，尊重大家时间，没人有义务解答你的问题，都是在工作中抽出时间回复大家，成年人应该明白人与人之间是价值交换，不是一味索取。
+如果您有问题要咨询或者解决，可打赏咨询作者，自2024年12月起，可能不会及时处理issues内容，作者也要吃饭，也面临大龄程序员困境。
 
 ## 为什么没有开放源码（打赏50+送源码）
 
@@ -249,21 +308,10 @@ export default {
 
 源码需付费向作者索要（_**打赏50**+_），打赏用户（无论多少）均可添加作者微信，交流该库或者前端领域话题，源码不得用于开源（这也是关闭源码的原因之一，有些人直接复制开源作为自己项目）。
 
-
-## excel预览库众筹中
-
-当前excel预览库还不完善，如果能得到大家的支持，后续准备从头开发一个更好用的excel预览库。
-
-支持本次众筹参与方式：打赏50+，添加作者微信，并备注（众筹支持）
-
-您将获得：
-- 免费获取作者自研的pptx文件预览库源码（企业购买需5k+）
-- 后续开发的excel预览库源码（源码不会在github开放，仅通过微信发送给打赏用户）
-- 可选择加入高质量前端交流群
-- 与作者日常前端问题交流
-
-本次众筹金额达到5k+（100位朋友支持）则会启动 Excel预览库的自研设计与开发。
-
 ## 掘金小册
 
-我的掘金小册[《如何写出高质量的前端代码》](https://juejin.cn/book/7351005935306801188) 已经上线啦，欢迎前端同学关注，希望能够提升大家的前端编码水平。
+凝聚作者近10年工作经验的掘金小册[《如何写出高质量的前端代码》](https://juejin.cn/book/7351005935306801188) 已经上线啦，欢迎前端同学关注，希望能够提升大家的前端编码水平。
+
+小册已售 890+份，收到前端同学的高度评价，对提升日常开发效率和质量，有非常大的帮助。
+
+
