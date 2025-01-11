@@ -8,12 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@js-preview/docx": "^1.6.0",
-    "@js-preview/excel": "^1.7.3",
-    "@js-preview/pdf": "^2.0.1",
-    "@vue-office/docx": "^1.6.0",
-    "@vue-office/excel": "^1.7.3",
-    "@vue-office/pdf": "^2.0.1",
+    "@js-preview/docx": "^1.6.4",
+    "@js-preview/excel": "^1.7.14",
+    "@js-preview/pdf": "^2.0.10",
+    "@vue-office/docx": "^1.6.3",
+    "@vue-office/excel": "^1.7.14",
+    "@vue-office/pdf": "^2.0.10",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.14",
     "vue": "^2.7.16",
