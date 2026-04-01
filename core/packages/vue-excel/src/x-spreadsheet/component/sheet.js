@@ -19,26 +19,8 @@ import SortFilter from './sort_filter';
 import { xtoast } from './message';
 import { cssPrefix } from '../config';
 import { formulas } from '../core/formula';
-
-/**
- * @desc throttle fn
- * @param func function
- * @param wait Delay in milliseconds
- */
-function throttle(func, wait) {
-  let timeout;
-  return (...arg) => {
-    const that = this;
-    const args = arg;
-    if (!timeout) {
-      timeout = setTimeout(() => {
-        timeout = null;
-        func.apply(that, args);
-      }, wait);
-    }
-  };
-}
-
+import { throttle } from 'lodash';
+const throttleWait = 50;
 function scrollbarMove() {
   const {
     data, verticalScrollbar, horizontalScrollbar,
@@ -236,11 +218,15 @@ function overlayerMousescroll(evt) {
   const tempY = Math.abs(deltaY);
   const tempX = Math.abs(deltaX);
   const temp = Math.max(tempY, tempX);
+  if (!this._wheelThrottleX) {
+    this._wheelThrottleX = throttle((fn) => { console.log('moveX'); fn(); }, throttleWait);
+    this._wheelThrottleY = throttle((fn) => { console.log('moveY'); fn(); }, throttleWait);
+  }
   // console.log('event:', evt);
   // detail for windows/mac firefox vertical scroll
-  if (/Firefox/i.test(window.navigator.userAgent)) throttle(moveY(evt.detail), 50);
-  if (temp === tempX) throttle(moveX(deltaX), 50);
-  if (temp === tempY) throttle(moveY(deltaY), 50);
+  if (/Firefox/i.test(window.navigator.userAgent)) { this._wheelThrottleY(() => moveY(evt.detail)) }
+  if (temp === tempX) { this._wheelThrottleX(() => moveX(deltaX)) }
+  if (temp === tempY) { this._wheelThrottleY(() => moveY(deltaY)) }
 }
 
 function overlayerTouch(direction, distance) {
